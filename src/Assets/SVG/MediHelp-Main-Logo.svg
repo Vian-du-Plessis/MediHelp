@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="32" viewBox="0 0 150 32">
+  <g id="Group_176" data-name="Group 176" transform="translate(-115 -128)">
+    <g id="Heartbeat_Heart" data-name="Heartbeat, Heart" transform="translate(115 130)">
+      <path id="Path_599" data-name="Path 599" d="M0,0H30V30H0Z" fill="none"/>
+      <path id="Path_600" data-name="Path 600" d="M14.531,5.406A6.679,6.679,0,0,1,19.729,3c4.464,0,7.459,4.19,7.459,8.092,0,8.158-10.156,14.408-12.656,14.408S1.875,19.25,1.875,11.092C1.875,7.19,4.87,3,9.334,3A6.679,6.679,0,0,1,14.531,5.406Z" transform="translate(0.469 0.75)" fill="none" stroke="#081c2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_601" data-name="Path 601" d="M7,12.125H9.778L11.861,9l2.778,6.25,2.084-3.125H19.5" transform="translate(1.75 2.25)" fill="none" stroke="#081c2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+    <text id="Type_Primary_Heading_X1" data-name="Type/Primary/Heading X1" transform="translate(161 154)" fill="#191c1e" font-size="24" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">Medi</tspan><tspan y="0" fill="#278bed">Help</tspan></text>
+  </g>
+</svg>
