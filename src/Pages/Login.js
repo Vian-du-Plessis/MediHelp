@@ -4,6 +4,7 @@ import LoginImage from '../Assets/SVG/Login-Image.svg';
 import Logo from '../Assets/SVG/MediHelp-Main-Logo.svg';
 import Button from '../Components/Button/Button';
 import Input from '../Components/Input/Input';
+import Icon from '../Components/Icon/Icon';
 
 const Login = () => {
 
@@ -72,7 +73,6 @@ const Login = () => {
                     label={ 'Login' }
                     icon='right-arrow'
                 />
-
             </div>
         </div>
     );

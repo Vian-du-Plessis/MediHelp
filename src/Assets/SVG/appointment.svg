@@ -1,0 +1,8 @@
+<svg id="checklist-heart-square" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <path id="Health-Icon" d="M13,16.49a4.267,4.267,0,0,0,1.127,2.688,7.219,7.219,0,0,0,1.914,1.572,1.963,1.963,0,0,0,2.012-.059A7.836,7.836,0,0,0,19.8,19.164,4.4,4.4,0,0,0,21,16.49a2.339,2.339,0,0,0-.623-1.608,2.075,2.075,0,0,0-1.512-.672,2.118,2.118,0,0,0-1.851.854l-.014.02-.014-.02a2.032,2.032,0,0,0-1.708-.854A2.241,2.241,0,0,0,13,16.49Z" fill="none" stroke="#081c2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" fill-rule="evenodd"/>
+  <path id="Path_612" data-name="Path 612" d="M13,10h4" fill="none" stroke="#081c2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  <path id="Path_613" data-name="Path 613" d="M7,9.726l.919.828,1.85-1.666" fill="none" stroke="#081c2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  <path id="Path_614" data-name="Path 614" d="M10,21H8a5,5,0,0,1-5-5V8A5,5,0,0,1,8,3h8a5,5,0,0,1,5,5v3" fill="none" stroke="#081c2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  <path id="Path_615" data-name="Path 615" d="M7,14.726l.919.828,1.85-1.666" fill="none" stroke="#081c2f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  <path id="Path_616" data-name="Path 616" d="M0,0H24V24H0Z" fill="none"/>
+</svg>

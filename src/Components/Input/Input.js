@@ -1,31 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Input.module.scss';
-import img from '../../Assets/SVG/img.svg';
-
-/* const Input = ( props ) => {
-    return (
-        <div className={` 
-            ${ props.className ? props.className : '' } 
-            ${ styles.container }
-        `}>
-            <p className={ styles.label }>
-                { props.label || 'No Label'}
-            </p>
-            <input
-                onMouseEnter={ props.onMouseEnter }
-                onMouseLeave={ props.onMouseLeave }
-                name={ props.name || '' }
-                type={ props.type || '' }
-                placeholder={ props.placeholder || ''}
-            />
-
-            <div className={ styles.input__container }>
-                <img className={ styles.icon__img } src={img}/>
-                <input/>
-            </div>
-        </div>
-    );
-}; */
 
 const Input = ( props ) => {
 

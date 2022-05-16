@@ -1,0 +1,127 @@
+@import '../../Assets/Base.scss';
+
+.container {
+    width: 15vw;
+    min-width: 150px;
+    height: 100vh;
+    padding: 40px 45px;
+    text-align: center;
+    background-color: $dark-blue;
+
+    hr {
+        width: 100%;
+        margin-top: 24px;
+        margin-bottom: 40px;
+        border: 1px solid $white;
+        opacity: 0.4;
+    }
+
+    @media only screen and (min-width: 1400px){ //Bigger Than
+        .logo__big {
+            display: inline;
+        }
+
+        .logo__small {
+            display: none;
+        }
+
+        .icon__link__container {
+            p {
+                display: inline;
+            }
+        }
+    }
+    
+    @media only screen and (max-width: 1400px){ // Smaller than
+        .logo__big {
+            display: none;
+        }
+
+        .logo__small {
+            display: inline;
+        }
+
+        .icon__link__container {
+            p {
+                display: none;
+            }
+        }
+    }
+
+    .icon__link__container {
+        width: calc(100% + 45px);
+        border-radius: 24px 0 0 24px;
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        margin-bottom: 20px;
+        background-color: transparent;
+        color: $white;
+        opacity: 0.6;
+    }
+
+    .link__icon {
+        margin-right: 22px;
+        background-color: transparent;
+    }
+
+    .unselected {
+        svg {
+            *[stroke] {
+                stroke: $white;
+            }
+        }
+    }
+
+    .active__link {
+        color: $text-black;
+
+        .icon__link__container {
+            width: calc(100% + 45px);
+            position: relative;
+            padding: 12px;
+            background-color: white;
+            color: $text-black;
+            opacity: 1;
+
+            
+            div {
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                right: 0;
+                background: white;
+
+                &:nth-child( 1 ) {
+                    bottom: 100%;
+
+                    &::before {
+                        bottom: 0;
+                    }
+                }
+
+                &:nth-child( 4 ) {
+                    top: 100%;
+                }
+
+                &::before {
+                    content: '';
+                    width: 200%;
+                    height: 200%;
+                    position: absolute;
+                    right: 0;
+                    background: $dark-blue;
+                    border-radius: 50%;
+                }
+            }
+        }
+
+        .link__icon {
+            svg {
+                *[stroke] {
+                    stroke: $text-black;
+                }
+            }
+        }
+    }
+}

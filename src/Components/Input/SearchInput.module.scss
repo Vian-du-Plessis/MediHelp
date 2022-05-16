@@ -1,0 +1,25 @@
+@import '../../Assets/Base.scss';
+
+.container {
+    display: flex;
+    position: relative;
+    align-items: center;
+
+    span {
+        margin-right: 4px;
+        position: absolute;
+        right: 0;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px 4px 12px 16px;
+        border-radius: 21px;
+        border: 1px solid $extra-light-blue;
+        
+        &:focus {
+            outline: none;
+            border: 1px solid $medium-blue;
+        }
+    }
+}

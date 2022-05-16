@@ -1,0 +1,23 @@
+@import '../../Assets/Base.scss';
+
+.iconContainer {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    padding: 5px;
+    align-items: center;
+    border-radius: 50%;
+    background-color: $dark-blue;
+
+    svg {
+        *[stroke] {
+            stroke: white;
+        }
+    }
+}
+
+
+
+.iconContainer:hover {
+    cursor: pointer;
+}
