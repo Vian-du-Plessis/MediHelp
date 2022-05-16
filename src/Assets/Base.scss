@@ -1,0 +1,77 @@
+
+    $heading1: 40px;
+    $heading2: 32px;
+    $heading3: 28px;
+    $heading4: 24px;
+    $heading5: 20px;
+    $heading6: 12px;
+    $headingp: 14px;
+
+    $dark-blue: #134576;
+    $medium-blue: #278BED;
+    $light-blue: #E9F3FD;
+    $extra-light-blue: #93C5F6;
+    $white: #FFFFFF;
+    $green: #56BE90;
+    $pink:#DC3F82;
+
+    $text-black: #081C2F;
+    $text-dark-blue: #134576;
+    $text-gray: #868D91;
+    $text-light-white:#FFFFFF;
+
+    $font-weight-thin: 100; /* Thin (Hairline) */
+    $font-weight-extra-light: 200; /* Extra Light (Ultra Light) */
+    $font-weight-light: 300; /* Light */
+    $font-weight-normal: 400; /* Normal (Regular) */
+    $font-weight-medium: 500; /* Medium */
+    $font-weight-semi-bold: 600; /* Semi Bold (Demi Bold) */
+    $font-weight-bold: 700; /* Bold */
+    $font-weight-extra-bold: 800; /* Extra Bold (Ultra Bold) */
+    $font-weight-black: 900; /* Black (Heavy) */
+    $font-weight-extra-black: 950; /* Extra Black (Ultra Black) */
+
+
+* {
+    font-family: 'Inter', sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+    ul, li, a {
+        font-size: $headingp;
+        padding: 0;
+        margin: 0;
+        text-decoration: none;
+        list-style-type: none;
+        color: $text-black;
+    }
+}
+
+h1 {
+    font-size: $heading1;
+}
+
+h2 {
+    font-size: $heading2;
+}
+
+h3 {
+    font-size: $heading3;
+}
+
+h4 {
+    font-size: $heading4;
+}
+
+h5 {
+    font-size: $heading5;
+}
+
+h6 {
+    font-size: $heading6;
+}
+
+.p1, p {
+    font-size: $headingp;
+}

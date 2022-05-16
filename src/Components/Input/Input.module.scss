@@ -1,0 +1,74 @@
+@import '../../Assets/Base.scss';
+
+.container {
+    text-align: left;
+
+    .label {
+        margin-bottom: 4px;
+        color: var(--text-gray);
+    }
+
+    .input__container {
+        display: flex;
+        position: relative;
+        align-items: center;
+
+        .icon__img {
+            width: 24px;
+            position: absolute;
+        }
+
+        .icon__right {
+            width: 24px;
+            position: absolute;
+            right: 0;
+            margin-right: 16px;
+        }
+
+        .icon__left {
+            width: 24px;
+            position: absolute;
+            left: 0;
+            margin-left: 16px;
+        }
+
+        .icon__right__style {
+            padding: 12px 16px;
+        }
+
+        .icon__left__style {
+            padding: 12px 56px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 21px;
+            border: 1px solid $extra-light-blue;
+
+            &:focus {
+                outline: none;
+                border: 1px solid $medium-blue;
+            }
+        }
+    }
+
+    .error__container {
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 23px;
+
+        .error {
+            margin-top: 4px;
+            color: $pink;
+        }
+    }
+}
+
+
+
+
+
+
+
+

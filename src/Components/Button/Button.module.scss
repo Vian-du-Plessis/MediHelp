@@ -1,0 +1,87 @@
+@import '../../Assets/Base.scss';
+
+button {
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 40px;
+    color: $text-light-white;
+    background-color: $dark-blue;
+    font-size: $headingp;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+
+
+    img {
+        transform: translateX( 0% );
+        animation: slideLeft .5s linear;
+        animation-fill-mode: backwards;
+
+        @keyframes slideLeft {
+            0% {
+                transform: translateX( 200% );
+            }
+
+            25% {
+                transform: translateX( 150% );
+            }
+
+            50% {
+                transform: translateX( 100% );
+            }
+
+            75% {
+                transform: translateX( 50% );
+            }
+
+            100% {
+                transform: translateX( 0% );
+            }
+        }
+}
+
+    &:hover {
+        img {
+                animation: slideRight .5s linear;
+                animation-fill-mode: both;
+
+                @keyframes slideRight {
+                    0% {
+                        transform: translateX( 0% );
+                    }
+
+                    25% {
+                        transform: translateX( 50% );
+                    }
+
+                    50% {
+                        transform: translateX( 100% );
+                    }
+
+                    75% {
+                        transform: translateX( 150% );
+                    }
+
+                    100% {
+                        transform: translateX( 200% );
+                    }
+                }
+        }
+    }
+
+    img {
+        margin-left: 15px;
+    }
+}
+
+.not__active__button {
+    color: $dark-blue;
+    background-color: transparent;
+}
+
+.submit__button {
+    margin-top: calc(40px - 23px);
+}

@@ -1,1 +1,133 @@
 @import '../Assets/Base.scss';
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+.container__left {
+    width: 60%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 181px 124px;
+
+    .background__image {
+        transform: translateX( -200% );
+        width: 100%;
+    }
+}
+
+.container__right {
+    flex-grow: 1;
+    text-align: center;
+    padding: 58px 140px;
+    background-color: $light-blue;
+
+    .logo__image {
+        transform: translateX( 400% );
+        margin-bottom: 190px;
+    }
+}
+
+.inputs__container {
+    transform: translateX( 200% );
+
+    &:nth-child( 2 ) {
+        margin-bottom: 20px;
+    }
+}
+
+.link__container {
+    text-decoration: underline;
+    color: $text-black;
+}
+
+.submit__button {
+    margin-top: 45px;
+    transform: translateX( 200% );
+    background-color: $medium-blue;
+
+    img {
+        transform: translateX( 0% );
+    }
+}
+
+.animate__slide__from__right {
+    animation: slideFromRight 1s linear ;
+    animation-fill-mode: forwards;
+    animation-delay: 0.25s;
+    
+    @keyframes slideFromRight {
+        0% {
+            transform: translateX( 200% );
+        }
+
+        25% {
+            transform: translateX( 150% );
+        }
+
+        50% {
+            transform: translateX( 100% );
+        }
+
+        75% {
+            transform: translateX( 50% );
+        }
+
+        100% {
+            transform: translateX( 0% );
+        }
+    }
+}
+
+.animate__slide__from__right__logo {
+    animation: slideFromRightLogo 1s linear ;
+    animation-fill-mode: forwards;
+    animation-delay: 0.25s;
+    
+    @keyframes slideFromRightLogo {
+        0% {
+            transform: translateX( 400% );
+        }
+
+        50% {
+            transform: translateX( 200% );
+        }
+
+        100% {
+            transform: translateX( 0% );
+        }
+    }
+}
+
+.animate__slide__from__left {
+    animation: slideFromLeft 1s linear ;
+    animation-fill-mode: forwards;
+    animation-delay: 0.25s;
+    
+    @keyframes slideFromLeft {
+        0% {
+            transform: translateX( -200% );
+        }
+
+        25% {
+            transform: translateX( -150% );
+        }
+
+        50% {
+            transform: translateX( -100% );
+        }
+
+        75% {
+            transform: translateX( -50% );
+        }
+
+        100% {
+            transform: translateX( 0% );
+        }
+    }
+}
