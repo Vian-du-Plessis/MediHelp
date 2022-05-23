@@ -1,0 +1,8 @@
+<svg id="login-logout-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_210" data-name="Group 210">
+    <line id="Line_6" data-name="Line 6" x2="11" transform="translate(3 12)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_618" data-name="Path 618" d="M11,9l3,3-3,3" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_619" data-name="Path 619" d="M6,9.137V7.4H6A2,2,0,0,1,7.608,5.44l11-2.406h0A2.146,2.146,0,0,1,21,5.2V19h0a2,2,0,0,1-2.339,1.972l-11-1.892h0A2,2,0,0,1,6,17.108V14.971" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  </g>
+  <path id="Path_620" data-name="Path 620" d="M0,0H24V24H0Z" fill="none"/>
+</svg>

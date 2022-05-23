@@ -25,7 +25,7 @@
             display: none;
         }
 
-        .icon__link__container {
+        .icon__link__container, .logout__link__container {
             p {
                 display: inline;
             }
@@ -41,7 +41,7 @@
             display: inline;
         }
 
-        .icon__link__container {
+        .icon__link__container, .logout__link__container {
             p {
                 display: none;
             }
@@ -123,5 +123,16 @@
                 }
             }
         }
+    }
+
+    .logout__link__container {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        color: $white;
+        background-color: transparent;
+        border-radius: 24px 0 0 24px;
     }
 }

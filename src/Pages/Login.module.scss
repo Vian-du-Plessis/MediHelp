@@ -44,6 +44,7 @@
 .link__container {
     text-decoration: underline;
     color: $text-black;
+    transform: translateX( 400% );
 }
 
 .submit__button {
@@ -129,5 +130,17 @@
         100% {
             transform: translateX( 0% );
         }
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .container__left {
+        display: inline;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .container__left {
+        display: none;
     }
 }

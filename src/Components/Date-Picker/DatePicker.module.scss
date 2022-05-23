@@ -1,0 +1,68 @@
+@import '../../Assets/Base.scss';
+
+.outerContainer {
+    width: fit-content;
+    min-width: 258px;
+    padding: 15px;
+    border-radius: 20px;
+    background-color: $white;
+    
+    .monthChange {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(50px, 1fr));
+        align-items: center;
+        margin-bottom: 30px;
+
+        &__buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            grid-column-start: 3;
+
+            .button {
+                background-color: rgba($dark-blue-rgb, 0.06);
+
+                svg * [stroke] {
+                    stroke: $dark-blue;
+                }
+            }
+        }
+    }
+
+    .weekDays {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(28px, 1fr));
+        place-items: center;
+        column-gap: 10px;
+        margin-bottom: 5px;
+    }
+
+    .Days {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(28px, 1fr));
+        place-items: center;
+        column-gap: 10px;
+
+        .dayContainer {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+        }
+
+        .active {
+            border: 1px solid $dark-blue;
+        }
+
+        .notActive {
+            border: none;
+        }
+    }
+}

@@ -1,0 +1,9 @@
+@import '../../Assets/Base.scss';
+
+.active {
+    border: 1px solid $dark-blue;
+}
+
+.notActive {
+    border: none;
+}

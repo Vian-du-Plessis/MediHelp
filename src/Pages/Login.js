@@ -61,9 +61,18 @@ const Login = () => {
                     />
                 </div>
 
-                <a href='' className={ styles.link__container }>
-                    Forgot Password?
-                </a>
+                <div className={` 
+                    ${ styles.link__container }
+                    ${ styles.animate__slide__from__right }
+                `}>
+                    <a href='' className={` 
+                        ${ styles.link__container } 
+                    `}>
+                        Forgot Password?
+                    </a>
+                </div>
+
+
 
                 <Button
                     className={`

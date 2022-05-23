@@ -59,6 +59,16 @@ const Nav = () => {
                 </div>
             </NavLink>
 
+            <div className={`
+                ${ styles.logout__link__container }
+            `}>
+                <Icon
+                    className={ styles.link__icon }
+                    icon='logout'
+                />
+                <p>Logout</p>
+            </div>
+
         </div>
     );
 };
