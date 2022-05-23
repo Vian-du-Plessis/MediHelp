@@ -1,15 +1,17 @@
-import Nav from "./Components/Nav/Nav";
-import { Route, Routes } from "react-router-dom";
-import SearchInput from "./Components/Input/SearchInput";
-import Input from "./Components/Input/Input";
+import Nav from './Components/Nav/Nav';
+import { Route, Routes } from 'react-router-dom';
+import SearchInput from './Components/Input/SearchInput';
+import Input from './Components/Input/Input';
+import Login from './Pages/Login'; 
 
 function App() {
     return (
         <div className="App">
-            <SearchInput
+            <Login/>
+{/*             <SearchInput
                 icon='search'
             />
-            <Input/>
+            <Input/> */}
 {/*             <Nav/>
 
             <Routes>
