@@ -3,6 +3,7 @@
 .outerContainer {
     height: 100vh;
     width: fit-content;
+    min-width: 400px;
     text-align: center;
     display: flex;
     flex-flow: column;

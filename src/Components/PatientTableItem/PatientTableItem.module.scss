@@ -1,0 +1,113 @@
+@import '../../Assets/Base.scss';
+
+.outerContainer {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    row-gap: 2px;
+
+    .tableHeadingContainer {
+        display: grid;
+        padding: 0 28px;
+        grid-template-columns: repeat(5, minmax(120px, 1fr));
+
+        div:first-child {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+    }
+
+    .nameIconContainer {
+        width: fit-content;
+        display: flex;
+        flex-flow: column;
+        gap: 4px;
+    }
+
+    .nameIcon {
+        padding: 0;
+        background-color: $white;
+        svg {
+            *[stroke] {
+                stroke: $text-black;
+            }
+        }
+    }
+
+    .patientRow:nth-child(2) {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+
+    .patientRow {
+        display: grid;
+        align-items: center;
+        grid-template-columns: repeat(5, 1fr);
+        padding: 12px 28px;
+        background-color: rgba($dark-blue-rgb, 0.06);
+
+        .viewIcon {
+            border-radius: 12px;
+            background-color: rgba($dark-blue-rgb, 0.1);
+
+            svg {
+                *[stroke] {
+                    stroke: $dark-blue;
+                }
+            }
+        }
+    }
+
+    .paginationContainer {
+        gap: 4px;
+        display: flex;
+        padding: 12px 28px;
+        align-items: center;
+        justify-content: center;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        background-color: rgba($dark-blue-rgb, 0.06);
+
+        .left__icon  {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background-color: rgba($dark-blue-rgb, 0.06);
+
+            svg {
+                *[stroke] {
+                    stroke: $dark-blue;
+                }
+            }
+        }
+
+        span {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .right__icon  {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background-color: rgba($dark-blue-rgb, 0.06);
+
+            svg {
+                *[stroke] {
+                    stroke: $dark-blue;
+                }
+            }
+        }
+    }
+    
+}

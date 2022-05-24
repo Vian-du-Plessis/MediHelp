@@ -1,6 +1,8 @@
 @import '../../Assets/Base.scss';
 
 .container {
+    width: fit-content;
+    min-width: 320px;
     display: flex;
     position: relative;
     align-items: center;

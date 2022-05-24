@@ -23,7 +23,7 @@ const Nav = () => {
 
             <hr/>
 
-            <NavLink to='/' className={ ({ isActive }) => isActive ? styles.active__link : styles.unselected }>
+            <NavLink to='/Appointments' className={ ({ isActive }) => isActive ? styles.active__link : styles.unselected }>
                 <div className={ styles.icon__link__container }>
                     <div></div>
                         <Icon
@@ -35,7 +35,7 @@ const Nav = () => {
                 </div>
             </NavLink>
 
-            <NavLink to='/Login' className={ ({ isActive }) => isActive ? styles.active__link : styles.unselected }>
+            <NavLink to='/Patients' className={ ({ isActive }) => isActive ? styles.active__link : styles.unselected }>
                 <div className={ styles.icon__link__container }>
                     <div></div>
                         <Icon
@@ -47,7 +47,7 @@ const Nav = () => {
                 </div>
             </NavLink>
 
-            <NavLink to='/New' className={ ({ isActive }) => isActive ? styles.active__link : styles.unselected }>
+            <NavLink to='/Doctors' className={ ({ isActive }) => isActive ? styles.active__link : styles.unselected }>
                 <div className={ styles.icon__link__container }>
                     <div></div>
                         <Icon

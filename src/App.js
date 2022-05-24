@@ -1,13 +1,19 @@
-import Nav from './Components/Nav/Nav';
 import { Route, Routes } from 'react-router-dom';
-import DatePicker from './Components/Date-Picker/DatePicker';
-import CreateAppointment from './Components/Create-Appointment/CreateAppointment';
-import PatientInfo from './Components/PatientInfo/PatientInfo';
+
+/* Import Components */
+import Nav from './Components/Nav/Nav';
+
+/* Import Pages */
+import Patients from './Pages/Patients';
 
 function App() {
     return (
         <div className="App">
-            <PatientInfo/>
+            <Nav/>
+
+            <Routes>
+                <Route path='/Patients' element = {<Patients />} />
+            </Routes>
         </div>
     );
 }
