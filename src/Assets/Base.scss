@@ -9,6 +9,7 @@
 
     $dark-blue: #134576;
     $dark-blue-rgb: rgb(19, 69, 118);
+    $dark-blue-background-rgb: rgb(7, 32, 56);
     $medium-blue: #278BED;
     $light-blue: #E9F3FD;
     $extra-light-blue: #93C5F6;
@@ -20,6 +21,7 @@
     $text-dark-blue: #134576;
     $text-gray: #868D91;
     $text-light-white:#FFFFFF;
+    $text-black-secondary: #191C1E;
 
     $font-weight-thin: 100; /* Thin (Hairline) */
     $font-weight-extra-light: 200; /* Extra Light (Ultra Light) */
@@ -33,9 +35,7 @@
     $font-weight-extra-black: 950; /* Extra Black (Ultra Black) */
 
 
-    body {
-        background-color: #081C2F;
-    }
+
 
 * {
     font-family: 'Inter', sans-serif;

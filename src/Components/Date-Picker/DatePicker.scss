@@ -7,3 +7,15 @@
 .notActive {
     border: none;
 }
+
+.notShowing {
+    opacity: .4;
+}
+
+.today {
+    background-color: $dark-blue;
+
+    span {
+        color: $white;
+    }
+}

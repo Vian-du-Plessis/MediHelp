@@ -1,0 +1,29 @@
+@import '../../Assets/Base.scss';
+
+.outerContainer {
+    height: 100vh;
+    width: fit-content;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    background-color: rgba($dark-blue-rgb, 0.06);
+    padding: 40px 12px 20px 12px;
+
+    div {
+        flex: 1;
+    }
+
+    h1 {
+        font-size: 16px;
+        color: $text-black-secondary;
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+
+    .buttonContainer {
+        background-color: $medium-blue;
+    }
+}

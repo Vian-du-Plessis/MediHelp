@@ -1,0 +1,35 @@
+@import '../../Assets/Base.scss';
+
+.outerContainer {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($dark-blue-background-rgb, .9);
+
+    .innerContainer {
+        width: 1000px;
+        height: 500px;
+        border-radius: 20px;
+        padding: 21px 32px 32px 24px;
+        background-color: $white;
+
+        &__headings {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .__iconContainer {
+                background-color: white;
+                border-radius: 0;
+
+                svg {
+                    *[stroke] {
+                        stroke: $pink;
+                    }
+                }
+            }
+        }
+    }
+}

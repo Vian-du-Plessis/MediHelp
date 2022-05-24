@@ -36,7 +36,7 @@ const Input = ( props ) => {
                         src={ require( `../../Assets/SVG/${ props.iconName }.svg` ) }
                     />
                 }
-                <input
+                <input      
                     className={`
                         ${ props.iconSide == 'Right' ? styles.icon__right__style : '' }
                         ${ props.iconSide == 'Left' ? styles.icon__left__style : '' }

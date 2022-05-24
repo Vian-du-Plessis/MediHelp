@@ -1,0 +1,23 @@
+@import '../../Assets/Base.scss';
+
+.container {
+    text-align: left;
+
+    .label {
+        margin-bottom: 4px;
+        color: $text-dark-blue;
+    }
+
+    select {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 21px;
+        color: $text-gray;
+        border: 1px solid $extra-light-blue;
+
+        &:focus {
+            outline: none;
+            border: 1px solid $medium-blue;
+        }
+    }
+}
