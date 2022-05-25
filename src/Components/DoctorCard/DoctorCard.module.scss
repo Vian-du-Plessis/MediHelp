@@ -1,0 +1,55 @@
+@import '../../Assets/Base.scss';
+
+.outerContainer {
+    padding: 20px 16px;
+    width: fit-content;
+    min-width: 200px;
+    border-radius: 16px;
+    background-color: rgba($dark-blue-rgb, 0.03);
+
+    .imageContainer {
+        margin: 0 auto;
+        width: 100px;
+        height: 100px;
+        margin-bottom: 12px;
+        border-radius: 50%;
+        border: 1px solid $medium-blue;
+
+        img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+    }
+
+    .column {
+        display: flex;
+        flex-flow: column;
+        gap: 15px;
+
+        .row {
+            p {
+                color: $text-black;
+            }
+
+            h6 {
+                color: $text-gray;
+                margin-bottom: 4px;
+            }
+        }
+    }
+
+    .iconContainer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 15px;
+
+        .viewIcon {
+            border-radius: 12px;
+            background-color: $medium-blue;
+        }
+    }
+}

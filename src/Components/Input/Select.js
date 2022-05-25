@@ -8,7 +8,10 @@ const Select = ( props ) => {
     const selectOptions = optValues.map(( item, index ) => <option key={ '' || index } value={ '' || item }> { '' || item }</option>)
 
     return (
-        <div className={ styles.container }>
+        <div className={`
+            ${ styles.container }
+            ${ props.className ? props.className : '' }
+        `}>
             <p className={ styles.label }>
                 { props.label || 'No Label' }
             </p>

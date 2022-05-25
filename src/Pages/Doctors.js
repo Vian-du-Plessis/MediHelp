@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 
 /* Import SCSS */
-import styles from './Patients.module.scss';
+import styles from './Doctors.module.scss';
 
 /* Import Images */
 import ProfileImage from '../Assets/SVG/profile.svg';
 
 /* Import Components */
-import PatientTableItem from '../Components/PatientTableItem/PatientTableItem';
 import CreateAppointment from '../Components/Create-Appointment/CreateAppointment';
 import SearchInput from '../Components/Input/SearchInput';
+import DoctorCard from '../Components/DoctorCard/DoctorCard';
+import AddDoctor from '../Components/AddDoctor/AddDoctor';
 import Button from '../Components/Button/Button';
-import AddPatient from '../Components/AddPatient/AddPatient';
 
 const Patients = () => {
 
@@ -40,8 +40,8 @@ const Patients = () => {
                         <h3>
                             { 
                                 addPatientOpen 
-                                ? 'Add patient' 
-                                : 'Patients' 
+                                ? 'Add doctor' 
+                                : 'Doctors' 
                             }
                         </h3>
                         { 
@@ -49,7 +49,7 @@ const Patients = () => {
                             &&
                             <Button
                                 className={ styles.button }
-                                label='Add patient'
+                                label='Add doctor'
                                 onClick={() => openAddPatient() }
                             />
                         }
@@ -58,13 +58,16 @@ const Patients = () => {
 
                     </div>
                 </div>
-                { 
-                    !addPatientOpen 
-                    ? <PatientTableItem/>
-                    : <AddPatient
-                        clickCancel={() => closeAddPatient()}
-                    />
-                }
+                <div className={ styles.middleContainer__content }>
+                    {
+                        !addPatientOpen
+                        ? <DoctorCard/>
+                        : <AddDoctor
+                            clickCancel={() => closeAddPatient()}
+                        />
+                    }
+                </div>
+
             </div>
             <div className={ styles.rightContainer }>
                 <CreateAppointment/>

@@ -1,0 +1,24 @@
+@import '../../Assets/Base.scss';
+
+.bigContainer {
+    text-align: left;
+    width: 100%;
+}
+
+.outerContainer {
+    margin-top: 4px;
+    width: fit-content;
+    display: flex;
+    padding: 4px;
+    border-radius: 40px;
+    background-color: rgba($dark-blue-rgb, 0.06);
+
+    .leftButton, .rightButton {
+        padding: 7px 65px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+

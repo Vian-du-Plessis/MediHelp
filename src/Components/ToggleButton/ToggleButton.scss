@@ -1,0 +1,10 @@
+@import '../../Assets/Base.scss';
+
+.activeToggle {
+    border-radius: 40px;
+    background-color: $dark-blue;
+
+    p {
+        color: $white;
+    }
+}
