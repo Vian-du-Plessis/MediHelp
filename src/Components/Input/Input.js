@@ -8,7 +8,7 @@ const Input = ( props ) => {
     useEffect(() => {
         setInputIcon( 
             props.iconName != undefined 
-            ? props.iconName 
+            ? true 
             : false 
         );
     });
@@ -44,6 +44,7 @@ const Input = ( props ) => {
                     name={ props.name || '' }
                     type={ props.type || 'text' }
                     placeholder={ props.placeholder || ''}
+                    onChange={props.onChange}
                 />
             </div>
             <div className={ styles.error__container }>

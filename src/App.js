@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 /* Import Components */
 import Nav from './Components/Nav/Nav';
@@ -7,21 +7,22 @@ import Nav from './Components/Nav/Nav';
 import Patients from './Pages/Patients';
 import Doctors from './Pages/Doctors';
 import Login from './Pages/Login';
-
-import AddPatient from './Components/AddPatient/AddPatient';
-import ToggleButton from './Components/ToggleButton/ToggleButton';
-import DoctorCard from './Components/DoctorCard/DoctorCard';
+import { useEffect, useState } from 'react';
 
 function App() {
+
+    let location = useLocation();
+
     return (
         <div className="App">
-            <Nav/>
-
+            {
+                location.pathname !== '/login' && <Nav/>
+            }
             <Routes>
+                <Route path='/Login' element = {<Login />} />
                 <Route path='/Patients' element = {<Patients />} />
                 <Route path='/Doctors' element = {<Doctors />} />
             </Routes>  
-
         </div>
     );
 }

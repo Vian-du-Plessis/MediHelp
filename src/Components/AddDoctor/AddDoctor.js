@@ -58,7 +58,7 @@ const AddPatient = ( props ) => {
                     />
                 </div>
             </div>
-            <h5>Medical Aid</h5>
+            <h5>Additional info</h5>
             <div className={ styles.secondContainer }>
                 <div className={ styles.Row }>
                     <Select
