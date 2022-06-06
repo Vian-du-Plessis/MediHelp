@@ -1,59 +1,59 @@
-import React, { useState, useEffect } from 'react';
+/* React */
+import React, { forwardRef } from 'react';
+
+/* Styling */
 import styles from './Input.module.scss';
 
-const Input = ( props ) => {
-
-    const [showInputIcon, setInputIcon] = useState( false );
-
-    useEffect(() => {
-        setInputIcon( 
-            props.iconName != undefined 
-            ? true 
-            : false 
-        );
-    });
+const Input = forwardRef((props, ref) => {
 
     return (
-        <div 
-            className={ 
-                props.className 
-                ? props.className 
-                : styles.container
-            }
-        >
-            <p className= { styles.label }>
+        <div className={` 
+            ${ styles.container }
+            ${ props.className ? props.className : '' } 
+        `}>
+            <p className={ styles[ 'container__textParagraph--label' ] }>
                 { props.label || 'No Label' }
             </p>
-            <div className={ styles.input__container }>
-                { showInputIcon &&
-                    <img 
+
+            <div className={ styles.container__inputs }>
+                {
+                    props.iconLeft != undefined 
+                    && <img 
                         className={`
-                            ${ styles.icon__img } 
-                            ${ props.iconSide == 'Right' ? styles.icon__right : '' }
-                            ${ props.iconSide == 'Left' ? styles.icon__left : '' }
+                            ${ styles.container__inputs__imageElement } 
+                            ${ styles[ 'container__inputs__imageElement--left' ] } 
                         `}
                         onClick={ props.iconClick }
-                        src={ require( `../../Assets/SVG/${ props.iconName }.svg` ) }
+                        src={ require( `../../Assets/SVG/${ props.iconLeft }.svg` ) }
                     />
                 }
-                <input      
-                    className={`
-                        ${ props.iconSide == 'Right' ? styles.icon__right__style : '' }
-                        ${ props.iconSide == 'Left' ? styles.icon__left__style : '' }
-                    `}
-                    name={ props.name || '' }
-                    type={ props.type || 'text' }
-                    placeholder={ props.placeholder || ''}
-                    onChange={props.onChange}
-                />
+                <input
+                    ref={ ref }
+                    name={ props.name }
+                    type={ props.type }
+                    placeholder={ props.placeholder }
+                    onChange={ props.onChange }
+                />   
+                {
+                    props.iconRight != undefined 
+                    && <img 
+                        className={`
+                            ${ styles.container__inputs__imageElement } 
+                            ${ styles[ 'container__inputs__imageElement--right' ] } 
+                        `}
+                        onClick={ props.iconClick }
+                        src={ require( `../../Assets/SVG/${ props.iconRight }.svg` ) }
+                    />
+                }      
             </div>
-            <div className={ styles.error__container }>
-                <p className= { styles.error }>
-                    { props.errorMessage || '' }
+
+            <div className={ styles.container__textParagraph }>
+                <p className={ styles[ 'container__textParagraph--error' ] }>
+                    { props.errorMessage }
                 </p>
             </div>
         </div>
     );
-};
+});
 
 export default Input;

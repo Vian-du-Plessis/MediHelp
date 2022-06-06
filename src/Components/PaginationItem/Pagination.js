@@ -1,11 +1,14 @@
+/* React */
 import React from 'react';
+
+/* Styling */
 import styles from './Pagination.module.scss';
 
-const Pagination = ( props ) => {
+const Pagination = (props) => {
     return (
         <div className={`
-            ${ styles.outerContainer } 
-            ${ props.className ? props.className : '' }
+            ${styles.outerContainer} 
+            ${props.className ? props.className : ''}
         `}>
             <span>{ props.value }</span>
         </div>

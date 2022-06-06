@@ -1,7 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+/* React */
+import React, {useEffect, useState} from 'react';
+
+/* Styling */
 import styles from './DatePicker.module.scss'
 import './DatePicker.scss';
 
+/* Components */
 import Icon from '../Icon/Icon';
 
 const DatePicker = () => {
@@ -144,15 +148,12 @@ const DatePicker = () => {
         }
 
         const daysGet = new Date( yearGet, monthGet + 1 , 0 ).getDate();
-        console.log("🚀 ~ file: DatePicker.js ~ line 110 ~ prevMonth ~ daysGet", daysGet)
         
 
         let startDate = new Date(yearGet, monthGet, 1);
-        console.log("🚀 ~ file: DatePicker.js ~ line 113 ~ prevMonth ~ startDate", startDate)
         let starting = startDate.toString();
         starting = starting.split(' ')[0];
         let startingNumber = weekDays.findIndex( (item ) => item === starting );
-        console.log("🚀 ~ file: DatePicker.js ~ line 116 ~ prevMonth ~ startingNumber", startingNumber)
         let prevMonthGet = '';
         if(monthGet === 0) {
             prevMonthGet = 12;
@@ -163,7 +164,6 @@ const DatePicker = () => {
         const prevDaysGet = new Date( yearGet - 1, prevMonthGet + 1, 0 ).getDate();
         
         let start = prevDaysGet - (startingNumber);
-        console.log("🚀 ~ file: DatePicker.js ~ line 129 ~ prevMonth ~ start", start)
         const daysList = [];
         const prevDayList = [];
         const nextDaysList = [];
@@ -307,25 +307,27 @@ const DatePicker = () => {
     }
 
     return (
-        <div className={ styles.bigContainer }>
+        <div className={styles.bigContainer}>
             <h6>Date</h6>
-            <div className={ styles.outerContainer }>
-                <div className={ styles.monthChange }>
+            <div className={styles.outerContainer}>
+                <div className={styles.monthChange}>
                     <p>{monthTodayName + ' ' + yearToday} </p>
-                    <div className={ styles.monthChange__buttons }>
+                    <div className={styles.monthChange__buttons}>
+                        {/* Icons */}
                         <Icon
-                            className={ styles.button }
+                            className={styles.button}
                             icon='right'
                             click={prevMonth}
                         />
                         <Icon
-                            className={ styles.button }
+                            className={styles.button}
                             icon='left'
                             click={nextMonth}
                         />
+                        {/* /Icons */}
                     </div>
                 </div>
-                <div className={ styles.weekDays }>
+                <div className={styles.weekDays}>
                     <h6>S</h6>
                     <h6>M</h6>
                     <h6>T</h6>
@@ -334,8 +336,8 @@ const DatePicker = () => {
                     <h6>F</h6>
                     <h6>S</h6>
                 </div>
-                <div className={ styles.Days }>
-                    { calDays }
+                <div className={styles.Days}>
+                    {calDays}
                 </div>
             </div>
         </div>

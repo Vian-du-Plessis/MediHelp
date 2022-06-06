@@ -1,8 +1,10 @@
-// Project Imports
-import React, { useRef, useEffect } from 'react'
+/* React */
+import React, {useRef, useEffect} from 'react'
+
+/* Styling */
 import styles from './Icon.module.scss'
 
-const Icon = ( props ) => {
+const Icon = (props) => {
     const image = useRef(null);
 
     const imageToSVGConversion = () => { //This converts the image to SVG so that we have more control over the styling properties of the SVG
@@ -54,12 +56,11 @@ const Icon = ( props ) => {
     }, []); //This useEffect runs the imageToSVGConversion on render
 
     return (
-        <span 
-            className={`
+        <span className={`
                 ${ props.className ? props.className : '' }
                 ${ styles.iconContainer } 
             `}
-            onClick={ props.click }
+            onClick={props.click}
         >
             <img 
                 ref={ image }

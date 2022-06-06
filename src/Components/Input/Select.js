@@ -1,7 +1,10 @@
+/* React */
 import React from 'react';
+
+/* Styling */
 import styles from './Select.module.scss';
 
-const Select = ( props ) => {
+const Select = (props) => {
 
     const optValues = props.options || [];
 
@@ -9,14 +12,14 @@ const Select = ( props ) => {
 
     return (
         <div className={`
-            ${ styles.container }
-            ${ props.className ? props.className : '' }
+            ${styles.container}
+            ${props.className ? props.className : ''}
         `}>
             <p className={ styles.label }>
-                { props.label || 'No Label' }
+                {props.label || 'No Label'}
             </p>
             <select>
-                <option key="none" value="">{ props.placeholderOption }</option>
+                <option key="none" value="">{props.placeholderOption}</option>
                 { selectOptions }
             </select>
         </div>

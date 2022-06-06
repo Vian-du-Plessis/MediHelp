@@ -8,6 +8,7 @@ import Patients from './Pages/Patients';
 import Doctors from './Pages/Doctors';
 import Login from './Pages/Login';
 import { useEffect, useState } from 'react';
+import Appointment from './Components/Appointment/Appointment';
 
 function App() {
 
@@ -15,14 +16,17 @@ function App() {
 
     return (
         <div className="App">
-            {
-                location.pathname !== '/login' && <Nav/>
+{/*             {
+                location.pathname !== '/' && <Nav/>
             }
             <Routes>
-                <Route path='/Login' element = {<Login />} />
+                <Route path='/' element = {<Login />} />
                 <Route path='/Patients' element = {<Patients />} />
                 <Route path='/Doctors' element = {<Doctors />} />
-            </Routes>  
+            </Routes>  */} 
+
+            <Appointment/>
+
         </div>
     );
 }

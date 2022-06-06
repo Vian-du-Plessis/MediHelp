@@ -1,59 +1,75 @@
-import React, { useState } from 'react';
+/* React */
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+/* Styling */
 import styles from './Login.module.scss';
+
+/* Images */
 import LoginImage from '../Assets/SVG/Login-Image.svg';
 import Logo from '../Assets/SVG/MediHelp-Main-Logo.svg';
+
+/* Components */
 import Button from '../Components/Button/Button';
 import Input from '../Components/Input/Input';
-import Icon from '../Components/Icon/Icon';
 
 const Login = () => {
 
     const navigate = useNavigate();
 
-    const [inputs, setInputs] = useState({
-        email: '',
-        password: ''
+    //Error Messages for inputs
+    const [errorMessages, setErrorMessages] = useState({
+        emailError: '',
+        passError: ''
     });
 
-    const emailValue = (e) => {
-        const value = e.target.value;
-        setInputs({...inputs, email: value});
-        console.log(inputs)
+    //If there is any errors and the user starts typing the error will be cleared.
+    const clearErrors = () => {
+        setErrorMessages({...errorMessages, emailError: '', passError: ''});
     }
 
-    const passwordValue = (e) => {
-        const value = e.target.value;
-        setInputs({...inputs, password: value});
+    // Ref's to get email and password values on Button Click
+    let getEmailValue = useRef();
+    let getPasswordValue = useRef();
+    const handleLogin = () => {
+        let emailVal = getEmailValue.current.value;
+        let passVal = getPasswordValue.current.value;
+
+        let inputs = {
+            email: emailVal,
+            password: passVal
+        }
+
+        if(emailVal === '' || passVal === '') {
+            //This will execute if any of the inputs is empty and does not contain values
+            setErrorMessages({...errorMessages, emailError: 'Please provide your email', passError: 'Please provide your password'});
+        } else {
+            //This will execute if both inputs contains values
+            axios.post('http://localhost/Server/userLogin.php', inputs)
+            .then((res) => {                
+                if(res.data === true) {
+                    //If this user exists on the database this will execute
+                    sessionStorage.setItem('loggedOnUser', inputs.email);
+                    navigate('/appointments');
+                } else {
+                    //This will execute if the values from the inputs cannot be referenced back to the database.
+                    setErrorMessages({...errorMessages, emailError: 'Email or Password Invalid'});
+                }
+            });
+        }
     }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('gasgf')
-
-        axios.post('http://localhost/Server/userLogin.php', inputs)
-        .then((res) => {
-            console.log(res)
-
-            if(res.data === true) {
-                sessionStorage.setItem('loggedOnUser', inputs.email);
-                navigate('/appointments');
-            } else {
-                console.log('not working');
-            }
-        })
-
-        console.log(inputs);
-    }
-
+    
     const [inputIconPass, setInputIconPass] = useState('show-password');
     const [passInputType, setPassInputType] = useState('password');
+    //Function to show the users password and also hide it
     const passwordShowHide = () => {
         if(passInputType == 'password') {
+            //This will show the users password in normal text
             setPassInputType('text');
             setInputIconPass('hide-password');
         } else {
+            //This will hide the users password
             setPassInputType('password');
             setInputIconPass('show-password');
         } 
@@ -61,67 +77,54 @@ const Login = () => {
 
     return (
         <div className={ styles.container }>
-            <div className={ styles.container__left }>
-                <img
-                    className={` 
-                        ${ styles.background__image } 
-                        ${ styles.animate__slide__from__left } 
-                    `}
+            <div className={ styles.container__image }>
+                <img className={ styles.container__imageElement }
                     src={ LoginImage }
                 />
             </div>
-            <div className={ styles.container__right }>
-                <img
-                    className={` 
-                        ${ styles.logo__image } 
-                        ${ styles.animate__slide__from__right__logo } 
-                    `}
+
+            <div className={ styles.container__form }>
+                <img className={ styles.container__form__imageElement }
                     src={ Logo }
                 />
 
-                <div className={`
-                    ${ styles.inputs__container }
-                    ${ styles.animate__slide__from__right }
-                `}>
+                <div className={ styles.container__inputs }>
+                    {/* Inputs */}
                     <Input
                         label='Email'
+                        ref={ getEmailValue }
                         placeholder='Enter your email'
-                        onChange={emailValue}
+                        onChange={ clearErrors }
+                        errorMessage={ errorMessages.emailError }
                     />
                     <Input
                         label='Password'
+                        ref={ getPasswordValue }
                         type={ passInputType }
                         placeholder='Enter your password'
-                        iconSide='Right'
-                        iconName={ inputIconPass }
+                        onChange={ clearErrors }
+                        iconRight={ inputIconPass }
                         iconClick={ passwordShowHide }
-                        errorMessage='Wrong password'
-                        onChange={passwordValue}
+                        errorMessage={ errorMessages.passError }
                     />
+                    {/* ./Inputs */}
                 </div>
 
-                <div className={` 
-                    ${ styles.link__container }
-                    ${ styles.animate__slide__from__right }
-                `}>
-                    <a href='' className={` 
-                        ${ styles.link__container } 
-                    `}>
+                <div className={ styles.container__text }>
+                    <a className={ styles.container__textElement }
+                        href=''
+                    >
                         Forgot Password?
                     </a>
                 </div>
-
-
-
+                
+                {/* Button */}
                 <Button
-                    className={`
-                        ${ styles.submit__button }
-                        ${ styles.animate__slide__from__right }
-                    `}
-                    label={ 'Login' }
-                    icon='right-arrow'
-                    onClick={handleSubmit}
+                    className={ styles.container__buttonElement }
+                    onClick={ handleLogin }
+                    label='Login' 
                 />
+                {/* ./Button */}
             </div>
         </div>
     );
