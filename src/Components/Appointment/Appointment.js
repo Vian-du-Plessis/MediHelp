@@ -1,5 +1,5 @@
 /* React */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 /* Styling */
 import styles from './Appointment.module.scss';
@@ -11,53 +11,73 @@ import axios from 'axios';
 
 const Appointment = () => {
 
-    const [ weekDays, setWeekDays ] = useState();
-    const [ appointments, setAppointments ] = useState( [] );
-    const [ renderAppointments, setRenderAppointments ] = useState();
-    const [ dayNumbers, setDayNumbers ] = useState();
+    const [ daysToDisplay, setDaysToDisplay ] = useState();
+    const [ appointments, setAppointments ] = useState([]);
+
+    const [ todayValues, setTodayValues ] = useState({
+        number: '',
+        value: ''
+    });
+    const [ monthValue, setMonthValue ] = useState({
+        value: '',
+        listValue: ''
+    });
+    const [ yearValue, setYearvalue ] = useState();
+
+    const [ daysArray, setDaysArray ] = useState([]);
+
+    const [ checkDate, setCheckDate ] = useState([]);
+
 
     let days = [
         {
             day: 'Monday',
-            date: '02',
+            date: '',
             isDay: false,
-            dayShort: 'Mon'
+            dayShort: 'Mon',
+            fullDate: ''
         },
         {
             day: 'Tuesday',
-            date: '03',
+            date: '',
             isDay: false,
-            dayShort: 'Tuesday'
+            dayShort: 'Tuesday',
+            fullDate: ''
         },        
         {
             day: 'Wednesday',
-            date: '04',
+            date: '',
             isDay: false,
-            dayShort: 'Wed'
+            dayShort: 'Wed',
+            fullDate: ''
         },
         {
             day: 'Thursday',
-            date: '05',
+            date: '',
             isDay: false,
-            dayShort: 'Thu'
+            dayShort: 'Thu',
+            fullDate: ''
         },
         {
             day: 'Friday',
-            date: '06',
+            date: '',
             isDay: false,
-            dayShort: 'Fri'
+            dayShort: 'Fri',
+            fullDate: ''
         },
         {
             day: 'Saturday',
-            date: '07',
+            date: '',
             isDay: false,
-            dayShort: 'Sat'
+            dayShort: 'Sat',
+            fullDate: ''
         },
         {
             day: 'Sunday',
-            date: '08',
+            date: '',
             isDay: false,
-            dayShort: 'Sun'
+            dayShort: 'Sun',
+            fullDate: ''
         }
     ]
 
@@ -85,76 +105,151 @@ const Appointment = () => {
         'November',
         'December'
     ]
+    
 
     useEffect(() => {
-        let today = new Date().toString().split(' ')[0]; //Returns Sun
-        let month = new Date().getMonth(); //Value returned + 1 for actual month from range 1-12 //Returns 5
-        let year = new Date().getFullYear(); //Returns 2022
-        let daysInMonthPrev = new Date(year, month, 0).getDate(); // Works with values 1-12 //Returns 31
-        let daysInMonth = new Date(year, month + 1, 0).getDate(); // Works with values 1-12 //Returns 31
-
-        let todayNumber = new Date().toString().split(' ')[2];
-        let dayIndex = dayList.indexOf(today);
-
-        let monthToShow = monthList[month];
-
-        let prevDayNumbers = [];
-        let dayNumber = +todayNumber + 1;
-        for(let i = 0; i <= dayIndex; i++) {
-            dayNumber--;
-            if(dayNumber == 0) {
-                monthToShow = monthList[month - 1]
-                dayNumber = daysInMonthPrev;
-            }
-            prevDayNumbers.push({month: monthToShow, number: dayNumber.toString(), fullDate: dayNumber.toString() + ' ' + monthToShow});
+        let today = new Date().toString().split(' ')[0]; // Returns monday to friday
+        let todayIndex = dayList.indexOf(today)
+        let todayNumber = new Date().toString().split(' ')[2]; // Returns the day of the month 1-31
+        if(todayNumber[0] == 0) {
+            todayNumber = todayNumber[1]; //This removes the zero
         }
-        prevDayNumbers.reverse();
+        setTodayValues({...todayValues, number: todayNumber, value: today});
+        let month = new Date().getMonth();
+        setMonthValue( {...monthValue, value: monthList[month], listValue: month } );
+        let year = new Date().getFullYear();
+        setYearvalue(year);
+        let prevMonthTotalDays = new Date(year, month, 0).getDate();
+        let monthTotalDays = new Date(year, month + 1, 0).getDate(); 
 
-        let daysNext = [];
-        let nextDaysNumber = +todayNumber;
-        for(let i = 0; i < 7; i++) {
-            if(nextDaysNumber == daysInMonth) {
-                nextDaysNumber = 1;
-                monthToShow = monthList[month + 1]
+        let prevDaysArray = [];
+        let prevDayStartCount = +todayNumber;
+        for( let i = 0; i < todayIndex; i++ ) {
+            if( prevDayStartCount == 0) {
+                prevDayStartCount = prevMonthTotalDays + 1;
             }
-            nextDaysNumber++;
-            daysNext.push({month: monthToShow, number: nextDaysNumber.toString(), fullDate: nextDaysNumber.toString() + ' ' + monthToShow});
+            prevDayStartCount--;
+            prevDaysArray.push( {day: '', value: prevDayStartCount, monthVal: monthList[month], year: 2022} );
+        }
+        prevDaysArray.reverse();
+
+        let nextDayStartCount = +todayNumber - 1;
+        for( let i = 0; i < 7 - todayIndex; i++ ) {
+            if( nextDayStartCount == monthTotalDays ) {
+                nextDayStartCount = 1
+            }
+            nextDayStartCount++;
+            prevDaysArray.push({day: '', value: nextDayStartCount, monthVal: monthList[month], year: 2022});
         }
 
-        const finalDaysNumber = [ ...prevDayNumbers, ...daysNext ];
-        setDayNumbers(finalDaysNumber);
-
-        for(let i = 0; i < days.length; i++) {
-            days[i].date = finalDaysNumber[i].number;
-            if(days[i].dayShort == today) {
-                days[i].isDay = true;
-            }
+        for( let i = 0; i < prevDaysArray.length; i++ ) {
+            prevDaysArray[i].day = dayList[i]
         }
+
+        for( let i = 0; i < 7; i++ ) {
+            days[i].fullDate = prevDaysArray[i].value + ' ' + prevDaysArray[i].monthVal + ' ' + prevDaysArray[i].year;
+        }
+
+        setCheckDate(days);
+
+        console.log(days[0].fullDate);
+        console.log(days[1].fullDate);
+        console.log(days[2].fullDate);
+
+        setDaysArray(prevDaysArray);
+
+        let dayItems = prevDaysArray.map( ( item, index ) => 
+            <div key={ index }>
+                <h4>{ item.day }</h4>
+                <h5>{ item.value }</h5>
+            </div>    
+        )
+        setDaysToDisplay(dayItems);
 
     }, []);
 
-    useEffect(() => {
-        let weekItem = days.map(( item ) =>
-            <div className={ item.isDay == true ? styles.activeDay : '' }>
-                <h6>{ item.day }</h6>
-                <h5>{ item.date }</h5>
-            </div>
-        );
-
-        setWeekDays( weekItem );
-
+     useEffect(() => {
         axios.post('http://localhost/Server/readUserPosts.php')
         .then( ( res ) => {
             console.log(res.data)
             setAppointments( res.data );
         });
 
-    }, [renderAppointments]);
+    }, []); 
+
+    const daysPrev = () => {
+        let prevWeekValue = +daysArray[0].value;
+        let prevMonthTotalDays = new Date(2022, monthValue.listValue, 0).getDate();
+        let month = monthValue.value;
+        console.log("🚀 ~ file: Appointment.js ~ line 162 ~ daysPrev ~ prevMonthTotalDays", prevMonthTotalDays)
+        console.log()
+        let testArray = [];
+        for( let i = 0; i < 7; i++ ) {
+            if( prevWeekValue == 1 ) {
+                prevWeekValue = prevMonthTotalDays + 1;
+            } 
+            prevWeekValue--;
+            testArray.unshift( {day: '', value: prevWeekValue} );
+        }
+
+        for( let i = 0; i < 7; i++ ) {
+            testArray[i].day = dayList[i]
+        }
+
+        let dayItems = testArray.map( ( item, index ) => 
+            <div key={ index }>
+                <h4>{ item.day }</h4>
+                <h5>{ item.value }</h5>
+            </div>    
+        )
+
+        console.log(dayItems)
+        setDaysToDisplay(dayItems);
+
+    }
+
+    useEffect(() => {
+        let todayStringValue = new Date().toString().split(' ')[0]; // Returns the day it is today Mon - Sun
+        let todayIndexOfDayList = dayList.indexOf(todayStringValue); // Returns the index of today out of dayList
+        let todayIntegerValue = new Date().toString().split(' ')[2]; // Returns the number of the day it is today
+        if(todayIntegerValue[0] == 0) {
+            todayIntegerValue = todayIntegerValue[1]; //This removes the zero
+        }
+        let yearTodayIntegerValue = new Date().getFullYear();
+        let monthTodayIntegerValue = new Date().getMonth(); // Returns index of the current month 1-12 minus 1 
+        let currentMonthIndex = monthTodayIntegerValue;
+        let monthStringValue = monthList[currentMonthIndex];
+        let prevMonthTotalDays = new Date(2022, monthTodayIntegerValue, 0).getDate(); // Returns total days for previous month
+        let monthTotalDays = new Date(2022, monthTodayIntegerValue + 1, 0).getDate(); // Returns total days for current month
+
+        let daysArray = [];
+
+        let count = +todayIntegerValue;
+        for( let i = 0; i < todayIndexOfDayList; i++ ) {
+            if( count == 0 ) {
+                count = prevMonthTotalDays + 1;
+                currentMonthIndex -= 1;
+                monthStringValue = monthList[currentMonthIndex];
+            }
+            count--;
+            daysArray.unshift({
+                dayIntVal: count,
+                monthStrVal: monthStringValue,
+                yearIntVal: yearTodayIntegerValue
+            })
+        }
+    });
 
     return (
         <div className={ styles.container }>
+{/*             <div className={ styles.leftButton } onClick={ daysPrev }>
+                Left Button
+            </div>
+            <div className={ styles.rightButton } onClick={ daysNext }>
+                Right Button
+            </div> */}
             <div className={ styles.container__top }>
-                { weekDays }
+                { daysToDisplay }
             </div>
 
             <div className={ styles.container__bottom }>
@@ -164,37 +259,37 @@ const Appointment = () => {
                 <div className={ styles[ 'container__bottom--appointment' ] }>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[0].fullDate ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[0].fullDate  ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[1].fullDate ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[1].fullDate  ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[2].fullDate ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[2].fullDate  ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[3].fullDate ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[3].fullDate  ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[4].fullDate ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[4].fullDate  ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[5].fullDate ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[5].fullDate  ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[6].fullDate ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[6].fullDate  ) && x.time.includes('07') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                 </div>
@@ -204,37 +299,37 @@ const Appointment = () => {
                 <div className={ styles[ 'container__bottom--appointment' ] }>
                 <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[0].fullDate ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[0].fullDate  ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[1].fullDate ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[1].fullDate  ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[2].fullDate ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[2].fullDate  ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[3].fullDate ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[3].fullDate  ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[4].fullDate ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[4].fullDate  ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[5].fullDate ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[5].fullDate  ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[6].fullDate ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[6].fullDate  ) && x.time.includes('08') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                 </div>
@@ -244,37 +339,37 @@ const Appointment = () => {
                 <div className={ styles[ 'container__bottom--appointment' ] }>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[0].fullDate  ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[0].fullDate   ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[1].fullDate ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[1].fullDate  ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[2].fullDate ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[2].fullDate  ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[3].fullDate ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[3].fullDate  ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[4].fullDate ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[4].fullDate  ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[5].fullDate ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[5].fullDate  ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[6].fullDate ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[6].fullDate  ) && x.time.includes('09') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                 </div>
@@ -284,37 +379,37 @@ const Appointment = () => {
                 <div className={ styles[ 'container__bottom--appointment' ] }>
                 <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[0].fullDate ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[0].fullDate  ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[1].fullDate ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[1].fullDate  ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[2].fullDate ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[2].fullDate  ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[3].fullDate ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[3].fullDate  ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[4].fullDate ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[4].fullDate  ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[5].fullDate ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[5].fullDate  ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[6].fullDate ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[6].fullDate  ) && x.time.includes('10') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                 </div>
@@ -324,37 +419,37 @@ const Appointment = () => {
                 <div className={ styles[ 'container__bottom--appointment' ] }>
                 <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[0].fullDate ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[0].fullDate  ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[1].fullDate ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[1].fullDate  ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[2].fullDate ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[2].fullDate  ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[3].fullDate ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[3].fullDate  ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[4].fullDate ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[4].fullDate  ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[5].fullDate ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[5].fullDate  ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[6].fullDate ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[6].fullDate  ) && x.time.includes('11') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                 </div>
@@ -364,37 +459,37 @@ const Appointment = () => {
                 <div className={ styles[ 'container__bottom--appointment' ] }>
                 <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[0].fullDate ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[0].fullDate  ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[1].fullDate ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[1].fullDate  ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[2].fullDate ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[2].fullDate  ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[3].fullDate ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[3].fullDate  ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[4].fullDate ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[4].fullDate  ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[5].fullDate ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[5].fullDate  ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[6].fullDate ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[6].fullDate  ) && x.time.includes('12') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                 </div>
@@ -404,37 +499,37 @@ const Appointment = () => {
                 <div className={ styles[ 'container__bottom--appointment' ] }>
                 <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[0].fullDate ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[0].fullDate  ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[1].fullDate ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[1].fullDate  ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[2].fullDate ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[2].fullDate  ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[3].fullDate ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[3].fullDate  ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[4].fullDate ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[4].fullDate  ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[5].fullDate ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[5].fullDate  ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[6].fullDate ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[6].fullDate  ) && x.time.includes('13') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                 </div>
@@ -444,37 +539,37 @@ const Appointment = () => {
                 <div className={ styles[ 'container__bottom--appointment' ] }>
                 <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[0].fullDate ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[0].fullDate  ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[1].fullDate ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[1].fullDate  ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[2].fullDate ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[2].fullDate  ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[3].fullDate ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[3].fullDate  ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[4].fullDate ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[4].fullDate  ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[5].fullDate ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[5].fullDate  ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[6].fullDate ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[6].fullDate  ) && x.time.includes('14') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                 </div>
@@ -484,37 +579,37 @@ const Appointment = () => {
                 <div className={ styles[ 'container__bottom--appointment' ] }>
                 <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[0].fullDate ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[0].fullDate  ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[1].fullDate ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[1].fullDate  ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[2].fullDate ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[2].fullDate  ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[3].fullDate ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[3].fullDate  ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[4].fullDate ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[4].fullDate  ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[5].fullDate ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[5].fullDate  ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[6].fullDate ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[6].fullDate  ) && x.time.includes('15') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                 </div>
@@ -524,37 +619,37 @@ const Appointment = () => {
                 <div className={ styles[ 'container__bottom--appointment' ] }>
                 <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[0].fullDate ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[0].fullDate  ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[1].fullDate ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[1].fullDate  ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[2].fullDate ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[2].fullDate  ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[3].fullDate ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[3].fullDate  ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[4].fullDate ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[4].fullDate  ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[5].fullDate ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[5].fullDate  ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                     <div>
                         {
-                            appointments.filter( x => x.date.includes( dayNumbers[6].fullDate ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
+                            appointments.filter( x => x.date.includes(  checkDate[6].fullDate  ) && x.time.includes('16') ).map(x => <div>{x.patient}</div>) 
                         }
                     </div>
                 </div>

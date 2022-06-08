@@ -1,15 +1,16 @@
 /* React */
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 /* Styling */
 import styles from './Select.module.scss';
 
-const Select = (props) => {
+const Select = forwardRef((props, ref) => {
 
-    const optValues = props.options || [];
+    //const optValues = props.options || [];
 
-    const selectOptions = optValues.map(( item, index ) => <option key={ '' || index } value={ '' || item }> { '' || item }</option>)
+    //const selectOptions = optValues.map(( item, index ) => <option key={ '' || index } value={ '' || item }> { '' || item }</option>)
 
+    const options = props.options;
     return (
         <div className={`
             ${styles.container}
@@ -18,12 +19,12 @@ const Select = (props) => {
             <p className={ styles.label }>
                 {props.label || 'No Label'}
             </p>
-            <select>
+            <select ref={ref}>
                 <option key="none" value="">{props.placeholderOption}</option>
-                { selectOptions }
+                { options }
             </select>
         </div>
     );
-};
+});
 
 export default Select;

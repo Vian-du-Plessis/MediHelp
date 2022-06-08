@@ -3,12 +3,12 @@
 include 'db_connection.php';
 
 header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: * ");
+header('Access-Control-Allow-Headers: *');
 
 $request_body = file_get_contents('php://input');
 $data = json_decode($request_body);
 
-$username = $data->username;
+$email = $data->email;
 $password = $data->password;
 
 $encryptedPassword = md5($password);
@@ -16,7 +16,7 @@ $encryptedPassword = md5($password);
 if($username === "" && $password === ""){
     echo "Err";
 } else {
-    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$encryptedPassword';";
+    $sql = "SELECT * FROM receptionists WHERE email = '$email' AND password = '$password';";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
 

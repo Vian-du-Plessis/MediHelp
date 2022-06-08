@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 /* Import SCSS */
 import styles from './Doctors.module.scss';
@@ -22,6 +23,17 @@ const Patients = () => {
     const closeAddPatient = () => {
         setAddPatientOpen(!addPatientOpen);
     }
+
+    const [ doctors, setDoctors ] = useState([]);
+
+    useEffect(() => {
+        axios.post('http://localhost/Server/getDoctors.php')
+        .then( ( res ) => {
+            console.log(res.data)
+            setDoctors(res.data)
+        });
+
+    }, []); 
 
     return (
         <div className={ styles.outerContainer }>
@@ -61,7 +73,12 @@ const Patients = () => {
                 <div className={ styles.middleContainer__content }>
                     {
                         !addPatientOpen
-                        ? <DoctorCard/>
+                        ? doctors.map(( item, index ) => <DoctorCard 
+                            name={item.name_and_surname}
+                            id={item.id}
+                            specialisation={item.specialisation}
+                            key={index}
+                        />)
                         : <AddDoctor
                             clickCancel={() => closeAddPatient()}
                         />

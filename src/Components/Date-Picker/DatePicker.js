@@ -1,5 +1,5 @@
 /* React */
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 /* Styling */
 import styles from './DatePicker.module.scss'
@@ -8,7 +8,7 @@ import './DatePicker.scss';
 /* Components */
 import Icon from '../Icon/Icon';
 
-const DatePicker = () => {
+const DatePicker = ( props ) => {
 
     const [yearToday, setYearToday] = useState();
     const [monthToday, setMonthToday] = useState();
@@ -69,7 +69,6 @@ const DatePicker = () => {
         const prevDayList = [];
         const nextDaysList = [];
         let prevDayStart = start;
-        console.log("🚀 ~ file: DatePicker.js ~ line 68 ~ useEffect ~ prevDayStart", prevDayStart)
 
 
 
@@ -78,10 +77,10 @@ const DatePicker = () => {
             let object = {
                 class: 'notShowing',
                 today: false,
-                day: prevDayStart 
+                day: prevDayStart,
+                fullDate: prevDayStart + ' ' + monthList[monthGet - 1] + ' ' + yearGet 
             }
             prevDayList.push(object);
-            console.log("🚀 ~ file: DatePicker.js ~ line 79 ~ useEffect ~ prevDayList", prevDayList)
         }
         
         let days = 0;
@@ -90,7 +89,8 @@ const DatePicker = () => {
             let object = {
                 class: 'showing',
                 today: thisDay === days ? true : false,
-                day: days 
+                day: days,
+                fullDate: days + ' ' + monthList[monthGet] + ' ' + yearGet  
             }
             daysList.push(object);
         }
@@ -102,21 +102,32 @@ const DatePicker = () => {
             let object = {
                 class: 'notShowing',
                 today: false,
-                day: nextDays 
+                day: nextDays ,
+                fullDate: nextDays + ' ' + monthList[monthGet + 1] + ' ' + yearGet 
             }
             nextDaysList.push(object);
         }
 
         const finalDaysList = [...prevDayList, ...daysList, ...nextDaysList]
 
-        const calendarItem = finalDaysList.map(( item, index ) => <div className={`${ styles.dayContainer } ${ item.class } ${ item.today ? 'today' : '' } dayContainer`} onClick={(e) => toggleActiveDay(e)} key={index}><span>{ item.day }</span></div>);
+
+
+        const calendarItem = finalDaysList.map(( item, index ) => 
+        <div className={`${ styles.dayContainer } ${ item.class } ${ item.today ? 'today' : '' } dayContainer`} onClick={(e) => {toggleActiveDay(e); props.changeVal(e.target.dataset.date)} } data-date={item.fullDate} key={index}>
+            <span data-date={item.fullDate}>{ item.day }</span>
+        </div>);
 
         setCalDays( calendarItem );  
 
     }, []);
 
+    const [ dateVal, setDateVal ] = useState();
+
     const toggleActiveDay = ( e ) => {
-        console.log(e.currentTarget.innerText); // Gets the value
+        setDateVal(e.target.dataset.date);
+        console.log(e.target.dataset.date)
+        //console.log(e.currentTarget.innerText); // Gets the value
+        //console.log(e.target.dataset.date); // Gets the value
         if( document.querySelector('.active') ) {
             const elements = document.querySelector( '.active' );
             elements.classList.remove( 'active' );
@@ -159,6 +170,7 @@ const DatePicker = () => {
             prevMonthGet = 12;
         } else {
             prevMonthGet = (monthGet - 1);
+            monthGet = prevMonthGet + 1;
         }
         
         const prevDaysGet = new Date( yearGet - 1, prevMonthGet + 1, 0 ).getDate();
@@ -170,13 +182,26 @@ const DatePicker = () => {
         let prevDayStart = start;
 
         for( let i = 0; i < startingNumber; i++ ) {
-            prevDayStart++;
-            let object = {
-                class: 'notShowing',
-                today: false,
-                day: prevDayStart
+            if( monthGet == 0) {
+                prevDayStart++;
+                let object = {
+                    class: 'notShowing',
+                    today: false,
+                    day: prevDayStart,
+                    fullDate: prevDayStart + ' ' + monthList[11] + ' ' + yearGet 
+                }
+                prevDayList.push(object);
+            } else {
+                prevDayStart++;
+                let object = {
+                    class: 'notShowing',
+                    today: false,
+                    day: prevDayStart,
+                    fullDate: prevDayStart + ' ' + monthList[monthGet - 1] + ' ' + yearGet 
+                }
+                prevDayList.push(object);
             }
-            prevDayList.push(object);
+
         }
         
         let days = 0;
@@ -192,26 +217,32 @@ const DatePicker = () => {
             let object = {
                 class: 'showing',
                 today: isToday,
-                day: days
+                day: days,
+                fullDate: days + ' ' + monthList[monthGet] + ' ' + yearGet 
             }
             daysList.push(object);
         }
 
-        let nextDays = 0;
+        let nextDays = 1;
         let nextDaysLimit = 42 - prevDayList.length - daysList.length;
         for( let i = 0; i < nextDaysLimit; i++ ) {
-            nextDays++;
             let object = {
-                class: 'notShowing',
-                today: false,
-                day: nextDays
-            }
+                    class: 'notShowing',
+                    today: false,
+                    day: nextDays,
+                    fullDate: nextDays + ' ' + monthList[monthGet + 1] + ' ' + yearGet 
+                }
+            nextDays++;
+
             nextDaysList.push(object);
         }
 
         const finalDaysList = [...prevDayList, ...daysList, ...nextDaysList]
 
-        const calendarItem = finalDaysList.map(( item, index ) => <div className={`${ styles.dayContainer } ${ item.class } ${ item.today ? 'today' : '' } dayContainer`} onClick={(e) => toggleActiveDay(e)} key={index}><span>{ item.day }</span></div>);
+        const calendarItem = finalDaysList.map(( item, index ) => 
+        <div className={`${ styles.dayContainer } ${ item.class } ${ item.today ? 'today' : '' } dayContainer`} onClick={(e) => {toggleActiveDay(e); props.changeVal(e.target.dataset.date)} } data-date={item.fullDate} key={index}>
+            <span data-date={item.fullDate}>{ item.day }</span>
+        </div>);
 
         setCalDays( calendarItem ); 
     }
@@ -249,6 +280,7 @@ const DatePicker = () => {
             prevMonthGet = 12;
         } else {
             prevMonthGet = (monthGet - 1);
+            monthGet = prevMonthGet + 1;
         }
         
         const prevDaysGet = new Date( yearGet - 1, prevMonthGet + 1, 0 ).getDate();
@@ -264,7 +296,8 @@ const DatePicker = () => {
             let object = {
                 class: 'notShowing',
                 today: false,
-                day: prevDayStart
+                day: prevDayStart,
+                fullDate: prevDayStart + ' ' + monthList[monthGet - 1] + ' ' + yearGet 
             }
             prevDayList.push(object);
         }
@@ -282,7 +315,8 @@ const DatePicker = () => {
             let object = {
                 class: 'showing',
                 today: isToday,
-                day: days
+                day: days,
+                fullDate: days + ' ' + monthList[monthGet] + ' ' + yearGet 
             }
             daysList.push(object);
         }
@@ -290,18 +324,34 @@ const DatePicker = () => {
         let nextDays = 0;
         let nextDaysLimit = 42 - prevDayList.length - daysList.length;
         for( let i = 0; i < nextDaysLimit; i++ ) {
-            nextDays++;
-            let object = {
-                class: 'notShowing',
-                today: false,
-                day: nextDays
+            if( monthGet == 11 ) {
+                nextDays++;
+                let object = {
+                    class: 'notShowing',
+                    today: false,
+                    day: nextDays,
+                    fullDate: nextDays + ' ' + monthList[0] + ' ' + yearGet 
+                }
+                nextDaysList.push(object);
+            } else {
+                nextDays++;
+                let object = {
+                    class: 'notShowing',
+                    today: false,
+                    day: nextDays,
+                    fullDate: nextDays + ' ' + monthList[monthGet + 1] + ' ' + yearGet 
+                }
+                nextDaysList.push(object);
             }
-            nextDaysList.push(object);
+
         }
 
-        const finalDaysList = [...prevDayList, ...daysList, ...nextDaysList]
+        const finalDaysList = [...prevDayList, ...daysList, ...nextDaysList];
 
-        const calendarItem = finalDaysList.map(( item, index ) => <div className={`${ styles.dayContainer } ${ item.class } ${ item.today ? 'today' : '' } dayContainer`} onClick={(e) => toggleActiveDay(e)} key={index}><span>{ item.day }</span></div>);
+        const calendarItem = finalDaysList.map(( item, index ) => 
+        <div className={`${ styles.dayContainer } ${ item.class } ${ item.today ? 'today' : '' } dayContainer`} onClick={(e) => {toggleActiveDay(e); props.changeVal(e.target.dataset.date)} } data-date={item.fullDate} key={index}>
+            <span data-date={item.fullDate}>{ item.day }</span>
+        </div>);
 
         setCalDays( calendarItem ); 
     }

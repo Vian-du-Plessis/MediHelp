@@ -8,7 +8,7 @@ import styles from './DoctorCard.module.scss';
 import Profile from '../../Assets/Images/profile.jpg';
 import Icon from '../Icon/Icon';
 
-const DoctorCard = () => {
+const DoctorCard = ( props ) => {
     return (
         <div className={styles.outerContainer}>
             <div className={styles.imageContainer}>
@@ -16,15 +16,15 @@ const DoctorCard = () => {
             </div>
             <div className={styles.column}>
                 <div className={styles.row}>
-                    <p>Dr. Julia Roberts</p>
+                    <p>Dr. {props.name}</p>
                 </div>
                 <div className={styles.row}>
                     <h6>Doctor ID</h6>
-                    <p>875164</p>
+                    <p>{props.id}</p>
                 </div>
                 <div className={styles.row}>
                     <h6>Specialisation</h6>
-                    <p>General Practitioner</p>
+                    <p>{props.specialisation}</p>
                 </div>
             </div>
             <div className={styles.iconContainer}>

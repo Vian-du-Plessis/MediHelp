@@ -47,7 +47,7 @@ const Login = () => {
         } else {
             //This will execute if both inputs contains values
             axios.post('http://localhost/Server/userLogin.php', inputs)
-            .then((res) => {                
+            .then( ( res ) => {                
                 if(res.data === true) {
                     //If this user exists on the database this will execute
                     sessionStorage.setItem('loggedOnUser', inputs.email);
