@@ -126,8 +126,6 @@ const DatePicker = ( props ) => {
     const toggleActiveDay = ( e ) => {
         setDateVal(e.target.dataset.date);
         console.log(e.target.dataset.date)
-        //console.log(e.currentTarget.innerText); // Gets the value
-        //console.log(e.target.dataset.date); // Gets the value
         if( document.querySelector('.active') ) {
             const elements = document.querySelector( '.active' );
             elements.classList.remove( 'active' );

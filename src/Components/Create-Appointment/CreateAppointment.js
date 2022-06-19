@@ -11,7 +11,7 @@ import Select from '../Input/Select';
 import Button from '../Button/Button';
 import axios from 'axios';
 
-const CreateAppointment = () => {
+const CreateAppointment = ( props ) => {
 
     const [ val, setVal ] = useState('1 June 2022');
 
@@ -51,29 +51,23 @@ const CreateAppointment = () => {
         let patId = nameVal.split(' ')[0];
         let time = timeVal.current.value  ;
 
-        let timeHr = time.split(':')[0];
-        let timeMinute = time.split(':')[1];
-
         let appointValues = {
             docVal: docStrVal,
             patVal: fullNamVal,
             patIdVal: patId,
             timeVal: time,
-            dateVal: val,
-            timeValHour: timeHr,
-            timeValMinute: timeMinute,
-            timeValSec: '00'
+            dateVal: val
         }
 
-        console.log(appointValues)
+        props.renderVal(true);
 
+        console.log(appointValues)
         axios.post('http://localhost/Server/appoint.php', appointValues)
-        .then( ( res ) => {                
-            console.log(res.data)
-        })
-        .catch( ( err ) => {
-            console.log(err)
-        })
+        .then( ( res ) => {         
+            console.log(res)       
+        });
+
+        console.log('I only run once')
     }
 
     return (

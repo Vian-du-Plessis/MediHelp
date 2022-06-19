@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, memo } from 'react';
 
 import styles from './Appointments.module.scss';
 
@@ -10,6 +10,23 @@ import Appointment from '../Components/Appointment/Appointment';
 
 
 const Appointments = () => {
+
+    const [ renderVal, setRenderVal ] = useState({
+        render: false
+    });
+
+    const [ passingVal, setPassingVal ] = useState({
+        render: false
+    });
+
+    useEffect(() => {
+        setPassingVal({...passingVal, render: renderVal});
+        console.log('This will be the prop Value')
+        console.log(renderVal)
+    }, [renderVal])
+
+
+
     return (
         <div className={ styles.outerContainer }>
             <div className={ styles.middleContainer }>
@@ -33,10 +50,14 @@ const Appointments = () => {
                         
                     </div>
                 </div>
-                <Appointment/>
+                <Appointment
+                    renderVal={passingVal}
+                />
             </div>
             <div className={ styles.rightContainer }>
-                <CreateAppointment/>
+                <CreateAppointment
+                    renderVal={item => setRenderVal({...renderVal, render: item})}
+                />
             </div>
         </div>
     );
