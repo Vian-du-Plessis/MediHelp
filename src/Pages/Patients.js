@@ -9,8 +9,8 @@ import ProfileImage from '../Assets/SVG/profile.svg';
 /* Import Components */
 import PatientTableItem from '../Components/PatientTableItem/PatientTableItem';
 import CreateAppointment from '../Components/Create-Appointment/CreateAppointment';
-import SearchInput from '../Components/Input/SearchInput';
-import Button from '../Components/Button/Button';
+import SearchInput from '../Components/ui/Input/SearchInput';
+import Button from '../Components/ui/Button/Button';
 import AddPatient from '../Components/AddPatient/AddPatient';
 
 const Patients = () => {

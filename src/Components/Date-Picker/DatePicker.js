@@ -6,7 +6,7 @@ import styles from './DatePicker.module.scss'
 import './DatePicker.scss';
 
 /* Components */
-import Icon from '../Icon/Icon';
+import Icon from '../ui/Icon/Icon';
 
 const DatePicker = ( props ) => {
 

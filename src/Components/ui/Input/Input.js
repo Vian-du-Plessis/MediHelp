@@ -24,7 +24,7 @@ const Input = forwardRef((props, ref) => {
                             ${ styles[ 'container__inputs__imageElement--left' ] } 
                         `}
                         onClick={ props.iconClick }
-                        src={ require( `../../Assets/SVG/${ props.iconLeft }.svg` ) }
+                        src={ require( `../../../Assets/SVG/${ props.iconLeft }.svg` ) }
                     />
                 }
                 <input
@@ -42,7 +42,7 @@ const Input = forwardRef((props, ref) => {
                             ${ styles[ 'container__inputs__imageElement--right' ] } 
                         `}
                         onClick={ props.iconClick }
-                        src={ require( `../../Assets/SVG/${ props.iconRight }.svg` ) }
+                        src={ require( `../../../Assets/SVG/${ props.iconRight }.svg` ) }
                     />
                 }      
             </div>

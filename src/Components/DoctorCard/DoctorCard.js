@@ -6,7 +6,7 @@ import styles from './DoctorCard.module.scss';
 
 /* Components */
 import Profile from '../../Assets/Images/profile.jpg';
-import Icon from '../Icon/Icon';
+import Icon from '../ui/Icon/Icon';
 
 const DoctorCard = ( props ) => {
     return (

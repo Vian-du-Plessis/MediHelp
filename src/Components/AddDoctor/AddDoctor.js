@@ -5,10 +5,10 @@ import React from 'react';
 import styles from './AddDoctor.module.scss';
 
 /* Components */
-import Input from '../Input/Input';
-import Select from '../Input/Select';
-import Button from '../Button/Button';
-import ToggleButton from '../ToggleButton/ToggleButton';
+import Input from '../ui/Input/Input';
+import Select from '../ui/Input/Select';
+import Button from '../ui/Button/Button';
+import ToggleButton from '../ui/ToggleButton/ToggleButton';
 
 const AddPatient = (props) => {
     return (

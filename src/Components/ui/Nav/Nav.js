@@ -6,8 +6,8 @@ import { NavLink } from 'react-router-dom';
 import styles from './Nav.module.scss';
 
 /* Images */
-import Logo from '../../Assets/SVG/MediHelp-Page-Logo.svg';
-import LogoSmall from '../../Assets/SVG/MediHelp-Heart-Logo.svg';
+import Logo from '../../../Assets/SVG/MediHelp-Page-Logo.svg';
+import LogoSmall from '../../../Assets/SVG/MediHelp-Heart-Logo.svg';
 
 /* Components */
 import Icon from '../Icon/Icon';

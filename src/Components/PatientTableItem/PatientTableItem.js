@@ -1,9 +1,8 @@
 import React from 'react';
 import styles from './PatientTableItem.module.scss';
 
-import Icon from '../Icon/Icon';
+import Icon from '../ui/Icon/Icon';
 import Pagination from '../PaginationItem/Pagination';
-
 
 const PatientTableItem = () => {
     return (

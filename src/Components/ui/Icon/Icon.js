@@ -65,7 +65,7 @@ const Icon = (props) => {
             <img 
                 ref={ image }
                 src={ 
-                    require(`../../Assets/SVG/${ props.icon }.svg`)
+                    require(`../../../Assets/SVG/${ props.icon }.svg`)
                 }
             />
         </span>

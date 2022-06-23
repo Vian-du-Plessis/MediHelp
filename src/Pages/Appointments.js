@@ -2,7 +2,7 @@ import React, { useEffect, useState, memo } from 'react';
 
 import styles from './Appointments.module.scss';
 
-import SearchInput from '../Components/Input/SearchInput';
+import SearchInput from '../Components/ui/Input/SearchInput';
 import ProfileImage from '../Assets/SVG/profile.svg';
 import CreateAppointment from '../Components/Create-Appointment/CreateAppointment';
 import Appointment from '../Components/Appointment/Appointment';

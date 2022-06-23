@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 /* Import Components */
-import Nav from './Components/Nav/Nav';
+import Nav from './Components/ui/Nav/Nav';
 
 /* Import Pages */
 import Patients from './Pages/Patients';

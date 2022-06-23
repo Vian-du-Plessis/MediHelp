@@ -9,10 +9,10 @@ import ProfileImage from '../Assets/SVG/profile.svg';
 
 /* Import Components */
 import CreateAppointment from '../Components/Create-Appointment/CreateAppointment';
-import SearchInput from '../Components/Input/SearchInput';
+import SearchInput from '../Components/ui/Input/SearchInput';
 import DoctorCard from '../Components/DoctorCard/DoctorCard';
 import AddDoctor from '../Components/AddDoctor/AddDoctor';
-import Button from '../Components/Button/Button';
+import Button from '../Components/ui/Button/Button';
 
 const Patients = () => {
 
@@ -20,6 +20,7 @@ const Patients = () => {
     const openAddPatient = () => {
         setAddPatientOpen(!addPatientOpen);
     }
+    
     const closeAddPatient = () => {
         setAddPatientOpen(!addPatientOpen);
     }

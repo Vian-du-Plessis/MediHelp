@@ -6,9 +6,9 @@ import styles from './CreateAppointment.module.scss';
 
 /* Components */
 import DatePicker from '../Date-Picker/DatePicker';
-import Input from '../Input/Input';
-import Select from '../Input/Select';
-import Button from '../Button/Button';
+import Input from '../ui/Input/Input';
+import Select from '../ui/Input/Select';
+import Button from '../ui/Button/Button';
 import axios from 'axios';
 
 const CreateAppointment = ( props ) => {

@@ -11,8 +11,8 @@ import LoginImage from '../Assets/SVG/Login-Image.svg';
 import Logo from '../Assets/SVG/MediHelp-Main-Logo.svg';
 
 /* Components */
-import Button from '../Components/Button/Button';
-import Input from '../Components/Input/Input';
+import Button from '../Components/ui/Button/Button';
+import Input from '../Components/ui/Input/Input';
 
 const Login = () => {
 

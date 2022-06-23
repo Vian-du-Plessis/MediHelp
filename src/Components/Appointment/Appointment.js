@@ -5,8 +5,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './Appointment.module.scss';
 
 /* Components */
-import Icon from '../Icon/Icon';
-import ToggleButton from '../ToggleButton/ToggleButton';
+import Icon from '../ui/Icon/Icon';
+import ToggleButton from '../ui/ToggleButton/ToggleButton';
 import axios from 'axios';
 
 const Appointment = ( props ) => {
