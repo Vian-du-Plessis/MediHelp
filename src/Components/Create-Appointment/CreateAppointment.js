@@ -13,7 +13,7 @@ import axios from 'axios';
 
 const CreateAppointment = ( props ) => {
 
-    const [ val, setVal ] = useState('1 June 2022');
+    const [ val, setVal ] = useState('');
 
     const [ doctorVal, setDoctorVal ] = useState();
     const [ patientVal, setPatientVal ] = useState();
@@ -21,7 +21,7 @@ const CreateAppointment = ( props ) => {
     useEffect(() => {
         axios.post('http://localhost/Server/getDoctors.php')
         .then( ( res ) => {                
-            console.log(res.data)
+            // console.log(res.data)
             let options = res.data.map( ( item, index ) => 
                 <option key={index} value={item.id + ' ' + item.name_and_surname}>
                     {item.name_and_surname + ' (' + item.specialisation + ')'}
@@ -31,8 +31,8 @@ const CreateAppointment = ( props ) => {
 
         axios.post('http://localhost/Server/getPatients.php')
         .then( ( res ) => {                
-            console.log(res.data)
-            let options = res.data.map( ( item, index ) => 
+            // console.log(res.data)
+            let options = res.data.users.map( ( item, index ) => 
                 <option key={index} value={item.sa_id + ' ' + item.name_and_surname}>
                     {item.name_and_surname + ' (' + item.sa_id + ')'}
                 </option>)
@@ -59,15 +59,12 @@ const CreateAppointment = ( props ) => {
             dateVal: val
         }
 
-        props.renderVal(true);
-
-        console.log(appointValues)
-        axios.post('http://localhost/Server/appoint.php', appointValues)
+        axios.post('http://localhost/Server/makeAppointment.php', appointValues)
         .then( ( res ) => {         
-            console.log(res)       
+            // console.log(res)       
         });
 
-        console.log('I only run once')
+        props.renderVal(true);
     }
 
     return (

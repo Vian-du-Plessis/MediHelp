@@ -33,7 +33,6 @@ const Patients = () => {
             console.log(res.data)
             setDoctors(res.data)
         });
-
     }, []); 
 
     return (

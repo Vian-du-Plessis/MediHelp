@@ -1,4 +1,5 @@
 import React, { useEffect, useState, memo } from 'react';
+import axios from 'axios';
 
 import styles from './Appointments.module.scss';
 
@@ -25,8 +26,6 @@ const Appointments = () => {
         console.log(renderVal)
     }, [renderVal])
 
-
-
     return (
         <div className={ styles.outerContainer }>
             <div className={ styles.middleContainer }>
@@ -44,7 +43,6 @@ const Appointments = () => {
                         <h3>
 
                         </h3>
-
                     </div>
                     <div className={ styles.headerContainer__sub }>
                         

@@ -9,6 +9,7 @@ import Doctors from './Pages/Doctors';
 import Login from './Pages/Login';
 import { useEffect, useState } from 'react';
 import Appointments from './Pages/Appointments';
+import Modal from './Components/ui/Modal/Modal';
 
 function App() {
 

@@ -1,5 +1,5 @@
 /* React */
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 /* Styling */
 import styles from './SearchInput.module.scss';
@@ -7,7 +7,7 @@ import styles from './SearchInput.module.scss';
 /* Components */
 import Icon from '../Icon/Icon';
 
-const SearchInput = ( props ) => {
+const SearchInput = forwardRef((props, ref) => {
     return (
         <div className={ styles.container }>
             {/* Icon */}
@@ -18,10 +18,12 @@ const SearchInput = ( props ) => {
             {/* ./Icon */}
             <input
                 type='text'
-                placeholder='Search...'
+                placeholder={ props.placeholder }
+                ref={ ref }
+                onChange={ props.change }
             />
         </div>
     );
-};
+});
 
 export default SearchInput;

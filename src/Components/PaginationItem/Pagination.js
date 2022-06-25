@@ -9,7 +9,10 @@ const Pagination = (props) => {
         <div className={`
             ${styles.outerContainer} 
             ${props.className ? props.className : ''}
-        `}>
+        `}  
+            style={props.style}
+            key={props.value}
+        >
             <span>{ props.value }</span>
         </div>
     );

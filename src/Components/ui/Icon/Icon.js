@@ -60,6 +60,7 @@ const Icon = (props) => {
                 ${ props.className ? props.className : '' }
                 ${ styles.iconContainer } 
             `}
+            style={props.style}
             onClick={props.click}
         >
             <img 

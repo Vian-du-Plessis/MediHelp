@@ -1,0 +1,54 @@
+@import '../../../Assets/Base.scss';
+
+.container {
+    width: fit-content;
+    background-color: #FFFFFF;
+    padding: 27px 40px 24px 40px;
+    min-width: 400px;
+    max-width: 600px;
+
+    &__heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.closeIcon {
+    padding: 0;
+    background-color: #FFFFFF;
+    svg {
+        *[stroke] {
+            stroke: $pink;
+        }
+    }
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.message {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button {
+    padding: 14px 25px;
+    width: fit-content;
+    background-color: $pink;
+    
+}
+
+.cancelButton {
+    width: fit-content;
+    background-color: transparent;
+    color: $dark-blue;
+    margin-right: 25px;
+}

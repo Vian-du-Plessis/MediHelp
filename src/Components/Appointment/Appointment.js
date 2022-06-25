@@ -171,6 +171,7 @@ const Appointment = ( props ) => {
         console.log(renderVal)
         axios.post('http://localhost/Server/readUserPosts.php')
         .then( ( res ) => {
+            console.log(res)
             setAppointments( res.data );
         });
         setRenderVal(false);
