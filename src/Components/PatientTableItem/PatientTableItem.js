@@ -53,7 +53,6 @@ const PatientTableItem = (props) => {
     }
 
     const getKey = (index) => {
-        console.log(index)
         props.showPatientInfo(true);
         props.showPatientID(index);
     }

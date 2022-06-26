@@ -290,6 +290,20 @@ const ViewPatient = (props) => {
         }
     }
 
+    const [ deleteClickCount, setDeleteClickCount ] = useState(0);
+    const deleteProfile = () => {
+        setDeleteClickCount(deleteClickCount + 1);
+        if( deleteClickCount == 1 ) {
+            setDeleteClickCount(0)
+
+            axios.post('http://localhost/Server/deletePatient.php', {id: patientSelectedID})
+            .then((res) => {
+                console.log(res)
+                props.openModal(false);
+            })
+        }
+    }
+
     return (
         <div className={styles.bigContainer}>
             <h5>Patient Info</h5>
@@ -406,8 +420,8 @@ const ViewPatient = (props) => {
                 <div className={ styles.firstButton }>
                     <Button
                         className={styles.button}
-                        label='Delete Patient Profile'
-                        onClick={props.clickCancel}
+                        label={deleteClickCount == 1 ? 'Confirm Delete?' : 'Delete Patient Profile'}
+                        onClick={deleteProfile}
                     />
                 </div>
                 <div className={ styles.lastButtons }>

@@ -47,6 +47,24 @@ const AddPatient = (props) => {
         e.currentTarget.classList.add( 'activeToggle' );
     }
 
+    const [ patientCalcAge, setPatientCalcAge ] = useState('');
+    const calculateAge = () => {
+        let id = patientID.current.value;
+        let thisYear = new Date().getFullYear();
+        let thisYearShort = thisYear.toString().substring(2,4);
+
+        let idFirstPart = id.toString().substring(0, 2);
+        if( idFirstPart < thisYearShort ) {
+            let fullYear = 20 + idFirstPart;
+            let age = thisYear - fullYear;
+            setPatientCalcAge(age);
+        } else if( idFirstPart > thisYearShort ) {
+            let fullYear = 19 + idFirstPart;
+            let age = thisYear - fullYear;
+            setPatientCalcAge(age);
+        }
+    }
+
     const [ patientNameError, setPatientNameError ] = useState('');
     let patientName = useRef();
 
@@ -70,24 +88,6 @@ const AddPatient = (props) => {
 
     const [ patientMedicalAidNoError, setPatientMedicalAidNoError ] = useState('');
     let patientMedicalAidNo = useRef();
-
-    const [ patientCalcAge, setPatientCalcAge ] = useState('');
-    const calculateAge = () => {
-        let id = patientID.current.value;
-        let thisYear = new Date().getFullYear();
-        let thisYearShort = thisYear.toString().substring(2,4);
-
-        let idFirstPart = id.toString().substring(0, 2);
-        if( idFirstPart < thisYearShort ) {
-            let fullYear = 20 + idFirstPart;
-            let age = thisYear - fullYear;
-            setPatientCalcAge(age);
-        } else if( idFirstPart > thisYearShort ) {
-            let fullYear = 19 + idFirstPart;
-            let age = thisYear - fullYear;
-            setPatientCalcAge(age);
-        }
-    }
 
     const addPatient = () => {
         const patientDetailsErrors = {

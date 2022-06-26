@@ -85,7 +85,7 @@ const Patients = () => {
             setPatients(data)
         })
 
-    }, [startIndex])
+    }, [startIndex, patientInfoModal, addPatientOpen])
 
     let sValue = useRef();
     const searchValue = () => {
