@@ -13,6 +13,8 @@ const PatientTableItem = (props) => {
     const [ startIndex, setStartIndex ] = useState(0);
     const [ pageNumber, setPageNumber ] = useState(1);
     const [ paging, setPaging ] = useState(true);
+    const [ indexCount, setIndexCount ] = useState(0);
+    const [ pageLimit, setPageLimit ] = useState(0);
 
     const sortNames = () => {
         if(nameClickCount == 0) {
@@ -53,6 +55,7 @@ const PatientTableItem = (props) => {
     const getKey = (index) => {
         console.log(index)
         props.showPatientInfo(true);
+        props.showPatientID(index);
     }
 
     useEffect(() => {
@@ -61,9 +64,13 @@ const PatientTableItem = (props) => {
         setVisitClickCount(0);
         setNameClickCount(0);
         setStartIndex(props.index);
+        setPageLimit(Math.ceil(props.indexLimit/12));
+        console.log(Math.ceil(props.indexLimit/12))
+        setPageNumber(props.page);
+        console.log("🚀 ~ file: PatientTableItem.js ~ line 70 ~ useEffect ~ props.page", props.page)
         setPaging(props.pagingOn);
-        console.log(props.values)
-    }, [props.indexLimit, props.values, props.resetFilter, props.index, props.page, props.indexLimit, props.pagingOn, props.searchValues]);
+        setIndexCount(props.indexCount);
+    }, [props.page, props.indexCount, props.indexLimit, props.values, props.resetFilter, props.index, props.page, props.indexLimit, props.pagingOn, props.searchValues]);
 
     return (
         <div className={ styles.outerContainer }>
@@ -179,7 +186,7 @@ const PatientTableItem = (props) => {
                     className={ styles.left__icon }
                     icon='page-left'
                     click={ props.pageLeft }
-                    style={ startIndex.start == 0 ? {opacity: 0.2} : {opacity: 1} }
+                    style={ pageNumber == 1 ? {opacity: 0.2} : {opacity: 1} }
                 />
                 <Pagination
                     value='1'
@@ -201,7 +208,7 @@ const PatientTableItem = (props) => {
                     className={ styles.right__icon }
                     icon='page-right'
                     click={ props.pageRight }
-                    style={ startIndex.start == props.indexLimit - 9 ? {opacity: 0.2} : {opacity: 1} }
+                    style={ pageLimit == pageNumber ? {opacity: 0.2} : {opacity: 1} }
                 />
             </div>
             }

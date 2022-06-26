@@ -29,12 +29,62 @@ const ViewPatient = (props) => {
     ]
 
     const [ medAidOptions, setMedAidOptions ] = useState([]);
+    const [ userData, setUserData ] = useState([
+
+    ]);
+    const [ gender, setGender ] = useState('');
+    const [ inputsDisabled, setInputsDisabled ] = useState(true);
+    const [ medAidProviderName, setMedAidProviderName ] = useState(true);
+    const [ clickCounter, setClickCounter ] = useState(0);
+    const [ patientSelectedID, setPatientSelectedID ] = useState('');
     useEffect(() => {
+        axios.post('http://localhost/Server/getIndividualPatient.php', {id: props.patientID})
+        .then((res) => {
+            let data = res.data;
+            console.log("🚀 ~ file: ViewPatient.js ~ line 42 ~ .then ~ data", data)
+            let firstName = data.name_and_surname.toString().split(' ')[0];
+            let lastName = data.name_and_surname.toString().split(' ')[1];
+            let prevAppointment = data.previous_appointments;
+            if(prevAppointment == ' ') {
+                prevAppointment = 'No Previous Appointments'
+            } else {
+                prevAppointment = data.previous_appointments
+            }
+            
+            let medNumberValue = '';
+            if( data.medAidProvider == '' || data.medAidProvider == ' ' ) {
+                medNumberValue = ' ';
+            } else {
+                medNumberValue = data.medical_aid_number;
+            }
+
+            console.log(data.medAidProvider)
+            setMedAidProviderName(data.medAidProvider);
+
+            let userData =         
+            {
+                name: firstName,
+                last: lastName,
+                id: data.sa_id,
+                age: data.age,
+                gender: data.gender,
+                email: data.email,
+                number: data.phone_number,
+                prevAppoint: prevAppointment,
+                medProvider: data.medAidProvider,
+                medNumber: medNumberValue
+            }
+            setGender(data.gender);
+            setPatientCalcAge(data.age);
+            setUserData(userData);
+        })
+
         let options = medicalAids.map((x, index) => 
-            <option key={ index }>{x}</option>
-        )
+            <option value={x} key={ index }>{x}</option>
+        )   
         setMedAidOptions(options);
-    }, [])
+        setPatientSelectedID(props.patientID);
+    }, [props.patientID])
 
     const [ genderValue, setGenderValue ] = useState('Female');
     const getGender = ( e ) => {
@@ -92,133 +142,152 @@ const ViewPatient = (props) => {
     }
 
     const addPatient = () => {
-        const patientDetailsErrors = {
-            name: true,
-            last: true,
-            id: true,
-            age: true,
-            email: true,
-            number: true,
-            medProvider: true,
-            medNumber: true
-        }
+        setClickCounter(clickCounter + 1);
 
-        let name = patientName.current.value;
-        if( name == '' ) {
-            setPatientNameError('Please add a First Name');
-            patientDetailsErrors.name = true;
-        } else {
-            setPatientNameError('');
-            patientDetailsErrors.name = false;
-        }
+        if(clickCounter == 0) {
+            setInputsDisabled(false);
+        } else if(clickCounter == 1) {
+            setClickCounter(0);
+            const patientDetailsErrors = {
+                name: true,
+                last: true,
+                id: true,
+                age: true,
+                email: true,
+                number: true,
+                medProvider: false,
+                medNumber: false
+            }
+    
+            let name = patientName.current.value;
+            if( name == '' ) {
+                setPatientNameError('Please add a First Name');
+                patientDetailsErrors.name = true;
+            } else {
+                setPatientNameError('');
+                patientDetailsErrors.name = false;
+            }
+    
+            let last = patientLast.current.value;
+            if( last == '' ) {
+                setPatientLastError('Please add a Last Name');
+                patientDetailsErrors.last = true;
+            } else {
+                setPatientLastError('');
+                patientDetailsErrors.last = false;
+            }
+    
+            let id = patientID.current.value;
+            if( id == '' ) {
+                setPatientIDError('Please add ID Number');
+                patientDetailsErrors.id = true;
+            } else if( id.length != 13 ) {
+                setPatientIDError('ID must be 13 Numbers Long');
+                patientDetailsErrors.id = true;
+            } else {
+                patientDetailsErrors.id = false;
+                setPatientIDError('');
+            }
+    
+            let age = patientAge.current.value;
+            if( age == '' ) {
+                setPatientAgeError('Please add a Age');
+                patientDetailsErrors.age = true;
+            } else {
+                setPatientAgeError('');
+                patientDetailsErrors.age = false;
+            }
+            
+            const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            let email = patientEmail.current.value;
+            if( email == '' ) {
+                setPatientEmailError('Please add an Email');
+                patientDetailsErrors.email = true;
+            } else if( !email.match(emailRegex) ) {
+                setPatientEmailError('Email format is not valid');
+                patientDetailsErrors.email = false;
+            } else {
+                setPatientEmailError('');
+                patientDetailsErrors.email = false;
+            }
+    
+            const numberRegex = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+            let number = patientContactNo.current.value;
+            if( number == '' ) {
+                setPatientContactNoError('Please add a Contact Number');
+                patientDetailsErrors.number = true;
+            } else if( !number.match(numberRegex) ) {
+                setPatientContactNoError('This is not a valid number');
+                patientDetailsErrors.number = true;
+            } else {
+                setPatientContactNoError('');
+                patientDetailsErrors.number = false;
+            }
+    
+            let medicalAid = patientMedicalAid.current.value;
+            let newMedAidNumber = '';
+            if( medicalAid == '' ) {
+                newMedAidNumber = ' ';
+            } else {
+                newMedAidNumber = medicalAidNumber;
+            }
 
-        let last = patientLast.current.value;
-        if( last == '' ) {
-            setPatientLastError('Please add a Last Name');
-            patientDetailsErrors.last = true;
-        } else {
-            setPatientLastError('');
-            patientDetailsErrors.last = false;
-        }
+            if( medicalAid == '' ) {
+                medicalAid = ' '
+            } else {
+                medicalAid = medicalAid
+            }
+    
+            let medicalAidNumber = patientMedicalAidNo.current.value;
+            if( medicalAidNumber == '' ) {
+                setPatientMedicalAidNoError('');
+            } else if( medicalAidNumber.length > 11 ) {
+                setPatientMedicalAidNoError('Medical Aid Number is too long');
+                patientDetailsErrors.medNumber = true;
+            } else {
+                setPatientMedicalAidNoError('');
+                patientDetailsErrors.medNumber = false;
+            }
 
-        let id = patientID.current.value;
-        if( id == '' ) {
-            setPatientIDError('Please add ID Number');
-            patientDetailsErrors.id = true;
-        } else if( id.length != 13 ) {
-            setPatientIDError('ID must be 13 Numbers Long');
-            patientDetailsErrors.id = true;
-        } else {
-            patientDetailsErrors.id = false;
-            setPatientIDError('');
+            let patientWithoutMedDetails = {
+                name: name,
+                last: last,
+                id: id,
+                age: age,
+                gender: genderValue,
+                email: email,
+                number: number,
+                rowId: patientSelectedID
+            }
+    
+            let patientDetails = {
+                name: name,
+                last: last,
+                id: id,
+                age: age,
+                gender: genderValue,
+                email: email,
+                number: number,
+                medProvider: medicalAid,
+                medNumber: newMedAidNumber,
+                rowId: patientSelectedID
+            };
+    
+            let detailsResult = Object.values(patientWithoutMedDetails).some(item => item === '');
+            console.log("🚀 ~ file: ViewPatient.js ~ line 261 ~ addPatient ~ detailsResult", detailsResult)
+            let errorsResult = Object.values(patientDetailsErrors).some(item => item == true);
+            console.log("🚀 ~ file: ViewPatient.js ~ line 281 ~ addPatient ~ errorsResult", errorsResult)
+            setInputsDisabled(true);
+            if( !detailsResult && !errorsResult ) {
+                setClickCounter(0)
+                console.log('asg')
+                axios.post('http://localhost/Server/updatePatient.php', patientDetails)
+                .then((res) => {
+                    console.log(res)
+                    props.openModal(false);
+                })
+            }
         }
-
-        let age = patientAge.current.value;
-        if( age == '' ) {
-            setPatientAgeError('Please add a Age');
-            patientDetailsErrors.age = true;
-        } else {
-            setPatientAgeError('');
-            patientDetailsErrors.age = false;
-        }
-        
-        const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        let email = patientEmail.current.value;
-        if( email == '' ) {
-            setPatientEmailError('Please add an Email');
-            patientDetailsErrors.email = true;
-        } else if( !email.match(emailRegex) ) {
-            setPatientEmailError('Email format is not valid');
-            patientDetailsErrors.email = false;
-        } else {
-            setPatientEmailError('');
-            patientDetailsErrors.email = false;
-        }
-
-        const numberRegex = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
-        let number = patientContactNo.current.value;
-        if( number == '' ) {
-            setPatientContactNoError('Please add a Contact Number');
-            patientDetailsErrors.number = true;
-        } else if( !number.match(numberRegex) ) {
-            setPatientContactNoError('This is not a valid number');
-            patientDetailsErrors.number = true;
-        } else {
-            setPatientContactNoError('');
-            patientDetailsErrors.number = false;
-        }
-
-        let medicalAid = patientMedicalAid.current.value;
-        if( medicalAid == '' ) {
-            setPatientMedicalAidError('Please select a Medical Aid');
-            patientDetailsErrors.medProvider = true;
-        } else {
-            patientDetailsErrors.medProvider = false;
-        }
-
-        let medicalAidNumber = patientMedicalAidNo.current.value;
-        if( medicalAidNumber == '' ) {
-            setPatientMedicalAidNoError('Please select a Medical Aid');
-            patientDetailsErrors.medNumber = true;
-        } else if( medicalAidNumber.length > 11 ) {
-            setPatientMedicalAidNoError('Medical Aid Number is too long');
-            patientDetailsErrors.medNumber = true;
-        } else {
-            setPatientMedicalAidNoError('');
-            patientDetailsErrors.medNumber = false;
-        }
-
-        let patientDetails = {
-            name: name,
-            last: last,
-            id: id,
-            age: age,
-            gender: genderValue,
-            email: email,
-            number: number,
-            medProvider: medicalAid,
-            medNumber: medicalAidNumber
-        };
-
-        let detailsResult = Object.values(patientDetails).some(item => item === '');
-        let errorsResult = Object.values(patientDetails).some(item => item == true);
-        
-        if( !detailsResult && !errorsResult ) {
-            axios.post('http://localhost/Server/addPatient.php', patientDetails)
-            .then((res) => {
-                if( Array.isArray(res.data) ) {
-                    setPatientEmailError(res.data[0]);
-                    setPatientIDError(res.data[1]);
-                } else if( res.data == 'Email is not available' ) {
-                    setPatientEmailError(res.data);
-                } else if( res.data == 'ID has already been used' ) {
-                    setPatientIDError(res.data);
-                } else {
-                    props.modalOpen(false);
-                }
-            })
-        }
-
     }
 
     return (
@@ -226,13 +295,14 @@ const ViewPatient = (props) => {
             <h5>Patient Info</h5>
             <div className={styles.firstContainer}>
                 <div className={styles.Row}>
-                    {/* Inputs */}
                     <Input
                         className={styles.input}
                         label='First name'
                         placeholder='e.g. John'
                         ref={ patientName }
                         errorMessage={ patientNameError }
+                        defaultValue={userData.name}
+                        disabled={inputsDisabled}
                     />
                     <Input
                         className={styles.input}
@@ -240,11 +310,11 @@ const ViewPatient = (props) => {
                         placeholder='e.g. Doe'
                         ref={ patientLast }
                         errorMessage={ patientLastError }
+                        defaultValue={userData.last}
+                        disabled={inputsDisabled}
                     />
-                    {/* /Inputs */}
                 </div>
                 <div className={styles.Row}>
-                    {/* Inputs */}
                     <Input
                         className={styles.input}
                         label='ID'
@@ -252,6 +322,8 @@ const ViewPatient = (props) => {
                         ref={ patientID }
                         onChange={ calculateAge }
                         errorMessage={ patientIDError }
+                        defaultValue={userData.id}
+                        disabled={inputsDisabled}
                     />
                     <Input
                         className={styles.input}
@@ -260,28 +332,30 @@ const ViewPatient = (props) => {
                         ref={ patientAge }
                         errorMessage={ patientAgeError}
                         defaultValue ={ patientCalcAge }
+                        disabled={inputsDisabled}
                     />
-                    {/* /Inputs */}
                 </div>
                 <div className={styles.Row}>
-                    {/* ToggleButton */}
                     <ToggleButton
                         label='Gender'
                         rightButton='Male'
                         leftButton='Female'
                         onClick={ getGender }
+                        active={ gender }
+                        activeOne='Male'
+                        activeTwo='Female'
                     />
-                    {/* /ToggleButton */}
                 </div>
                 <hr />
                 <div className={styles.Row}>
-                    {/* Inputs */}
                     <Input
                         className={ styles.input }
                         label='Email'
                         placeholder='e.g. email@provider.com'
                         ref={ patientEmail }
                         errorMessage={ patientEmailError }
+                        defaultValue={userData.email}
+                        disabled={inputsDisabled}
                     />
                     <Input
                         className={ styles.input }
@@ -289,8 +363,17 @@ const ViewPatient = (props) => {
                         placeholder='012 34 5678'
                         ref={ patientContactNo }
                         errorMessage={ patientContactNoError }
+                        defaultValue={userData.number}
+                        disabled={inputsDisabled}
                     />
-                    {/* /Inputs */}
+                </div>
+                <div className={styles.Row}>
+                    <Input
+                        className={ styles.input }
+                        label='Last Appointment'
+                        defaultValue={userData.prevAppoint}
+                        disabled={true}
+                    />
                 </div>
             </div>
             <h5>Medical Aid</h5>
@@ -304,6 +387,8 @@ const ViewPatient = (props) => {
                         options={ medAidOptions }
                         ref={ patientMedicalAid }
                         errorMessage={ patientMedicalAidError }
+                        defaultValue={ medAidProviderName }
+                        disabled={inputsDisabled}
                     />
                     <Input
                         className={styles.input}
@@ -311,23 +396,35 @@ const ViewPatient = (props) => {
                         placeholder='e.g. 18975'
                         ref={ patientMedicalAidNo }
                         errorMessage={ patientMedicalAidNoError }
+                        defaultValue={userData.medNumber}
+                        disabled={inputsDisabled}
                     />
                     {/* /Select */}
                 </div>
             </div>
             <div className={styles.buttonContainer}>
-                {/* Button */}
-                <Button
-                    className={styles.button}
-                    label='Cancel'
-                    onClick={props.clickCancel}
-                />
-                <Button
-                    className={styles.button}
-                    label='Add Patient'
-                    onClick={ addPatient }
-                />
-                {/* /Button */}
+                <div className={ styles.firstButton }>
+                    <Button
+                        className={styles.button}
+                        label='Delete Patient Profile'
+                        onClick={props.clickCancel}
+                    />
+                </div>
+                <div className={ styles.lastButtons }>
+                    <Button
+                        className={styles.button}
+                        label='Cancel'
+                        onClick={props.clickCancel}
+                    />
+                    <Button
+                        className={`
+                            ${styles.button}
+                            ${styles.acceptButton}
+                        `}
+                        label={clickCounter == 1 ? 'Update Info' : 'Edit Patient'}
+                        onClick={ addPatient }
+                    />
+                </div>
             </div>
         </div> 
     );

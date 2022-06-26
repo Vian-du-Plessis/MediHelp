@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './PatientInfo.module.scss';
 
-import Icon from '../Icon/Icon';
-import Button from '../Button/Button';
+import Icon from '../ui/Icon/Icon';
+import Button from '../ui/Button/Button';
 
 const PatientInfo = () => {
     return (

@@ -51,15 +51,36 @@
     display: flex;
     gap: 24px;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
 
     .button:first-child {
         background-color: transparent;
-        color: $text-dark-blue;
+        border: 1px solid $pink;
+        color: $pink;
+        float: left;
+        justify-content: flex-start;
     }
 
     .button {
         padding: 14px 20px;
         width: fit-content;
+
+        &:hover {
+            color: $white;
+            background-color: $pink;
+        }
+    }
+
+    .acceptButton:hover {
+        background-color: $green;
+        $color: $white;
+    }
+
+    .lastButtons {
+        display: flex;
+
+        .button:last-child {
+            margin-left: 10px
+        }
     }
 }

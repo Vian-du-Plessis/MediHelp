@@ -14,6 +14,7 @@ import SearchInput from '../Components/ui/Input/SearchInput';
 import Button from '../Components/ui/Button/Button';
 import AddPatient from '../Components/AddPatient/AddPatient';
 import ViewPatient from '../Components/ViewPatient/ViewPatient';
+import PatientInfo from '../Components/PatientInfo/PatientInfo';
 
 const Patients = () => {
 
@@ -29,8 +30,8 @@ const Patients = () => {
     const [ searchVal, setSearchVal ] = useState({search: ''});
     const [ paging, setPaging ] = useState(true);
 
-    const[ patientInfoModal, setPatientInfoModal ] = useState(false);
-
+    const [ patientInfoModal, setPatientInfoModal ] = useState(false);
+    const [ patientInfoID, setPatientInfoID ] = useState(0);
 
     const openAddPatient = () => {
         setAddPatientOpen(!addPatientOpen);
@@ -40,27 +41,23 @@ const Patients = () => {
         setAddPatientOpen(!addPatientOpen);
     }
 
-    const openPatientInfo = () => {
-        setPatientInfoModal(!patientInfoModal);
-    }
-
     const closePatientInfo = () => {
         setPatientInfoModal(!patientInfoModal);
     }
 
     const pageLeft = () => {
-        if(startIndex.start > 9) {
-            setStartIndex({...startIndex, start: +startIndex.start - 10})
+        if(startIndex.start > 9 && page >= 1) {
+            setStartIndex({...startIndex, start: +startIndex.start - 12})
             setFilterReset(!filterReset);
-            setPage(startIndex.start/10)
+            setPage(page - 1)
         }
     }
 
     const pageRight = () => {
-        if( startIndex.start <= indexCount - 10) {
-            setStartIndex({...startIndex, start: +startIndex.start + 10})
+        if( startIndex.start <= indexCount - 12) {
+            setStartIndex({...startIndex, start: +startIndex.start + 12})
             setFilterReset(!filterReset);
-            setPage(startIndex.start/10)
+            setPage(page + 1)
         }
     }
 
@@ -87,6 +84,7 @@ const Patients = () => {
             })
             setPatients(data)
         })
+
     }, [startIndex])
 
     let sValue = useRef();
@@ -139,7 +137,7 @@ const Patients = () => {
                                 addPatientOpen 
                                 ? 'Add patient' 
                                 : patientInfoModal
-                                ? 'Edit Patient'
+                                ? 'View Patient'
                                 : 'Patients'
                             }
                         </h3>
@@ -165,7 +163,8 @@ const Patients = () => {
                         :   patientInfoModal
                         ?   <ViewPatient
                                 clickCancel={() => closePatientInfo()}
-                                modalOpen={value => setPatientInfoModal(value)}
+                                openModal={value => setPatientInfoModal(value)}
+                                patientID={patientInfoID}
                             />
                         :   <PatientTableItem
                                 values={patients}
@@ -175,9 +174,11 @@ const Patients = () => {
                                 index={startIndex}
                                 page={page}
                                 indexLimit={indexLimit}
+                                indexCount={indexCount}
                                 pagingOn={paging}
                                 searchValues={patientsSearch}
                                 showPatientInfo={item => setPatientInfoModal(item)}
+                                showPatientID={item => setPatientInfoID(item)}
                             />
                 }
                 </div>

@@ -1,15 +1,17 @@
 /* React */
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 
 /* Styling */
 import styles from './Select.module.scss';
 
 const Select = forwardRef((props, ref) => {
 
-    const options = props.options;
-    useEffect(() => {
 
-    }, [props.options])
+    const options = props.options;
+    const [ defaultOption, setDefautlOption ] = useState('');
+    useEffect(() => {
+        setDefautlOption(props.defaultValue);
+    }, [props.options, props.defaultValue])
 
     //const optValues = props.options || [];
 
@@ -23,8 +25,12 @@ const Select = forwardRef((props, ref) => {
             <p className={ styles.label }>
                 {props.label || 'No Label'}
             </p>
-            <select ref={ref}>
-                <option key="none" value="">{props.placeholderOption}</option>
+            <select 
+                ref={ref} 
+                defaultValue={defaultOption}
+                disabled={props.disabled}
+            >
+                <option key="none" value="">{defaultOption == '' ? props.placeholderOption : defaultOption}</option>
                 { options }
             </select>
             <div className={ styles.container__textParagraph }>

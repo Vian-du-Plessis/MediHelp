@@ -53,12 +53,23 @@
     justify-content: flex-end;
 
     .button:first-child {
+        border: 1px solid $pink;
+        color: $pink;
         background-color: transparent;
-        color: $text-dark-blue;
+
+        &:hover {
+            background-color: $pink;
+            color: $white;
+        }
     }
 
     .button {
         padding: 14px 20px;
         width: fit-content;
+
+        &:hover {
+            background-color: $green;
+            $color: $white;
+        }
     }
 }

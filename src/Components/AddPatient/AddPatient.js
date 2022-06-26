@@ -76,13 +76,11 @@ const AddPatient = (props) => {
         let id = patientID.current.value;
         let thisYear = new Date().getFullYear();
         let thisYearShort = thisYear.toString().substring(2,4);
-        console.log('asgasg')
 
         let idFirstPart = id.toString().substring(0, 2);
         if( idFirstPart < thisYearShort ) {
             let fullYear = 20 + idFirstPart;
             let age = thisYear - fullYear;
-            console.log("🚀 ~ file: AddPatient.js ~ line 85 ~ calculateAge ~ age", age)
             setPatientCalcAge(age);
         } else if( idFirstPart > thisYearShort ) {
             let fullYear = 19 + idFirstPart;
@@ -188,6 +186,8 @@ const AddPatient = (props) => {
             patientDetailsErrors.medNumber = false;
         }
 
+        console.log(genderValue)
+
         let patientDetails = {
             name: name,
             last: last,
@@ -201,7 +201,7 @@ const AddPatient = (props) => {
         };
 
         let detailsResult = Object.values(patientDetails).some(item => item === '');
-        let errorsResult = Object.values(patientDetails).some(item => item == true);
+        let errorsResult = Object.values(patientDetailsErrors).some(item => item == true);
         
         if( !detailsResult && !errorsResult ) {
             axios.post('http://localhost/Server/addPatient.php', patientDetails)
@@ -270,6 +270,9 @@ const AddPatient = (props) => {
                         rightButton='Male'
                         leftButton='Female'
                         onClick={ getGender }
+                        active={ genderValue }
+                        activeOne={ !genderValue }
+                        activeTwo={ genderValue }
                     />
                     {/* /ToggleButton */}
                 </div>
