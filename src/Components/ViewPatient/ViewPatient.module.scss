@@ -1,0 +1,65 @@
+@import '../../Assets/Base.scss';
+
+.bigContainer {
+
+    h5 {
+        margin-bottom: 8px;
+    }
+}
+
+.firstContainer {
+    width: 100%;
+    padding: 23px 32px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    background-color: rgba($dark-blue-rgb, 0.06);
+
+    .Row {
+        display: flex;
+        gap: 40px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    hr {
+        margin-top: 28px;
+        margin-bottom: 27px;
+    }
+}
+
+.secondContainer {
+    width: 100%;
+    padding: 23px 32px;
+    border-radius: 20px;
+
+    background-color: rgba($dark-blue-rgb, 0.06);
+
+    .Row {
+        display: flex;
+        gap: 40px;
+        justify-content: space-between;
+
+        .selectContainer {
+            width: 100%;
+        }
+    }
+}
+
+.buttonContainer {
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    justify-content: flex-end;
+
+    .button:first-child {
+        background-color: transparent;
+        color: $text-dark-blue;
+    }
+
+    .button {
+        padding: 14px 20px;
+        width: fit-content;
+    }
+}

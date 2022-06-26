@@ -13,11 +13,13 @@ import CreateAppointment from '../Components/Create-Appointment/CreateAppointmen
 import SearchInput from '../Components/ui/Input/SearchInput';
 import Button from '../Components/ui/Button/Button';
 import AddPatient from '../Components/AddPatient/AddPatient';
+import ViewPatient from '../Components/ViewPatient/ViewPatient';
 
 const Patients = () => {
 
     const [addPatientOpen, setAddPatientOpen] = useState(false);
     const [ patients, setPatients ] = useState([]);
+    const [ patientsSearch, setPatientsSearch ] = useState([]);
     const [ startIndex, setStartIndex ] = useState({start: 0});
     const [ filterReset, setFilterReset ] = useState(0);
     const [ page, setPage ] = useState(1);
@@ -27,6 +29,8 @@ const Patients = () => {
     const [ searchVal, setSearchVal ] = useState({search: ''});
     const [ paging, setPaging ] = useState(true);
 
+    const[ patientInfoModal, setPatientInfoModal ] = useState(false);
+
 
     const openAddPatient = () => {
         setAddPatientOpen(!addPatientOpen);
@@ -34,6 +38,14 @@ const Patients = () => {
 
     const closeAddPatient = () => {
         setAddPatientOpen(!addPatientOpen);
+    }
+
+    const openPatientInfo = () => {
+        setPatientInfoModal(!patientInfoModal);
+    }
+
+    const closePatientInfo = () => {
+        setPatientInfoModal(!patientInfoModal);
     }
 
     const pageLeft = () => {
@@ -45,7 +57,7 @@ const Patients = () => {
     }
 
     const pageRight = () => {
-        if( startIndex.start <= indexCount - 20) {
+        if( startIndex.start <= indexCount - 10) {
             setStartIndex({...startIndex, start: +startIndex.start + 10})
             setFilterReset(!filterReset);
             setPage(startIndex.start/10)
@@ -66,7 +78,11 @@ const Patients = () => {
             today = mm + '/' + dd + '/' + yyyy;
             data = data.map((x) => {
                 return {...x, timePassed: 
-                    x.previous_appointments.length > 0 ? Math.round((new Date(today).getTime() - new Date(x.previous_appointments).getTime() ) / (1000 * 3600 * 24)) : 'N/A'
+                    x.previous_appointments.length > 0 
+                    ? Math.round((new Date(today).getTime() - new Date(x.previous_appointments).getTime() ) / (1000 * 3600 * 24)) 
+                    : x.previous_appointments == " "
+                    ? 'N/A'
+                    : 'N/A'
                 }
             })
             setPatients(data)
@@ -87,8 +103,6 @@ const Patients = () => {
         axios.post('http://localhost/Server/searchPatients.php', searchVal)
         .then((res) => {
             let data = res.data.users;
-            setIndexCount(res.data.count);
-            setIndexLimit(res.data.count);
             let today = new Date();
             let dd = String(today.getDate()).padStart(2, '0');
             let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -100,7 +114,7 @@ const Patients = () => {
                     x.previous_appointments.length > 0 ? Math.round((new Date(today).getTime() - new Date(x.previous_appointments).getTime() ) / (1000 * 3600 * 24)) : 'N/A'
                 }
             })
-            setPatients(data)
+            setPatientsSearch(data);
         })
     }
 
@@ -124,39 +138,50 @@ const Patients = () => {
                             { 
                                 addPatientOpen 
                                 ? 'Add patient' 
-                                : 'Patients' 
+                                : patientInfoModal
+                                ? 'Edit Patient'
+                                : 'Patients'
                             }
                         </h3>
-                        { 
-                            !addPatientOpen
-                            &&
-                            <Button
-                                className={ styles.button }
-                                label='Add patient'
-                                onClick={() => openAddPatient() }
-                            />
+                        {
+                                !addPatientOpen && !patientInfoModal
+                            ?   <Button
+                                    className={ styles.button }
+                                    label='Add patient'
+                                    onClick={() => openAddPatient() }
+                                />
+                            :   ''
                         }
                     </div>
                     <div className={ styles.headerContainer__sub }>
 
                     </div>
-                </div>
-                { 
-                    !addPatientOpen 
-                    ?   <PatientTableItem
-                            values={patients}
-                            pageLeft={pageLeft}
-                            pageRight={pageRight}
-                            resetFilter={filterReset}
-                            index={startIndex}
-                            page={page}
-                            indexLimit={indexLimit}
-                            pagingOn={paging}
-                        />
-                    : <AddPatient
-                        clickCancel={() => closeAddPatient()}
-                    />
+                    { 
+                        addPatientOpen && !patientInfoModal
+                        ?   <AddPatient
+                                clickCancel={() => closeAddPatient()}
+                                modalOpen={value => setAddPatientOpen(value)}
+                            />
+                        :   patientInfoModal
+                        ?   <ViewPatient
+                                clickCancel={() => closePatientInfo()}
+                                modalOpen={value => setPatientInfoModal(value)}
+                            />
+                        :   <PatientTableItem
+                                values={patients}
+                                pageLeft={pageLeft}
+                                pageRight={pageRight}
+                                resetFilter={filterReset}
+                                index={startIndex}
+                                page={page}
+                                indexLimit={indexLimit}
+                                pagingOn={paging}
+                                searchValues={patientsSearch}
+                                showPatientInfo={item => setPatientInfoModal(item)}
+                            />
                 }
+                </div>
+
             </div>
             <div className={ styles.rightContainer }>
                 <CreateAppointment/>

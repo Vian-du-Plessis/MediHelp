@@ -32,6 +32,7 @@ const Appointments = () => {
                 <div className={ styles.middleContainer__topContainer }>
                     <SearchInput
                         placeholder='Search...'
+                        disabled={ true }
                     />
                     <div className={ styles.topContainer__profileContainer }>
                         <img src={ ProfileImage } alt="" />

@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import styles from './ToggleButton.module.scss';
 import './ToggleButton.scss';
 
-const toggleActiveButton = ( e ) => {
-    console.log(e.currentTarget.innerText); // Gets the value
-    if( document.querySelector('.activeToggle') ) {
-        const elements = document.querySelector( '.activeToggle' );
-        elements.classList.remove( 'activeToggle' );
+
+
+const ToggleButton = (props) => {
+
+    const toggleActiveButton = ( e ) => {
+        console.log(e.currentTarget.innerText); // Gets the value
+        if( document.querySelector('.activeToggle') ) {
+            const elements = document.querySelector( '.activeToggle' );
+            elements.classList.remove( 'activeToggle' );
+        }
+    
+        e.currentTarget.classList.add( 'activeToggle' );
     }
-
-    e.currentTarget.classList.add( 'activeToggle' );
-}
-
-const ToggleButton = ( props ) => {
     return (
         <div className={` 
             ${ styles.bigContainer } 
@@ -29,13 +31,13 @@ const ToggleButton = ( props ) => {
                         ${ styles.leftButton } 
                         activeToggle
                         `}
-                    onClick={ (e) => toggleActiveButton(e) }
+                        onClick={ props.onClick }
                 >
                     <p>{ props.leftButton }</p>
                 </div>
                 <div 
                     className={ styles.rightButton }
-                    onClick={ (e) => toggleActiveButton(e) }
+                    onClick={ props.onClick }
                 >
                     <p>{ props.rightButton }</p>
                 </div>

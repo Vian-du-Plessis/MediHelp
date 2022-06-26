@@ -15,7 +15,6 @@ const PatientTableItem = (props) => {
     const [ paging, setPaging ] = useState(true);
 
     const sortNames = () => {
-
         if(nameClickCount == 0) {
             setNameClickCount(1)
         } else if(nameClickCount == 1) {
@@ -31,7 +30,6 @@ const PatientTableItem = (props) => {
             userData.sort((a, b) => 
             (a.name_and_surname < b.name_and_surname) ? 1 : ((b.name_and_surname < a.name_and_surname) ? -1: 0 ))
         }
-
         setVisitClickCount(0);
     }
 
@@ -49,8 +47,12 @@ const PatientTableItem = (props) => {
         } else {
             userData.sort((a, b) => b.timePassed - a.timePassed)
         }
-
         setNameClickCount(0);
+    }
+
+    const getKey = (index) => {
+        console.log(index)
+        props.showPatientInfo(true);
     }
 
     useEffect(() => {
@@ -59,8 +61,9 @@ const PatientTableItem = (props) => {
         setVisitClickCount(0);
         setNameClickCount(0);
         setStartIndex(props.index);
-        setPaging(props.pagingOn);  
-    }, [props.values, props.resetFilter, props.index, props.page, props.indexLimit, props.pagingOn, props.searchValues]);
+        setPaging(props.pagingOn);
+        console.log(props.values)
+    }, [props.indexLimit, props.values, props.resetFilter, props.index, props.page, props.indexLimit, props.pagingOn, props.searchValues]);
 
     return (
         <div className={ styles.outerContainer }>
@@ -71,14 +74,14 @@ const PatientTableItem = (props) => {
                         <Icon
                             className={ styles.nameIcon }
                             icon='up'
-                            click={sortNames}
-                            style={nameClickCount == 2 ? {opacity: 0.2 } : {opacity: 1}}
+                            click={ sortNames }
+                            style={ nameClickCount == 2 ? {opacity: 0.2 } : {opacity: 1}}
                         />
                         <Icon
                             className={ styles.nameIcon }
                             icon='down'
-                            click={sortNames}
-                            style={nameClickCount == 1 ? {opacity: 0.2 } : {opacity: 1}}
+                            click={ sortNames }
+                            style={ nameClickCount == 1 ? {opacity: 0.2 } : {opacity: 1}}
                         />
                     </div>
                 </div>
@@ -106,7 +109,7 @@ const PatientTableItem = (props) => {
             </div>
             { paging &&
                 userData.map((x, index) => 
-                    <div className={ styles.patientRow } key={index}>
+                    <div className={ styles.patientRow } key={x.id}>
                         <p>{x.name_and_surname}</p>
                         <p>{x.phone_number}</p>
                         <p>{x.sa_id}</p>
@@ -120,13 +123,17 @@ const PatientTableItem = (props) => {
                                 ? 'Today' 
                                 : x.timePassed == 1
                                 ? x.timePassed + ' Day ago'
+                                : x.previous_appointments == ' '
+                                ? 'N/A'
                                 : x.timePassed + ' Days ago'
                             }
                         </p>
                         <div>
                             <Icon
+                                key={x.id}
                                 className={ styles.viewIcon }
                                 icon='view'
+                                click={() => getKey(x.id) }
                             />
                         </div>
                     </div> 
@@ -136,7 +143,7 @@ const PatientTableItem = (props) => {
             {
                 !paging &&
                 userSearchData.map((x, index) => 
-                <div className={ styles.patientRow } key={index}>
+                <div className={ styles.patientRow } key={x.id}>
                     <p>{x.name_and_surname}</p>
                     <p>{x.phone_number}</p>
                     <p>{x.sa_id}</p>
@@ -155,8 +162,10 @@ const PatientTableItem = (props) => {
                     </p>
                     <div>
                         <Icon
+                            key={x.id}
                             className={ styles.viewIcon }
                             icon='view'
+                            click={() => getKey(x.id) }
                         />
                     </div>
                 </div> 
@@ -169,8 +178,8 @@ const PatientTableItem = (props) => {
                 <Icon
                     className={ styles.left__icon }
                     icon='page-left'
-                    click={props.pageLeft}
-                    style={startIndex.start == 0 ? {opacity: 0.2} : {opacity: 1}}
+                    click={ props.pageLeft }
+                    style={ startIndex.start == 0 ? {opacity: 0.2} : {opacity: 1} }
                 />
                 <Pagination
                     value='1'
@@ -191,8 +200,8 @@ const PatientTableItem = (props) => {
                 <Icon
                     className={ styles.right__icon }
                     icon='page-right'
-                    click={props.pageRight}
-                    style={startIndex.start == props.indexLimit - 10 ? {opacity: 0.2} : {opacity: 1}}
+                    click={ props.pageRight }
+                    style={ startIndex.start == props.indexLimit - 9 ? {opacity: 0.2} : {opacity: 1} }
                 />
             </div>
             }

@@ -2,7 +2,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 /* Styling */
-import styles from './AddPatient.module.scss';
+import styles from './ViewPatient.module.scss';
 
 /* Components */
 import Input from '../ui/Input/Input';
@@ -11,7 +11,7 @@ import Button from '../ui/Button/Button';
 import ToggleButton from '../ui/ToggleButton/ToggleButton';
 import axios from 'axios';
 
-const AddPatient = (props) => {
+const ViewPatient = (props) => {
 
     const medicalAids = [
         'Bestmed',
@@ -333,4 +333,4 @@ const AddPatient = (props) => {
     );
 };
 
-export default AddPatient;
+export default ViewPatient;

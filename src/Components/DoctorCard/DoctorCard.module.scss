@@ -4,8 +4,11 @@
     padding: 20px 16px;
     width: fit-content;
     min-width: 200px;
+    min-height: 350px;
     border-radius: 16px;
     background-color: rgba($dark-blue-rgb, 0.03);
+    display: flex;
+    flex-flow: column;
 
     .imageContainer {
         margin: 0 auto;
@@ -43,7 +46,8 @@
     .iconContainer {
         width: 100%;
         display: flex;
-        align-items: center;
+        flex-grow: 1;
+        align-items: flex-end;
         justify-content: flex-end;
         margin-top: 15px;
 

@@ -1,10 +1,15 @@
 /* React */
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 
 /* Styling */
 import styles from './Input.module.scss';
 
 const Input = forwardRef((props, ref) => {
+
+    const [ defaultValue, setDefualtValue ] = useState('');
+    useEffect(() => {
+        setDefualtValue(props.defaultValue);
+    }, [props.defaultValue])
 
     return (
         <div className={` 
@@ -33,6 +38,8 @@ const Input = forwardRef((props, ref) => {
                     type={ props.type }
                     placeholder={ props.placeholder }
                     onChange={ props.onChange }
+                    defaultValue={ defaultValue }
+                    disabled={ props.disabled }
                 />   
                 {
                     props.iconRight != undefined 

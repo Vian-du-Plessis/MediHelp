@@ -21,6 +21,7 @@ const SearchInput = forwardRef((props, ref) => {
                 placeholder={ props.placeholder }
                 ref={ ref }
                 onChange={ props.change }
+                disabled={ props.disabled }
             />
         </div>
     );

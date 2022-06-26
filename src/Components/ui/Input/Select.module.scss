@@ -20,4 +20,14 @@
             border: 1px solid $medium-blue;
         }
     }
+
+    &__textParagraph {
+        width: 100%;
+        margin-bottom: 23px;
+
+        &--error {
+            margin-top: 4px;
+            color: $pink;
+        }
+    }
 }

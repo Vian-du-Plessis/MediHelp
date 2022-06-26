@@ -10,6 +10,7 @@ import Login from './Pages/Login';
 import { useEffect, useState } from 'react';
 import Appointments from './Pages/Appointments';
 import Modal from './Components/ui/Modal/Modal';
+import ViewPatient from './Components/ViewPatient/ViewPatient';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
                 <Route path='/Doctors' element = {<Doctors />} />
                 <Route path='/Appointments' element = {<Appointments />} />
             </Routes>  
+            {/* <ViewPatient/> */}
         </div>
     );
 }
