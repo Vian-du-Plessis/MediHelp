@@ -35,7 +35,7 @@ const Patients = () => {
         .then( ( res ) => {
             setDoctors(res.data)
         });
-    }, [setIsSearchVal]); 
+    }, [setIsSearchVal, addPatientOpen]); 
 
     let sValue = useRef();
     const searchValue = () => {
@@ -108,6 +108,7 @@ const Patients = () => {
                         />)
                         : <AddDoctor
                             clickCancel={() => closeAddPatient()}
+                            modalOpen={item => setAddPatientOpen(item)}
                         />
                     }
                 </div>
