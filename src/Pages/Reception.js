@@ -40,13 +40,15 @@ const Reception = () => {
     const [ userData, setUserData ] = useState([]);
     const [ receptionId, setReceptionId ] = useState('');
     const [ showReceptionProfile, setShowReceptionProfile ] = useState(false);
+    const [ showAddReceptionist, setShowAddReceptionist ] = useState(false)
+
     useEffect(() => {
         axios.post('http://localhost/Server/getReceptionists.php')
         .then((res) => {
             let cardItem = res.data.map((item, index) => 
                 <ReceptionistCard
                     key={item.id}
-                    src=''
+                    src={'http://localhost/Server/' + item.profile_image}
                     id={item.id}
                     name={item.name_and_surname}
                     age={item.age}
@@ -59,13 +61,12 @@ const Reception = () => {
             )
             setUserData(cardItem);
         })
-    }, [])
+    }, [showAddReceptionist, showReceptionProfile])
 
     const closePatientInfo = () => {
         setShowReceptionProfile(!showReceptionProfile);
     }
 
-    const [ showAddReceptionist, setShowAddReceptionist ] = useState(false)
     const openAddReceptionist = () => {
         setShowAddReceptionist(true);
     }

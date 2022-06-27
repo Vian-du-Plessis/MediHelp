@@ -60,7 +60,9 @@ const AppointmentTableItem = (props) => {
     useEffect(() => {
         setAppointmentsData(props.data.users);
         setUserData(props.data.users);
-    }, [props.data])
+        setPageNumber(props.pageNumber)
+        setPageLimit(props.pageLimit);
+    }, [props.data, props.pageNumber, props.pageLimit])
 
     return (
         <div className={ styles.outerContainer }>

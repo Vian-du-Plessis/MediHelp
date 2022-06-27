@@ -26,7 +26,6 @@ const Login = () => {
         }
     }, [])
 
-
     //Error Messages for inputs
     const [errorMessages, setErrorMessages] = useState({
         emailError: '',

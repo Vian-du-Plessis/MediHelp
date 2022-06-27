@@ -21,7 +21,6 @@ const CreateAppointment = ( props ) => {
     useEffect(() => {
         axios.post('http://localhost/Server/getDoctors.php')
         .then( ( res ) => {                
-            console.log(res.data)
             let options = res.data.map( ( item, index ) => 
                 <option key={index} value={item.id + ' ' + item.name_and_surname}>
                     {item.name_and_surname + ' (' + item.specialisation + ')'}

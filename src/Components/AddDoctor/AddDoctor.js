@@ -80,6 +80,26 @@ const AddPatient = (props) => {
     const [ doctorRoomError, setDoctorRoomError ] = useState('');
     let doctorRoom = useRef();
 
+    const [ imageURL, setImageURL ] = useState('');
+    const changeImage = (e) => {
+        let file = e.target.files[0];
+        let reader = new FileReader();
+
+        reader.onloadend = function() {
+            console.log(reader.result);
+            let imgFile = reader.result;
+
+            setImageURL(imgFile);
+
+            let image = new Image();
+            image.src = reader.result;
+            document.getElementById('profileImg').appendChild(image);
+            
+            }
+            reader.readAsDataURL(file);
+    }
+    const [ imageError, setImageError ] = useState('');
+
     const addDoctor = () => {
         const doctorDetailsErrors = {
             name: true,
@@ -88,9 +108,18 @@ const AddPatient = (props) => {
             email: true,
             number: true,
             specialisation: true,
-            room: true
+            room: true,
+            image: true
         }
 
+        if( imageURL == '') {
+            setImageError('Please add a image')
+            doctorDetailsErrors.image = true;
+        } else {
+            setImageError('');
+            doctorDetailsErrors.image = false;
+        }
+        
         let name = doctorName.current.value;
         if( name == '' ) {
             setDoctorNameError('Please add a First Name');
@@ -170,7 +199,8 @@ const AddPatient = (props) => {
             email: email,
             number: number,
             special: specialisation,
-            room: room
+            room: room,
+            image: imageURL
         };
 
         let detailsResult = Object.values(doctorDetails).some(item => item === '');
@@ -193,13 +223,14 @@ const AddPatient = (props) => {
             <h5>Doctor Info</h5>
             <div className={styles.firstContainer}>
                 <div className={styles.Row}>
-                    <div className={styles.imageContainer}>
-                        <img src={Profile} alt="" />
+                <div id='profileImg' className={`${styles.imageContainer} profileImg`}>
                     </div>
                     <Input
                         className={styles.imageInput}
                         label='Choose profile picture'
                         type='file'
+                        onChange={changeImage}
+                        errorMessage={imageError}
                     />
                 </div>
                 <div className={styles.Row}>

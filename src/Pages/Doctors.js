@@ -136,6 +136,7 @@ const Patients = () => {
                                 id={item.id}
                                 specialisation={item.specialisation}
                                 key={index}
+                                src={'http://localhost/Server/' + item.profile_image}
                                 doctorId={item => setDoctorsId(item)}
                                 showDoctorInfo={item => setDoctorsInfo(item)}
                             />)

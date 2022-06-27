@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,6 +28,22 @@ const Appointments = () => {
             navigate('/')
         } 
     }, [])
+
+    const [ pageNumber, setPageNumber ] = useState(1);
+    const [ start, setStart ] = useState(0);
+    const pageLeft = () => {
+        if(pageNumber != 0) {
+            setStart(start + 12)
+            setPageNumber(pageNumber - 1)
+        }
+    }
+
+    const pageRight = () => {
+        if(pageNumber != pageNumber) {
+            setStart(start + 12)
+            setPageNumber(pageNumber + 1)
+        }
+    }
 
     const monthList = [
         'Jan',
@@ -77,13 +93,15 @@ const Appointments = () => {
     const [ appointmentID, setAppointmentID ] = useState(0);
 
     const [ individualAppointment, setIndividualAppointment ] = useState(false);
+    const [ pages, setPages ] = useState(0); 
     useEffect(() => {
         setRenderAllAppointments(false);
-        axios.post('http://localhost/Server/getAllAppointments.php', {start: 0})
+        axios.post('http://localhost/Server/getAllAppointments.php', {start: start})
         .then((res) => {
+            setPages(Math.ceil(res.data.count/12))
             setAppointmentsToRender(res.data);
         });
-    }, [renderAllAppointments]);
+    }, [renderAllAppointments, start]);
 
     const [ date, setDate ] = useState('');
     useEffect(() => {
@@ -153,6 +171,10 @@ const Appointments = () => {
                                 data={appointmentsToRender}
                                 showAppointmentInfo={item => setShowAppointmentInfo(item)}
                                 showAppointmentID={item => setAppointmentID(item)}
+                                pageNumber={pageNumber}
+                                pageRight={pageRight}
+                                pageLeft={pageLeft}
+                                pageLimit={pages}
                         />
                     :   toggledValue == 'Weekly' && !showAppointmentInfo
                     ?   <Appointment

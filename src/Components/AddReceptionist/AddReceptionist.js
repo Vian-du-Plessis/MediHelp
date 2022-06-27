@@ -42,7 +42,30 @@ const AddReceptionist = (props) => {
     let userPassConfirm = useRef();
     const [ passwordConfirmError, setPasswordConfirmError ] = useState('');
 
-    const addPatient = () => {
+    const [ imageError, setImageError ] = useState('');
+
+    const [ imageURL, setImageURL ] = useState('');
+    const changeImage = (e) => {
+        let file = e.target.files[0];
+        let reader = new FileReader();
+
+        reader.onloadend = function() {
+            console.log(reader.result);
+            let imgFile = reader.result;
+
+            setImageURL(imgFile);
+
+            let image = new Image();
+            image.src = reader.result;
+            document.getElementById('profileImg').appendChild(image);
+            
+            }
+            reader.readAsDataURL(file);
+    }
+
+    const addPatient = (e) => {
+        
+
         let errors = {
             name: true,
             last: true,
@@ -50,7 +73,16 @@ const AddReceptionist = (props) => {
             rank: true,
             email: true,
             number: true,
-            password: true
+            password: true,
+            image: true
+        }
+
+        if( imageURL == '') {
+            setImageError('Please add a image')
+            errors.image = true;
+        } else {
+            setImageError('');
+            errors.image = false;
         }
 
         let name = firstName.current.value;
@@ -151,7 +183,8 @@ const AddReceptionist = (props) => {
             rank: rank,
             email: email,
             number: number,
-            pass: password
+            pass: password,
+            img: imageURL
         }
 
         let detailsResult = Object.values(receptionistDetails).some(item => item === '');
@@ -175,13 +208,14 @@ const AddReceptionist = (props) => {
             <h5>Receptionist Info</h5>
             <div className={styles.firstContainer}>
                 <div className={styles.Row}>
-                    <div className={styles.imageContainer}>
-                        <img src={Profile} alt="" />
+                    <div id='profileImg' className={`${styles.imageContainer} profileImg`}>
                     </div>
                     <Input
                         className={styles.imageInput}
                         label='Choose profile picture'
                         type='file'
+                        onChange={changeImage}
+                        errorMessage={imageError}
                     />
                 </div>
                 <div className={styles.Row}>

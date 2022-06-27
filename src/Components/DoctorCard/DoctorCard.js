@@ -9,15 +9,15 @@ import Profile from '../../Assets/Images/profile.jpg';
 import Icon from '../ui/Icon/Icon';
 
 const DoctorCard = ( props ) => {
-
     const getKey = (index) => {
         props.doctorId(index)
         props.showDoctorInfo(true)
     }
+
     return (
         <div className={styles.outerContainer} key={props.doctorId}>
             <div className={styles.imageContainer}>
-                <img src={Profile} alt="" />
+                <img src={props.src} alt="" />
             </div>
             <div className={styles.column}>
                 <div className={styles.row}>
