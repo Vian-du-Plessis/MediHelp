@@ -20,9 +20,12 @@ const Appointments = () => {
 
     const navigate = useNavigate();
     const [ username, setUsername ] = useState('');
+    const [ userProfile, setProfile ] = useState('');
     useEffect(() => {
         let loggedUser =  sessionStorage.getItem('loggedOnUser');
         let loggedUserName = sessionStorage.getItem('adminName');
+        let image = sessionStorage.getItem('adminProfile');
+        setProfile(image);
         setUsername(loggedUserName);
         if( loggedUser == '' || loggedUser == ' ' || loggedUser == undefined || loggedUser == null ) {
             navigate('/')
@@ -33,16 +36,18 @@ const Appointments = () => {
     const [ start, setStart ] = useState(0);
     const pageLeft = () => {
         if(pageNumber != 0) {
-            setStart(start + 12)
+            setStart(start - 12)
             setPageNumber(pageNumber - 1)
         }
+        console.log(pageNumber);
     }
 
     const pageRight = () => {
-        if(pageNumber != pageNumber) {
+        if(pageNumber != pages) {
             setStart(start + 12)
             setPageNumber(pageNumber + 1)
         }
+        console.log(pageNumber);
     }
 
     const monthList = [
@@ -92,12 +97,13 @@ const Appointments = () => {
     const [ showAppointmentInfo, setShowAppointmentInfo ] = useState(false);
     const [ appointmentID, setAppointmentID ] = useState(0);
 
-    const [ individualAppointment, setIndividualAppointment ] = useState(false);
     const [ pages, setPages ] = useState(0); 
     useEffect(() => {
         setRenderAllAppointments(false);
+        console.log(start)
         axios.post('http://localhost/Server/getAllAppointments.php', {start: start})
         .then((res) => {
+            console.log("🚀 ~ file: Appointments.js ~ line 102 ~ .then ~ res", res)
             setPages(Math.ceil(res.data.count/12))
             setAppointmentsToRender(res.data);
         });
@@ -134,7 +140,7 @@ const Appointments = () => {
                         placeholder='Search by name, number or ID'
                     />
                     <div className={ styles.topContainer__profileContainer }>
-                        <img src={ ProfileImage } alt="" />
+                        <img src={'http://localhost/Server/' + userProfile} alt="" />
                         <p>{username}</p>
                     </div>
                 </div>

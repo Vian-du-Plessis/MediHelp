@@ -40,7 +40,7 @@ const ViewPatient = (props) => {
         .then((res) => {
             let data = res.data;
             let firstName = data.name_and_surname.toString().split(' ')[0];
-            let lastName = data.name_and_surname.toString().slice(firstName.length, data.name_and_surname.length - 1);
+            let lastName = data.name_and_surname.toString().slice(firstName.length, data.name_and_surname.length);
             let prevAppointment = data.previous_appointments;
             if(prevAppointment == ' ') {
                 prevAppointment = 'No Previous Appointments'
@@ -80,6 +80,7 @@ const ViewPatient = (props) => {
         )   
         setMedAidOptions(options);
         setPatientSelectedID(props.patientID);
+        console.log(props.patientID)
     }, [props.patientID])
 
     const [ genderValue, setGenderValue ] = useState('Female');
@@ -154,6 +155,7 @@ const ViewPatient = (props) => {
             }
     
             let name = patientName.current.value;
+            console.log("🚀 ~ file: ViewPatient.js ~ line 157 ~ addPatient ~ name", name)
             if( name == '' ) {
                 setPatientNameError('Please add a First Name');
                 patientDetailsErrors.name = true;
@@ -274,6 +276,7 @@ const ViewPatient = (props) => {
                 setClickCounter(0)
                 axios.post('http://localhost/Server/updatePatient.php', patientDetails)
                 .then((res) => {
+                    console.log("🚀 ~ file: ViewPatient.js ~ line 277 ~ .then ~ res", res.data.name_and_surname)
                     props.openModal(false);
                 })
             }

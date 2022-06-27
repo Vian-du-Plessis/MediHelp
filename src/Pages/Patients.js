@@ -20,11 +20,16 @@ import PatientInfo from '../Components/PatientInfo/PatientInfo';
 
 const Patients = () => {
 
+    
+    
     const navigate = useNavigate();
     const [ username, setUsername ] = useState('');
+    const [ userProfile, setProfile ] = useState('');
     useEffect(() => {
         let loggedUser =  sessionStorage.getItem('loggedOnUser');
         let loggedUserName = sessionStorage.getItem('adminName');
+        let image = sessionStorage.getItem('adminProfile');
+        setProfile(image);
         setUsername(loggedUserName);
         if( loggedUser == '' || loggedUser == ' ' || loggedUser == undefined || loggedUser == null ) {
             navigate('/')
@@ -78,6 +83,7 @@ const Patients = () => {
     useEffect(() => {
         axios.post('http://localhost/Server/getPatients.php', startIndex)
         .then((res) => {
+            console.log("🚀 ~ file: Patients.js ~ line 81 ~ .then ~ res", res)
             let data = res.data.users;
             setIndexCount(res.data.count);
             setIndexLimit(res.data.count);
@@ -147,7 +153,7 @@ const Patients = () => {
                         change={ searchValue }
                     />
                     <div className={ styles.topContainer__profileContainer }>
-                        <img src={ ProfileImage } alt="" />
+                        <img src={'http://localhost/Server/' + userProfile} alt="" />
                         <p>{username}</p>
                     </div>
                 </div>

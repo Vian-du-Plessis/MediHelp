@@ -19,13 +19,18 @@ import ViewDoctor from '../Components/ViewDoctor/ViewDoctor';
 
 const Patients = () => {
 
+    
     const navigate = useNavigate();
     const [ username, setUsername ] = useState('');
     const [ userAdmin, setUserAdmin ] = useState('');
+    const [ userProfile, setProfile ] = useState('');
     useEffect(() => {
         let loggedUser =  sessionStorage.getItem('loggedOnUser');
         let loggedUserName = sessionStorage.getItem('adminName');
         let loggedUserAdmin = sessionStorage.getItem('rank');
+        let image = sessionStorage.getItem('adminProfile');
+        setProfile(image);
+
         setUsername(loggedUserName);
         if( loggedUserAdmin == 1 || loggedUserAdmin == '1') {
             setUserAdmin(loggedUserAdmin);
@@ -93,7 +98,7 @@ const Patients = () => {
                         change={ searchValue }
                     />
                     <div className={ styles.topContainer__profileContainer }>
-                        <img src={ ProfileImage } alt="" />
+                        <img src={'http://localhost/Server/' + userProfile} alt="" />
                         <p>{username}</p>
                     </div>
                 </div>
@@ -146,6 +151,7 @@ const Patients = () => {
                                 id={item.id}
                                 specialisation={item.specialisation}
                                 key={index}
+                                src={'http://localhost/Server/' + item.profile_image}
                                 doctorId={item => setDoctorsId(item)}
                                 showDoctorInfo={item => setDoctorsInfo(item)}
                             />)

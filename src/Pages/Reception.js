@@ -18,14 +18,18 @@ import ViewReceptionist from '../Components/ViewReceptionist/ViewReceptionist';
 import AddReceptionist from '../Components/AddReceptionist/AddReceptionist';
 
 const Reception = () => {
-
+    
+    
     const navigate = useNavigate();
     const [ username, setUsername ] = useState('');
     const [ userAdmin, setUserAdmin ] = useState('');
+    const [ userProfile, setProfile ] = useState('');
     useEffect(() => {
         let loggedUser =  sessionStorage.getItem('loggedOnUser');
         let loggedUserName = sessionStorage.getItem('adminName');
-        let loggedUserAdmin = sessionStorage.getItem('rank');
+        let loggedUserAdmin = sessionStorage.getItem('rank');  
+        let image = sessionStorage.getItem('adminProfile');
+        setProfile(image);
         setUsername(loggedUserName);
         if( loggedUserAdmin == 1 || loggedUserAdmin == '1') {
             setUserAdmin(true);
@@ -84,7 +88,7 @@ const Reception = () => {
                         placeholder='Search by name or email'
                     />
                     <div className={ styles.topContainer__profileContainer }>
-                        <img src={ ProfileImage } alt="" />
+                        <img src={'http://localhost/Server/' + userProfile} alt="" />
                         <p>{username}</p>
                     </div>
                 </div>
