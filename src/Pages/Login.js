@@ -64,6 +64,7 @@ const Login = () => {
                     sessionStorage.setItem('loggedOnUser', inputs.email);
                     sessionStorage.setItem('rank', res.data.admin[0].admin);
                     sessionStorage.setItem('adminName', res.data.admin[0].name_and_surname);
+                    sessionStorage.setItem('adminId', res.data.admin[0].id)
                     navigate('/appointments');
                 } else {
                     //This will execute if the values from the inputs cannot be referenced back to the database.

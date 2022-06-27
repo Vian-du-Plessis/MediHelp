@@ -15,8 +15,9 @@ import SearchInput from '../Components/ui/Input/SearchInput';
 import Button from '../Components/ui/Button/Button';
 import ReceptionistCard from '../Components/ReceptionistCard/ReceptionistCard';
 import ViewReceptionist from '../Components/ViewReceptionist/ViewReceptionist';
+import AddReceptionist from '../Components/AddReceptionist/AddReceptionist';
 
-const Patients = () => {
+const Reception = () => {
 
     const navigate = useNavigate();
     const [ username, setUsername ] = useState('');
@@ -27,7 +28,7 @@ const Patients = () => {
         let loggedUserAdmin = sessionStorage.getItem('rank');
         setUsername(loggedUserName);
         if( loggedUserAdmin == 1 || loggedUserAdmin == '1') {
-            setUserAdmin(loggedUserAdmin);
+            setUserAdmin(true);
         } else {
             setUserAdmin(false);
         }
@@ -42,24 +43,36 @@ const Patients = () => {
     useEffect(() => {
         axios.post('http://localhost/Server/getReceptionists.php')
         .then((res) => {
-            let cardItem = res.data.map((item) => 
+            let cardItem = res.data.map((item, index) => 
                 <ReceptionistCard
+                    key={item.id}
                     src=''
                     id={item.id}
                     name={item.name_and_surname}
                     age={item.age}
                     email={item.email}
                     rank={item.admin}
-                    uniqueId={item.id}
+                    uniqueId={index}
                     showReceptionProfile={item => setShowReceptionProfile(item)}
                     receptionId={item => setReceptionId(item)}
                 />   
             )
             setUserData(cardItem);
-            console.log(receptionId)
-            console.log(showReceptionProfile)
         })
     }, [])
+
+    const closePatientInfo = () => {
+        setShowReceptionProfile(!showReceptionProfile);
+    }
+
+    const [ showAddReceptionist, setShowAddReceptionist ] = useState(false)
+    const openAddReceptionist = () => {
+        setShowAddReceptionist(true);
+    }
+
+    const closeAddReceptionist = () => {
+        setShowAddReceptionist(false);
+    }
 
 
     return (
@@ -81,11 +94,13 @@ const Patients = () => {
                                 'Receptionists'
                             }
                         </h3>
-                        {   
-                            <Button
-                                className={ styles.button }
-                                label='Add Receptionist'
-                            />
+                        {   !showAddReceptionist && !showReceptionProfile && userAdmin
+                            ?   <Button
+                                    className={ styles.button }
+                                    label='Add Receptionist'
+                                    onClick={openAddReceptionist}
+                                />
+                            : ''
                         }
                     </div>
                     <div className={ styles.headerContainer__sub }>
@@ -94,9 +109,23 @@ const Patients = () => {
 
                 </div>
                 <div className={ styles.containerReceptionCards }>
-                    {<ViewReceptionist
-                        receptionId={receptionId}
-                    />}
+
+                    {
+                        showReceptionProfile
+                        ?   <ViewReceptionist
+                                receptionId={receptionId}
+                                userAdmin={userAdmin}
+                                clickCancel={() => closePatientInfo()}
+                                openModal={value => setShowReceptionProfile(value)}
+                            />
+                        :   showAddReceptionist
+                        ?   <AddReceptionist
+                                clickCancel={() => closeAddReceptionist()}
+                            />
+                        :   userData
+                    }
+                    
+
                 </div>
             </div>
             <div className={ styles.rightContainer }>
@@ -106,4 +135,4 @@ const Patients = () => {
     );
 };
 
-export default Patients;
+export default Reception;
