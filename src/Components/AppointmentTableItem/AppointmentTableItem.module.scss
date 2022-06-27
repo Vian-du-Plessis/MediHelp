@@ -9,7 +9,7 @@
     .tableHeadingContainer {
         display: grid;
         padding: 0 28px;
-        grid-template-columns: repeat(5, minmax(120px, 1fr));
+        grid-template-columns: repeat(6, minmax(120px, 1fr));
 
         div:first-child {
             display: flex;
@@ -43,7 +43,7 @@
     .patientRow {
         display: grid;
         align-items: center;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         padding: 12px 28px;
         background-color: rgba($dark-blue-rgb, 0.06);
 

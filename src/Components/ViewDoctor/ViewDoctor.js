@@ -82,7 +82,6 @@ const AddPatient = (props) => {
     const [ genderValue, setGenderValue ] = useState('Female');
     const getGender = ( e ) => {
         let genderVal = e.currentTarget.innerText
-        console.log("🚀 ~ file: ViewDoctor.js ~ line 85 ~ getGender ~ genderVal", genderVal)
         setGenderValue(genderVal);
         if( document.querySelector('.activeToggle') ) {
             const elements = document.querySelector( '.activeToggle' );

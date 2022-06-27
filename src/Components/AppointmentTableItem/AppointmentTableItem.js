@@ -10,10 +10,8 @@ const AppointmentTableItem = (props) => {
     const [ userSearchData, setUserSearchData ] = useState([]);
     const [ nameClickCount, setNameClickCount ] = useState(0);
     const [ visitClickCount, setVisitClickCount ] = useState(0);
-    const [ startIndex, setStartIndex ] = useState(0);
     const [ pageNumber, setPageNumber ] = useState(1);
     const [ paging, setPaging ] = useState(true);
-    const [ indexCount, setIndexCount ] = useState(0);
     const [ pageLimit, setPageLimit ] = useState(0);
 
     const sortNames = () => {
@@ -27,10 +25,10 @@ const AppointmentTableItem = (props) => {
 
         if(nameClickCount == 1) {
             userData.sort((a, b) => 
-            (a.name_and_surname > b.name_and_surname) ? 1 : ((b.name_and_surname > a.name_and_surname) ? -1: 0 ))
+            (a.doctor > b.doctor) ? 1 : ((b.doctor > a.doctor) ? -1: 0 ))
         } else {
             userData.sort((a, b) => 
-            (a.name_and_surname < b.name_and_surname) ? 1 : ((b.name_and_surname < a.name_and_surname) ? -1: 0 ))
+            (a.doctor < b.doctor) ? 1 : ((b.doctor < a.doctor) ? -1: 0 ))
         }
         setVisitClickCount(0);
     }
@@ -45,32 +43,26 @@ const AppointmentTableItem = (props) => {
         }
 
         if(visitClickCount == 1) {
-            userData.sort((a, b) => a.timePassed - b.timePassed)
+            userData.sort((a, b) => a.time.split(':')[0] - b.time.split(':')[0])
         } else {
-            userData.sort((a, b) => b.timePassed - a.timePassed)
+            userData.sort((a, b) => b.time.split(':')[0] - a.time.split(':')[0])
         }
+
         setNameClickCount(0);
     }
 
     const getKey = (index) => {
-        props.showPatientInfo(true);
-        props.showPatientID(index);
+        props.showAppointmentInfo(true);
+        props.showAppointmentID(index);
     }
 
-/*     useEffect(() => {
-        setUserData(props.values);
-        setUserSearchData(props.searchValues);
-        setVisitClickCount(0);
-        setNameClickCount(0);
-        setStartIndex(props.index);
-        setPageLimit(Math.ceil(props.indexLimit/12));
-        console.log(Math.ceil(props.indexLimit/12))
-        setPageNumber(props.page);
-        console.log("🚀 ~ file: AppointmentTableItem.js ~ line 70 ~ useEffect ~ props.page", props.page)
-        setPaging(props.pagingOn);
-        setIndexCount(props.indexCount);
-    }, [props.page, props.indexCount, props.indexLimit, props.values, props.resetFilter, props.index, props.page, props.indexLimit, props.pagingOn, props.searchValues]);
- */
+    const [ appointmentsData, setAppointmentsData ] = useState([]);
+    useEffect(() => {
+        setAppointmentsData(props.data.users);
+        setUserData(props.data.users);
+        console.log("🚀 ~ file: AppointmentTableItem.js ~ line 61 ~ useEffect ~ props.data", props.data)
+    }, [props.data])
+
     return (
         <div className={ styles.outerContainer }>
             <div className={ styles.tableHeadingContainer }>
@@ -81,13 +73,13 @@ const AppointmentTableItem = (props) => {
                             className={ styles.nameIcon }
                             icon='up'
                             click={ sortNames }
-                            style={ nameClickCount == 2 ? {opacity: 0.2 } : {opacity: 1}}
+                            style={nameClickCount == 2 ? {opacity: 0.2 } : {opacity: 1}}
                         />
                         <Icon
                             className={ styles.nameIcon }
                             icon='down'
                             click={ sortNames }
-                            style={ nameClickCount == 1 ? {opacity: 0.2 } : {opacity: 1}}
+                            style={nameClickCount == 1 ? {opacity: 0.2 } : {opacity: 1}}
                         />
                     </div>
                 </div>
@@ -114,27 +106,14 @@ const AppointmentTableItem = (props) => {
                 </div>
                 <h6>Date</h6>
             </div>
-            { paging &&
-                userData.map((x, index) => 
+            {
+                appointmentsData.map((x, index) => 
                     <div className={ styles.patientRow } key={x.id}>
-                        <p>{x.name_and_surname}</p>
-                        <p>{x.phone_number}</p>
-                        <p>{x.sa_id}</p>
-                        <p>
-                            {
-                                x.timePassed == 'N/A' 
-                                ? 'N/A' 
-                                : x.timePassed > 365 
-                                ? Math.round(x.timePassed/365) + ' Years ago'
-                                : x.timePassed == 0
-                                ? 'Today' 
-                                : x.timePassed == 1
-                                ? x.timePassed + ' Day ago'
-                                : x.previous_appointments == ' '
-                                ? 'N/A'
-                                : x.timePassed + ' Days ago'
-                            }
-                        </p>
+                        <p>{x.doctor}</p>
+                        <p>{x.patient}</p>
+                        <p>{x.patient_id}</p>
+                        <p>{x.time}</p>
+                        <p>{x.date}</p>
                         <div>
                             <Icon
                                 key={x.id}
@@ -146,41 +125,8 @@ const AppointmentTableItem = (props) => {
                     </div> 
                 )
             }
-
             {
-                !paging &&
-                userSearchData.map((x, index) => 
-                <div className={ styles.patientRow } key={x.id}>
-                    <p>{x.name_and_surname}</p>
-                    <p>{x.phone_number}</p>
-                    <p>{x.sa_id}</p>
-                    <p>
-                        {
-                            x.timePassed == 'N/A' 
-                            ? 'N/A' 
-                            : x.timePassed > 365 
-                            ? Math.round(x.timePassed/365) + ' Years ago'
-                            : x.timePassed == 0
-                            ? 'Today' 
-                            : x.timePassed == 1
-                            ? x.timePassed + ' Day ago'
-                            : x.timePassed + ' Days ago'
-                        }
-                    </p>
-                    <div>
-                        <Icon
-                            key={x.id}
-                            className={ styles.viewIcon }
-                            icon='view'
-                            click={() => getKey(x.id) }
-                        />
-                    </div>
-                </div> 
-            )
-            }
-
-            {
-                paging &&
+               
                 <div className={ styles.paginationContainer }>
                 <Icon
                     className={ styles.left__icon }
