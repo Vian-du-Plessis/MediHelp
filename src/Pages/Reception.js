@@ -14,6 +14,7 @@ import CreateAppointment from '../Components/Create-Appointment/CreateAppointmen
 import SearchInput from '../Components/ui/Input/SearchInput';
 import Button from '../Components/ui/Button/Button';
 import ReceptionistCard from '../Components/ReceptionistCard/ReceptionistCard';
+import ViewReceptionist from '../Components/ViewReceptionist/ViewReceptionist';
 
 const Patients = () => {
 
@@ -36,21 +37,29 @@ const Patients = () => {
     }, [])
 
     const [ userData, setUserData ] = useState([]);
+    const [ receptionId, setReceptionId ] = useState('');
+    const [ showReceptionProfile, setShowReceptionProfile ] = useState(false);
     useEffect(() => {
         axios.post('http://localhost/Server/getReceptionists.php')
         .then((res) => {
             let cardItem = res.data.map((item) => 
                 <ReceptionistCard
                     src=''
+                    id={item.id}
                     name={item.name_and_surname}
                     age={item.age}
                     email={item.email}
                     rank={item.admin}
+                    uniqueId={item.id}
+                    showReceptionProfile={item => setShowReceptionProfile(item)}
+                    receptionId={item => setReceptionId(item)}
                 />   
             )
             setUserData(cardItem);
+            console.log(receptionId)
+            console.log(showReceptionProfile)
         })
-    })
+    }, [])
 
 
     return (
@@ -58,7 +67,7 @@ const Patients = () => {
             <div className={ styles.middleContainer }>
                 <div className={ styles.middleContainer__topContainer }>
                     <SearchInput
-                        placeholder='Search by name, number or ID'
+                        placeholder='Search by name or email'
                     />
                     <div className={ styles.topContainer__profileContainer }>
                         <img src={ ProfileImage } alt="" />
@@ -85,7 +94,9 @@ const Patients = () => {
 
                 </div>
                 <div className={ styles.containerReceptionCards }>
-                    {userData}
+                    {<ViewReceptionist
+                        receptionId={receptionId}
+                    />}
                 </div>
             </div>
             <div className={ styles.rightContainer }>

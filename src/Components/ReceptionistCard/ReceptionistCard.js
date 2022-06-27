@@ -9,17 +9,19 @@ import Profile from '../../Assets/Images/profile.jpg'
 const ReceptionistCard = (props) => {
 
     const getKey = (index) => {
-/*             props.showPatientInfo(true);
-            props.showPatientID(index); */
+            props.showReceptionProfile(true);
+            props.receptionId(index);
             console.log(index)
     }
 
     const [ userData, setUserData ] = useState([]);
     useEffect(() => {
-
+        setUserData(props.userData);
     }, [ props.userData ])
     return (
-        <div className={ styles.outerContainer }>
+        <div className={ styles.outerContainer }
+            key={props.uniqueId}
+        >
             <div className={ styles.outerContainer__imageContainer}>
                 <img src={props.src} alt="Profile Image" />
             </div>
@@ -41,10 +43,10 @@ const ReceptionistCard = (props) => {
             </div>
             <div className={ styles.outerContainer__iconContainer }>
                 <Icon
-                    key={userData.id}
+                    key={props.id}
                     className={ styles.viewIcon }
                     icon='view'
-                    click={() => getKey(userData.id) }
+                    click={() => getKey(props.id) }
                 />
             </div>
         </div>
