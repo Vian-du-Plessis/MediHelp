@@ -21,7 +21,7 @@ const CreateAppointment = ( props ) => {
     useEffect(() => {
         axios.post('http://localhost/Server/getDoctors.php')
         .then( ( res ) => {                
-            // console.log(res.data)
+            console.log(res.data)
             let options = res.data.map( ( item, index ) => 
                 <option key={index} value={item.id + ' ' + item.name_and_surname}>
                     {item.name_and_surname + ' (' + item.specialisation + ')'}
@@ -31,7 +31,6 @@ const CreateAppointment = ( props ) => {
 
         axios.post('http://localhost/Server/getAllPatients.php')
         .then( ( res ) => {                
-            // console.log(res.data)
             let options = res.data.map( ( item, index ) => 
                 <option key={index} value={item.sa_id + ' ' + item.name_and_surname}>
                     {item.name_and_surname + ' (' + item.sa_id + ')'}
@@ -59,9 +58,10 @@ const CreateAppointment = ( props ) => {
             dateVal: val
         }
 
+        console.log(val)
+
         axios.post('http://localhost/Server/makeAppointment.php', appointValues)
         .then( ( res ) => {         
-            // console.log(res)       
         });
 
         props.renderVal(true);

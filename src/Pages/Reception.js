@@ -121,6 +121,7 @@ const Reception = () => {
                         :   showAddReceptionist
                         ?   <AddReceptionist
                                 clickCancel={() => closeAddReceptionist()}
+                                modalOpen={value => setShowAddReceptionist(value)}
                             />
                         :   userData
                     }

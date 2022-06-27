@@ -11,6 +11,8 @@ import Select from '../ui/Input/Select';
 import Button from '../ui/Button/Button';
 import ToggleButton from '../ui/ToggleButton/ToggleButton';
 
+import Profile from '../../Assets/Images/profile.jpg'
+
 const AddPatient = (props) => {
     const specialisations = [
         'Endocrinologist',
@@ -190,6 +192,16 @@ const AddPatient = (props) => {
         <div className={styles.bigContainer}>
             <h5>Doctor Info</h5>
             <div className={styles.firstContainer}>
+                <div className={styles.Row}>
+                    <div className={styles.imageContainer}>
+                        <img src={Profile} alt="" />
+                    </div>
+                    <Input
+                        className={styles.imageInput}
+                        label='Choose profile picture'
+                        type='file'
+                    />
+                </div>
                 <div className={styles.Row}>
                     {/* Input */}
                     <Input

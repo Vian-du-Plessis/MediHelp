@@ -138,8 +138,11 @@ const Appointment = ( props ) => {
         for( let i = 0; i < 7 - todayIndex; i++ ) {
             if( nextDayStartCount == monthTotalDays ) {
                 nextDayStartCount = 0
+                month = month + 1
+                console.log("🚀 ~ file: Appointment.js ~ line 141 ~ useEffect ~ nextDayStartCount", nextDayStartCount)
             }
             nextDayStartCount++;
+            console.log("🚀 ~ file: Appointment.js ~ line 144 ~ useEffect ~ nextDayStartCount", nextDayStartCount)
             prevDaysArray.push({day: '', value: nextDayStartCount, monthVal: monthList[month], year: 2022});
         }
 
@@ -153,6 +156,7 @@ const Appointment = ( props ) => {
 
         setCheckDate(days);
         setDaysArray(prevDaysArray);
+        console.log(prevDaysArray)
 
         let dayItems = prevDaysArray.map( ( item, index ) => 
             <div key={ index }>

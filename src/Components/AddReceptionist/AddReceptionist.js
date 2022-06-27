@@ -163,8 +163,7 @@ const AddReceptionist = (props) => {
                 if( res.data == 'Email is not available' ) {
                     setEmailError(res.data);
                 } else {
-/*                     console.log(res);
-                    props.modalOpen(false); */
+                    props.modalOpen(false);
                 }
             })
         }

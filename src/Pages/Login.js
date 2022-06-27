@@ -50,9 +50,11 @@ const Login = () => {
             password: passVal
         }
 
-        if(emailVal === '' || passVal === '') {
+        if(emailVal === '' ) {
             //This will execute if any of the inputs is empty and does not contain values
-            setErrorMessages({...errorMessages, emailError: 'Please provide your email', passError: 'Please provide your password'});
+            setErrorMessages({...errorMessages, emailError: 'Please provide your email'});
+        } else if(passVal === '') {
+            setErrorMessages({...errorMessages, passError: 'Please provide your password'});
         } else {
             //This will execute if both inputs contains values
             axios.post('http://localhost/Server/userLogin.php', inputs)

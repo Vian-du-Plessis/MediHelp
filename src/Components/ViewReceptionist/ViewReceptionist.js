@@ -173,8 +173,9 @@ const ViewReceptionist = (props) => {
         if( deleteClickCount == 1 ) {
             setDeleteClickCount(0)
 
-            axios.post('http://localhost/Server/deletePatient.php', {id: 1})
+            axios.post('http://localhost/Server/deleteReceptionist.php', {id: updateId})
             .then((res) => {
+                console.log("🚀 ~ file: ViewReceptionist.js ~ line 178 ~ .then ~ res", res)
                 props.openModal(false);
             })
         }
@@ -182,7 +183,7 @@ const ViewReceptionist = (props) => {
 
 return (
     <div className={styles.bigContainer}>
-        <h5>Patient Info</h5>
+        <h5>Receptionist Info</h5>
         <div className={styles.firstContainer}>
             <div className={styles.Row}>
                 <Input
