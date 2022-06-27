@@ -42,8 +42,9 @@ const AddPatient = (props) => {
         .then((res) => {
             console.log("🚀 ~ file: ViewDoctor.js ~ line 43 ~ .then ~ res", res)
             let data = res.data;
+            console.log(data)
             let firstName = data.name_and_surname.toString().split(' ')[0];
-            let lastName = data.name_and_surname.toString().split(' ')[1];
+            let lastName = data.name_and_surname.toString().slice(firstName.length, data.name_and_surname.length - 1);
             console.log("🚀 ~ file: ViewDoctor.js ~ line 47 ~ .then ~ lastName", lastName)
 
             let userDoctorData = {
@@ -58,6 +59,7 @@ const AddPatient = (props) => {
 
             console.log(userDoctorData)
             setGender(data.gender);
+            console.log("🚀 ~ file: ViewDoctor.js ~ line 62 ~ .then ~ data.gender", data.gender)
             setUserData(userDoctorData);
             setDoctorSelectedId(props.doctorId);
         })
@@ -80,6 +82,7 @@ const AddPatient = (props) => {
     const [ genderValue, setGenderValue ] = useState('Female');
     const getGender = ( e ) => {
         let genderVal = e.currentTarget.innerText
+        console.log("🚀 ~ file: ViewDoctor.js ~ line 85 ~ getGender ~ genderVal", genderVal)
         setGenderValue(genderVal);
         if( document.querySelector('.activeToggle') ) {
             const elements = document.querySelector( '.activeToggle' );
@@ -282,9 +285,9 @@ const AddPatient = (props) => {
                         rightButton='Male'
                         leftButton='Female'
                         onClick={ getGender }
-                        active={ genderValue }
-                        activeOne={ !genderValue }
-                        activeTwo={ genderValue }
+                        active={ gender }
+                        activeOne='Male'
+                        activeTwo='Female'
                     />
                     {/* /ToggleButton */}
                 </div>

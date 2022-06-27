@@ -56,7 +56,13 @@ const Patients = () => {
 
         axios.post('http://localhost/Server/searchDoctors.php', searchVal)
         .then( ( res ) => {
-            setDoctorsSearch(res.data.users)
+            console.log(res.data)
+            if(res.data == false) {
+                setDoctorsSearch([]);
+                console.log('asgansgnoasgonasigoansg')
+            } else {
+                setDoctorsSearch(res.data.users)
+            }
         });
     }
 

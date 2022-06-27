@@ -8,6 +8,10 @@
     width: calc(100% - 15vw);
     height: 100vh;
 
+    .toggleButton {
+        width: fit-content;
+    }
+
     .middleContainer {
         flex: 1;
         padding: 31px 48px;

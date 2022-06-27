@@ -3,8 +3,6 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import styles from './ToggleButton.module.scss';
 import './ToggleButton.scss';
 
-
-
 const ToggleButton = (props) => {
 
     const toggleActiveButton = ( e ) => {

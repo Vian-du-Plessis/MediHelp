@@ -100,19 +100,26 @@ const Patients = () => {
 
         axios.post('http://localhost/Server/searchPatients.php', searchVal)
         .then((res) => {
-            let data = res.data.users;
-            let today = new Date();
-            let dd = String(today.getDate()).padStart(2, '0');
-            let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            let yyyy = today.getFullYear();
-
-            today = mm + '/' + dd + '/' + yyyy;
-            data = data.map((x) => {
-                return {...x, timePassed: 
-                    x.previous_appointments.length > 0 ? Math.round((new Date(today).getTime() - new Date(x.previous_appointments).getTime() ) / (1000 * 3600 * 24)) : 'N/A'
-                }
-            })
-            setPatientsSearch(data);
+            if(res.data == false) {
+                setPatientsSearch([])
+            } else {
+                let data = res.data.users;
+                let today = new Date();
+                let dd = String(today.getDate()).padStart(2, '0');
+                let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                let yyyy = today.getFullYear();
+    
+                    
+    
+    
+                today = mm + '/' + dd + '/' + yyyy;
+                data = data.map((x) => {
+                    return {...x, timePassed: 
+                        x.previous_appointments.length > 0 ? Math.round((new Date(today).getTime() - new Date(x.previous_appointments).getTime() ) / (1000 * 3600 * 24)) : 'N/A'
+                    }
+                })
+                setPatientsSearch(data);
+            }
         })
     }
 

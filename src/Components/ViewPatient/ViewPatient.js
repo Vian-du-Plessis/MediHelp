@@ -40,7 +40,7 @@ const ViewPatient = (props) => {
         .then((res) => {
             let data = res.data;
             let firstName = data.name_and_surname.toString().split(' ')[0];
-            let lastName = data.name_and_surname.toString().split(' ')[1];
+            let lastName = data.name_and_surname.toString().slice(firstName.length, data.name_and_surname.length - 1);
             let prevAppointment = data.previous_appointments;
             if(prevAppointment == ' ') {
                 prevAppointment = 'No Previous Appointments'
@@ -222,6 +222,7 @@ const ViewPatient = (props) => {
             }
     
             let medicalAid = patientMedicalAid.current.value;
+            let medicalAidNumber = patientMedicalAidNo.current.value;
             let newMedAidNumber = '';
             if( medicalAid == '' ) {
                 newMedAidNumber = ' ';
@@ -234,8 +235,7 @@ const ViewPatient = (props) => {
             } else {
                 medicalAid = medicalAid
             }
-    
-            let medicalAidNumber = patientMedicalAidNo.current.value;
+            
             if( medicalAidNumber == '' ) {
                 setPatientMedicalAidNoError('');
             } else if( medicalAidNumber.length > 11 ) {

@@ -29,10 +29,10 @@ const CreateAppointment = ( props ) => {
             setDoctorVal( options );
         });
 
-        axios.post('http://localhost/Server/getPatients.php')
+        axios.post('http://localhost/Server/getAllPatients.php')
         .then( ( res ) => {                
             // console.log(res.data)
-            let options = res.data.users.map( ( item, index ) => 
+            let options = res.data.map( ( item, index ) => 
                 <option key={index} value={item.sa_id + ' ' + item.name_and_surname}>
                     {item.name_and_surname + ' (' + item.sa_id + ')'}
                 </option>)
