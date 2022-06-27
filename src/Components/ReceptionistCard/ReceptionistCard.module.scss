@@ -1,0 +1,35 @@
+@import '../../Assets/Base.scss';
+
+.outerContainer {
+    width: fit-content;
+    gap: 50px;
+    height: 50%;
+    padding: 16px 17px;
+    border-radius: 16px;
+    background-color: #F1F4F7;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    min-width: 80%;
+
+    &__imageContainer {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 12px;
+        border-radius: 50%;
+        border: 1px solid $medium-blue;
+
+        img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+    }
+
+    &__rankContainer, &__ageContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

@@ -78,6 +78,20 @@ const Nav = () => {
                 </div>
             </NavLink>
 
+            <NavLink to='/Receptionist' className={({ isActive }) => isActive ? styles.active__link : styles.unselected}>
+                <div className={styles.icon__link__container}>
+                    <div></div>
+                        {/* Icon */}
+                        <Icon
+                            className={styles.link__icon}
+                            icon='reception'
+                        />
+                        {/* /Icon */}
+                        <p>Receptionists</p>
+                    <div></div>
+                </div>
+            </NavLink>
+
             <div className={`
                 ${ styles.logout__link__container }
             `}
