@@ -7,18 +7,12 @@
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
 
-    $start = $data->start;
-    $start = intval($start);
+    $search = $data->search;
 
-
-    $sql = "SELECT * FROM patients LIMIT $start, 12;";
+    $sql = "SELECT id, name_and_surname, phone_number, sa_id, previous_appointments FROM `patients` WHERE name_and_surname LIKE '$search%' OR phone_number LIKE '$search%' OR sa_id LIKE '$search%';";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
     
-    $sqlCheck = "SELECT * FROM patients;";
-    $result2 = mysqli_query($conn, $sqlCheck);
-    $result2Check = mysqli_num_rows($result2);
-
     if($resultCheck > 0){
 
         $emparray = array();
@@ -28,9 +22,8 @@
         }
 
         $array = array(
-            "count" => $result2Check,
             "users" => $emparray,
-            "start" => $start        
+            "start" => $search        
         );
 
         echo json_encode($array);

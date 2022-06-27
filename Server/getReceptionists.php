@@ -7,18 +7,10 @@
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body);
 
-    $start = $data->start;
-    $start = intval($start);
-
-
-    $sql = "SELECT * FROM patients LIMIT $start, 12;";
+    $sql = "SELECT * FROM receptionists;";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
     
-    $sqlCheck = "SELECT * FROM patients;";
-    $result2 = mysqli_query($conn, $sqlCheck);
-    $result2Check = mysqli_num_rows($result2);
-
     if($resultCheck > 0){
 
         $emparray = array();
@@ -27,14 +19,7 @@
             $emparray[] = $row;
         }
 
-        $array = array(
-            "count" => $result2Check,
-            "users" => $emparray,
-            "start" => $start        
-        );
-
-        echo json_encode($array);
-
+        echo json_encode($emparray);
 
     } else {
         echo "false";

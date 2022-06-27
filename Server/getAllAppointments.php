@@ -11,11 +11,11 @@
     $start = intval($start);
 
 
-    $sql = "SELECT * FROM patients LIMIT $start, 12;";
+    $sql = "SELECT * FROM appointments LIMIT $start, 12;";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
     
-    $sqlCheck = "SELECT * FROM patients;";
+    $sqlCheck = "SELECT * FROM appointments;";
     $result2 = mysqli_query($conn, $sqlCheck);
     $result2Check = mysqli_num_rows($result2);
 

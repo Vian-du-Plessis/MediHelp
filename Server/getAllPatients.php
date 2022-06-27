@@ -11,13 +11,11 @@
     $start = intval($start);
 
 
-    $sql = "SELECT * FROM patients LIMIT $start, 12;";
+    $sql = "SELECT * FROM patients;";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
     
-    $sqlCheck = "SELECT * FROM patients;";
-    $result2 = mysqli_query($conn, $sqlCheck);
-    $result2Check = mysqli_num_rows($result2);
+
 
     if($resultCheck > 0){
 
@@ -27,11 +25,7 @@
             $emparray[] = $row;
         }
 
-        $array = array(
-            "count" => $result2Check,
-            "users" => $emparray,
-            "start" => $start        
-        );
+        $array = $emparray;
 
         echo json_encode($array);
 
