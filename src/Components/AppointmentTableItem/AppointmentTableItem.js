@@ -60,7 +60,6 @@ const AppointmentTableItem = (props) => {
     useEffect(() => {
         setAppointmentsData(props.data.users);
         setUserData(props.data.users);
-        console.log("🚀 ~ file: AppointmentTableItem.js ~ line 61 ~ useEffect ~ props.data", props.data)
     }, [props.data])
 
     return (

@@ -6,7 +6,6 @@ import './ToggleButton.scss';
 const ToggleButton = (props) => {
 
     const toggleActiveButton = ( e ) => {
-        console.log(e.currentTarget.innerText); // Gets the value
         if( document.querySelector('.activeToggle') ) {
             const elements = document.querySelector( '.activeToggle' );
             elements.classList.remove( 'activeToggle' );
@@ -20,11 +19,8 @@ const ToggleButton = (props) => {
     const [ activeValueTwo, setActiveValueTwo ] = useState('');
     useEffect(() => {
         setActiveClass(props.active);
-        console.log("🚀 ~ file: ToggleButton.js ~ line 25 ~ useEffect ~ props.active", props.active)
         setActiveValueOne(props.activeOne);
-        console.log("🚀 ~ file: ToggleButton.js ~ line 27 ~ useEffect ~ props.activeOne", props.activeOne)
         setActiveValueTwo(props.activeTwo);
-        console.log("🚀 ~ file: ToggleButton.js ~ line 29 ~ useEffect ~ props.activeTwo", props.activeTwo)
     }, [props.active, props.activeOne, props.activeTwo])
 
     return (

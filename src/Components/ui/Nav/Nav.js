@@ -1,6 +1,7 @@
 /* React */
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+
 
 /* Styling */
 import styles from './Nav.module.scss';
@@ -13,6 +14,14 @@ import LogoSmall from '../../../Assets/SVG/MediHelp-Heart-Logo.svg';
 import Icon from '../Icon/Icon';
 
 const Nav = () => {
+
+    const navigate = useNavigate();
+
+    const logout = () => {
+        sessionStorage.clear();
+        navigate('/');
+    }
+
     return (
         <div className={styles.container}>
             <img
@@ -71,7 +80,9 @@ const Nav = () => {
 
             <div className={`
                 ${ styles.logout__link__container }
-            `}>
+            `}
+                onClick={logout}
+            >
                 {/* Icon */}
                 <Icon
                     className={ styles.link__icon }

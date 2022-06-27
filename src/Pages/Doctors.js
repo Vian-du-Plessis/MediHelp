@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 /* Import SCSS */
 import styles from './Doctors.module.scss';
@@ -16,6 +18,24 @@ import Button from '../Components/ui/Button/Button';
 import ViewDoctor from '../Components/ViewDoctor/ViewDoctor';
 
 const Patients = () => {
+
+    const navigate = useNavigate();
+    const [ username, setUsername ] = useState('');
+    const [ userAdmin, setUserAdmin ] = useState('');
+    useEffect(() => {
+        let loggedUser =  sessionStorage.getItem('loggedOnUser');
+        let loggedUserName = sessionStorage.getItem('adminName');
+        let loggedUserAdmin = sessionStorage.getItem('rank');
+        setUsername(loggedUserName);
+        if( loggedUserAdmin == 1 || loggedUserAdmin == '1') {
+            setUserAdmin(loggedUserAdmin);
+        } else {
+            setUserAdmin(false);
+        }
+        if( loggedUser == '' || loggedUser == ' ' || loggedUser == undefined || loggedUser == null ) {
+            navigate('/')
+        } 
+    }, [])
 
     const [addPatientOpen, setAddPatientOpen] = useState(false);
     const [ doctors, setDoctors ] = useState([]);
@@ -47,7 +67,6 @@ const Patients = () => {
     let sValue = useRef();
     const searchValue = () => {
         let value = sValue.current.value;
-        console.log("🚀 ~ file: Doctors.js ~ line 44 ~ searchValue ~ value", value)
         setSearchVal({...searchVal, search: value});
 
         value.length > 0
@@ -56,10 +75,8 @@ const Patients = () => {
 
         axios.post('http://localhost/Server/searchDoctors.php', searchVal)
         .then( ( res ) => {
-            console.log(res.data)
             if(res.data == false) {
                 setDoctorsSearch([]);
-                console.log('asgansgnoasgonasigoansg')
             } else {
                 setDoctorsSearch(res.data.users)
             }
@@ -77,7 +94,7 @@ const Patients = () => {
                     />
                     <div className={ styles.topContainer__profileContainer }>
                         <img src={ ProfileImage } alt="" />
-                        <p>Susan</p>
+                        <p>{username}</p>
                     </div>
                 </div>
                 <div className={ styles.middleContainer__headerContainer }>
@@ -90,13 +107,13 @@ const Patients = () => {
                             }
                         </h3>
                         { 
-                            !addPatientOpen
-                            &&
-                            <Button
-                                className={ styles.button }
-                                label='Add doctor'
-                                onClick={() => openAddPatient() }
-                            />
+                            userAdmin && !addPatientOpen && !showDoctorsInfo
+                            ?   <Button
+                                    className={ styles.button }
+                                    label='Add doctor'
+                                    onClick={() => openAddPatient() }
+                                />
+                            : ''
                         }
                     </div>
                     <div className={ styles.headerContainer__sub }>
@@ -111,6 +128,7 @@ const Patients = () => {
                                 clickCancel={() => closeDoctorInfo()}
                                 doctorId={doctorsId}
                                 modalOpen={item => setDoctorsInfo(item)}
+                                userAdmin={userAdmin}
                             />
                         :   !addPatientOpen && !isSearchValue
                         ?   doctors.map(( item, index ) => <DoctorCard 

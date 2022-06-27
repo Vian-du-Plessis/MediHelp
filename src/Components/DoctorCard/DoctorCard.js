@@ -13,7 +13,6 @@ const DoctorCard = ( props ) => {
     const getKey = (index) => {
         props.doctorId(index)
         props.showDoctorInfo(true)
-        console.log(index)
     }
     return (
         <div className={styles.outerContainer} key={props.doctorId}>

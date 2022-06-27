@@ -1,5 +1,5 @@
 /* React */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -17,6 +17,15 @@ import Input from '../Components/ui/Input/Input';
 const Login = () => {
 
     const navigate = useNavigate();
+    useEffect(() => {
+        let loggedUser =  sessionStorage.getItem('loggedOnUser');
+
+        if( loggedUser == '' || loggedUser == ' ' || loggedUser == undefined || loggedUser == null ) {
+        } else {
+            navigate('/appointments');
+        }
+    }, [])
+
 
     //Error Messages for inputs
     const [errorMessages, setErrorMessages] = useState({
@@ -47,10 +56,14 @@ const Login = () => {
         } else {
             //This will execute if both inputs contains values
             axios.post('http://localhost/Server/userLogin.php', inputs)
-            .then( ( res ) => {                
-                if(res.data === true) {
+            .then( ( res ) => {      
+                console.log("🚀 ~ file: Login.js ~ line 60 ~ .then ~ res", res)
+                if(res.data.exists === true) {
                     //If this user exists on the database this will execute
+                    setErrorMessages({...errorMessages, emailError: ''});
                     sessionStorage.setItem('loggedOnUser', inputs.email);
+                    sessionStorage.setItem('rank', res.data.admin[0].admin);
+                    sessionStorage.setItem('adminName', res.data.admin[0].name_and_surname);
                     navigate('/appointments');
                 } else {
                     //This will execute if the values from the inputs cannot be referenced back to the database.

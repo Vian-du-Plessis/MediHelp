@@ -1,5 +1,6 @@
 import React, { useEffect, useState, memo } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './Appointments.module.scss';
 
@@ -16,6 +17,17 @@ import ViewAppointment from '../Components/ViewAppointment/ViewAppointment';
 
 
 const Appointments = () => {
+
+    const navigate = useNavigate();
+    const [ username, setUsername ] = useState('');
+    useEffect(() => {
+        let loggedUser =  sessionStorage.getItem('loggedOnUser');
+        let loggedUserName = sessionStorage.getItem('adminName');
+        setUsername(loggedUserName);
+        if( loggedUser == '' || loggedUser == ' ' || loggedUser == undefined || loggedUser == null ) {
+            navigate('/')
+        } 
+    }, [])
 
     const monthList = [
         'Jan',
@@ -70,7 +82,6 @@ const Appointments = () => {
         axios.post('http://localhost/Server/getAllAppointments.php', {start: 0})
         .then((res) => {
             setAppointmentsToRender(res.data);
-            console.log('asgasg')
         });
     }, [renderAllAppointments]);
 
@@ -85,9 +96,7 @@ const Appointments = () => {
     const [ toggledValue, setToggledValue ] = useState('Weekly');
     const getToggled = ( e ) => {
         let toggled = e.currentTarget.innerText
-        console.log("🚀 ~ file: Appointments.js ~ line 79 ~ getToggled ~ toggled", toggled)
         setToggledValue(toggled)
-        console.log("🚀 ~ file: Appointments.js ~ line 35 ~ getToggled ~ toggled", toggled)
         if( document.querySelector('.activeToggle') ) {
             const elements = document.querySelector( '.activeToggle' );
             elements.classList.remove( 'activeToggle' );
@@ -108,7 +117,7 @@ const Appointments = () => {
                     />
                     <div className={ styles.topContainer__profileContainer }>
                         <img src={ ProfileImage } alt="" />
-                        <p>Susan</p>
+                        <p>{username}</p>
                     </div>
                 </div>
                 <div className={ styles.middleContainer__headerContainer }>
@@ -121,7 +130,8 @@ const Appointments = () => {
                             }
                         </h3>
                             {
-                                <ToggleButton
+                                    !showAppointmentInfo
+                                ?   <ToggleButton
                                     className={ styles.toggleButton }
                                     leftButton='Weekly'
                                     rightButton='All'
@@ -130,6 +140,7 @@ const Appointments = () => {
                                     activeTwo='Weekly'
                                     activeOne='All'
                                 />
+                                : null
                             }
                     </div>
                     <div className={ styles.headerContainer__sub }>
@@ -148,6 +159,7 @@ const Appointments = () => {
                             renderVal={passingVal}
                         />
                     :   <ViewAppointment
+                            rerenderAppointments={item => setRenderAllAppointments(item)}
                             modalOpen={item => setShowAppointmentInfo(item)}
                             clickCancel={() => closeAppointmentInfo()}
                             appointmentId={appointmentID}

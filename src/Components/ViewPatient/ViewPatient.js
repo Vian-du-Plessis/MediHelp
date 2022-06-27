@@ -55,7 +55,6 @@ const ViewPatient = (props) => {
                 medNumberValue = data.medical_aid_number;
             }
 
-            console.log(data.medAidProvider)
             setMedAidProviderName(data.medAidProvider);
 
             let userData =         
@@ -123,13 +122,11 @@ const ViewPatient = (props) => {
         let id = patientID.current.value;
         let thisYear = new Date().getFullYear();
         let thisYearShort = thisYear.toString().substring(2,4);
-        console.log('asgasg')
 
         let idFirstPart = id.toString().substring(0, 2);
         if( idFirstPart < thisYearShort ) {
             let fullYear = 20 + idFirstPart;
             let age = thisYear - fullYear;
-            console.log("🚀 ~ file: AddPatient.js ~ line 85 ~ calculateAge ~ age", age)
             setPatientCalcAge(age);
         } else if( idFirstPart > thisYearShort ) {
             let fullYear = 19 + idFirstPart;
@@ -271,16 +268,12 @@ const ViewPatient = (props) => {
             };
     
             let detailsResult = Object.values(patientWithoutMedDetails).some(item => item === '');
-            console.log("🚀 ~ file: ViewPatient.js ~ line 261 ~ addPatient ~ detailsResult", detailsResult)
             let errorsResult = Object.values(patientDetailsErrors).some(item => item == true);
-            console.log("🚀 ~ file: ViewPatient.js ~ line 281 ~ addPatient ~ errorsResult", errorsResult)
             setInputsDisabled(true);
             if( !detailsResult && !errorsResult ) {
                 setClickCounter(0)
-                console.log('asg')
                 axios.post('http://localhost/Server/updatePatient.php', patientDetails)
                 .then((res) => {
-                    console.log(res)
                     props.openModal(false);
                 })
             }
@@ -295,7 +288,6 @@ const ViewPatient = (props) => {
 
             axios.post('http://localhost/Server/deletePatient.php', {id: patientSelectedID})
             .then((res) => {
-                console.log(res)
                 props.openModal(false);
             })
         }

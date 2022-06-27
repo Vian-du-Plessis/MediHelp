@@ -37,15 +37,13 @@ const AddPatient = (props) => {
     const [ clickCounter, setClickCounter ] = useState(0);
     const [ doctorSelectedId, setDoctorSelectedId ] = useState('');
     const [ userData, setUserData ] = useState([]);
+    const [ userAdmin, setUserAdmin ] = useState(false);
     useEffect(() => {
         axios.post('http://localhost/Server/getIndividualDoctor.php', {id: props.doctorId})
         .then((res) => {
-            console.log("🚀 ~ file: ViewDoctor.js ~ line 43 ~ .then ~ res", res)
             let data = res.data;
-            console.log(data)
             let firstName = data.name_and_surname.toString().split(' ')[0];
             let lastName = data.name_and_surname.toString().slice(firstName.length, data.name_and_surname.length - 1);
-            console.log("🚀 ~ file: ViewDoctor.js ~ line 47 ~ .then ~ lastName", lastName)
 
             let userDoctorData = {
                 name: firstName,
@@ -57,13 +55,12 @@ const AddPatient = (props) => {
                 room: data.assigned_room
             }
 
-            console.log(userDoctorData)
             setGender(data.gender);
-            console.log("🚀 ~ file: ViewDoctor.js ~ line 62 ~ .then ~ data.gender", data.gender)
             setUserData(userDoctorData);
             setDoctorSelectedId(props.doctorId);
         })
-    }, [props.doctorId])
+        setUserAdmin(props.userAdmin);
+    }, [props.doctorId, props.userAdmin])
 
     const [ specialisationOptions, setSpecialisationOptions ] = useState([]);
     const [ roomOptions, setRoomOptions ] = useState([]);
@@ -217,7 +214,6 @@ const AddPatient = (props) => {
                 axios.post('http://localhost/Server/updateDoctor.php', doctorDetails)
                 .then((res) => {
                     setClickCounter(0);
-                    console.log(res);
                     props.modalOpen(false);
                 })
             }
@@ -232,7 +228,6 @@ const AddPatient = (props) => {
 
             axios.post('http://localhost/Server/deleteDoctor.php', {id: doctorSelectedId})
             .then((res) => {
-                console.log(res);
                 props.modalOpen(false);
             })
         }
@@ -343,23 +338,40 @@ const AddPatient = (props) => {
             </div>
             <div className={styles.buttonContainer}>
                 <div className={ styles.firstButton }>
-                    <Button
-                        className={styles.button}
-                        label={ deleteClickCount == 1 ? 'Confirm Delete?' : 'Delete Doctor Profile' }
-                        onClick={deleteProfile}
-                    />
+                   { userAdmin
+                    ?   <Button
+                            className={styles.button}
+                            label={ deleteClickCount == 1 ? 'Confirm Delete?' : 'Delete Doctor Profile' }
+                            onClick={deleteProfile}
+                        />
+                    :   ''
+                    }
                 </div>
                 <div className={ styles.lastButtons }>
-                    <Button
-                        className={styles.button}
-                        label='Cancel'
-                        onClick={props.clickCancel}
-                    />
-                    <Button
-                        className={styles.button}
-                        label={clickCounter == 1 ? 'Update Info' : 'Edit Doctor'}
-                        onClick={addDoctor}
-                    />
+                    {
+                        userAdmin
+                        ?   <Button
+                                className={styles.button}
+                                label='Cancel'
+                                onClick={props.clickCancel}
+                            /> 
+                        :   <Button
+                                className={styles.button}
+                                label='Close'
+                                onClick={props.clickCancel}
+                            />
+                    }
+                    { 
+                            userAdmin
+                        ?   <Button
+                            className={styles.button}
+                            label={clickCounter == 1 ? 'Update Info' : 'Edit Doctor'}
+                            onClick={addDoctor}
+                        />
+                        :   ''
+
+                    }
+
                 </div>
             </div>
         </div>

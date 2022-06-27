@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 /* Import SCSS */
 import styles from './Patients.module.scss';
@@ -17,6 +19,18 @@ import ViewPatient from '../Components/ViewPatient/ViewPatient';
 import PatientInfo from '../Components/PatientInfo/PatientInfo';
 
 const Patients = () => {
+
+    const navigate = useNavigate();
+    const [ username, setUsername ] = useState('');
+    useEffect(() => {
+        let loggedUser =  sessionStorage.getItem('loggedOnUser');
+        let loggedUserName = sessionStorage.getItem('adminName');
+        setUsername(loggedUserName);
+        if( loggedUser == '' || loggedUser == ' ' || loggedUser == undefined || loggedUser == null ) {
+            navigate('/')
+        } 
+    }, [])
+
 
     const [addPatientOpen, setAddPatientOpen] = useState(false);
     const [ patients, setPatients ] = useState([]);
@@ -134,7 +148,7 @@ const Patients = () => {
                     />
                     <div className={ styles.topContainer__profileContainer }>
                         <img src={ ProfileImage } alt="" />
-                        <p>Susan</p>
+                        <p>{username}</p>
                     </div>
                 </div>
                 <div className={ styles.middleContainer__headerContainer }>

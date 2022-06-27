@@ -152,7 +152,6 @@ const Appointment = ( props ) => {
         }
 
         setCheckDate(days);
-        console.log(prevDaysArray)
         setDaysArray(prevDaysArray);
 
         let dayItems = prevDaysArray.map( ( item, index ) => 
@@ -168,10 +167,8 @@ const Appointment = ( props ) => {
     const [ renderVal, setRenderVal ] = useState(props.renderVal);
 
      useEffect(() => {
-        console.log(renderVal)
         axios.post('http://localhost/Server/readUserPosts.php')
         .then( ( res ) => {
-            console.log(res)
             setAppointments( res.data );
         });
         setRenderVal(false);

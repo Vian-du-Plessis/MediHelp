@@ -64,9 +64,7 @@ const PatientTableItem = (props) => {
         setNameClickCount(0);
         setStartIndex(props.index);
         setPageLimit(Math.ceil(props.indexLimit/12));
-        console.log(Math.ceil(props.indexLimit/12))
         setPageNumber(props.page);
-        console.log("🚀 ~ file: PatientTableItem.js ~ line 70 ~ useEffect ~ props.page", props.page)
         setPaging(props.pagingOn);
         setIndexCount(props.indexCount);
     }, [props.page, props.indexCount, props.indexLimit, props.values, props.resetFilter, props.index, props.page, props.indexLimit, props.pagingOn, props.searchValues]);

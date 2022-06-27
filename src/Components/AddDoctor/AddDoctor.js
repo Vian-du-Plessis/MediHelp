@@ -177,7 +177,6 @@ const AddPatient = (props) => {
         if( !detailsResult && !errorsResult ) {
             axios.post('http://localhost/Server/addDoctor.php', doctorDetails)
             .then((res) => {
-                console.log("🚀 ~ file: AddDoctor.js ~ line 180 ~ .then ~ res", res)
                 if( res.data == 'Email is not available' ) {
                     setDoctorEmailError(res.data);
                 } else {

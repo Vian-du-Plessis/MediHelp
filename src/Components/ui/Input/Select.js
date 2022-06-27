@@ -9,7 +9,6 @@ const Select = forwardRef((props, ref) => {
     const options = props.options;
     const [ defaultOption, setDefautlOption ] = useState('');
     useEffect(() => {
-        console.log(props.defaultValue)
         setDefautlOption(props.defaultValue);
     }, [props.options, props.defaultValue])
 
@@ -29,6 +28,7 @@ const Select = forwardRef((props, ref) => {
                 ref={ref} 
                 defaultValue={defaultOption}
                 disabled={props.disabled}
+                onChange={props.onChange}
             >
                 <option key="none" value={defaultOption == undefined ? '' : defaultOption}>{defaultOption == undefined ? props.placeholderOption : defaultOption}</option>
                 { options }

@@ -186,7 +186,6 @@ const AddPatient = (props) => {
             patientDetailsErrors.medNumber = false;
         }
 
-        console.log(genderValue)
 
         let patientDetails = {
             name: name,
