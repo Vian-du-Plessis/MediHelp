@@ -137,7 +137,7 @@ const Appointment = ( props ) => {
         let nextDayStartCount = +todayNumber - 1;
         for( let i = 0; i < 7 - todayIndex; i++ ) {
             if( nextDayStartCount == monthTotalDays ) {
-                nextDayStartCount = 1
+                nextDayStartCount = 0
             }
             nextDayStartCount++;
             prevDaysArray.push({day: '', value: nextDayStartCount, monthVal: monthList[month], year: 2022});
@@ -152,7 +152,7 @@ const Appointment = ( props ) => {
         }
 
         setCheckDate(days);
-
+        console.log(prevDaysArray)
         setDaysArray(prevDaysArray);
 
         let dayItems = prevDaysArray.map( ( item, index ) => 
@@ -178,7 +178,7 @@ const Appointment = ( props ) => {
 
     }, [props.renderVal]); 
 
-    const daysPrev = () => {
+/*     const daysPrev = () => {
         let prevWeekValue = +daysArray[0].value;
         let prevMonthTotalDays = new Date(2022, monthValue.listValue, 0).getDate();
         let month = monthValue.value;
@@ -203,7 +203,7 @@ const Appointment = ( props ) => {
         )
 
         setDaysToDisplay(dayItems);
-    }
+    } */
 
     useEffect(() => {
         let todayStringValue = new Date().toString().split(' ')[0]; // Returns the day it is today Mon - Sun

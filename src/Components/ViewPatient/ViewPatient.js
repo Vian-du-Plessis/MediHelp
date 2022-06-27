@@ -29,9 +29,7 @@ const ViewPatient = (props) => {
     ]
 
     const [ medAidOptions, setMedAidOptions ] = useState([]);
-    const [ userData, setUserData ] = useState([
-
-    ]);
+    const [ userData, setUserData ] = useState([]);
     const [ gender, setGender ] = useState('');
     const [ inputsDisabled, setInputsDisabled ] = useState(true);
     const [ medAidProviderName, setMedAidProviderName ] = useState(true);
@@ -41,7 +39,6 @@ const ViewPatient = (props) => {
         axios.post('http://localhost/Server/getIndividualPatient.php', {id: props.patientID})
         .then((res) => {
             let data = res.data;
-            console.log("🚀 ~ file: ViewPatient.js ~ line 42 ~ .then ~ data", data)
             let firstName = data.name_and_surname.toString().split(' ')[0];
             let lastName = data.name_and_surname.toString().split(' ')[1];
             let prevAppointment = data.previous_appointments;

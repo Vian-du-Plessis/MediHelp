@@ -9,8 +9,14 @@ import Profile from '../../Assets/Images/profile.jpg';
 import Icon from '../ui/Icon/Icon';
 
 const DoctorCard = ( props ) => {
+
+    const getKey = (index) => {
+        props.doctorId(index)
+        props.showDoctorInfo(true)
+        console.log(index)
+    }
     return (
-        <div className={styles.outerContainer}>
+        <div className={styles.outerContainer} key={props.doctorId}>
             <div className={styles.imageContainer}>
                 <img src={Profile} alt="" />
             </div>
@@ -30,8 +36,10 @@ const DoctorCard = ( props ) => {
             <div className={styles.iconContainer}>
                 {/* Icon */}
                 <Icon
+                    key={props.id}
                     className={styles.viewIcon}
                     icon='view'
+                    click={() => getKey(props.id)}
                 />
                 {/* /Icon */}
             </div>

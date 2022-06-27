@@ -13,6 +13,7 @@ import SearchInput from '../Components/ui/Input/SearchInput';
 import DoctorCard from '../Components/DoctorCard/DoctorCard';
 import AddDoctor from '../Components/AddDoctor/AddDoctor';
 import Button from '../Components/ui/Button/Button';
+import ViewDoctor from '../Components/ViewDoctor/ViewDoctor';
 
 const Patients = () => {
 
@@ -21,6 +22,8 @@ const Patients = () => {
     const [ doctorsSearch, setDoctorsSearch ] = useState([]);
     const [ isSearchValue, setIsSearchVal ] = useState(false);
     const [ searchVal, setSearchVal ] = useState({search: ''})
+    const [ doctorsId, setDoctorsId ] = useState('');
+    const [ showDoctorsInfo, setDoctorsInfo ] = useState('');
 
     const openAddPatient = () => {
         setAddPatientOpen(!addPatientOpen);
@@ -30,12 +33,16 @@ const Patients = () => {
         setAddPatientOpen(!addPatientOpen);
     }
 
+    const closeDoctorInfo = () => {
+        setDoctorsInfo(!showDoctorsInfo)
+    }
+
     useEffect(() => {
         axios.post('http://localhost/Server/getDoctors.php')
         .then( ( res ) => {
             setDoctors(res.data)
         });
-    }, [setIsSearchVal, addPatientOpen]); 
+    }, [setIsSearchVal, addPatientOpen, showDoctorsInfo]); 
 
     let sValue = useRef();
     const searchValue = () => {
@@ -91,26 +98,37 @@ const Patients = () => {
                     </div>
                 </div>
                 <div className={ styles.middleContainer__content }>
+
                     {
-                        !addPatientOpen && !isSearchValue
-                        ? doctors.map(( item, index ) => <DoctorCard 
-                            name={item.name_and_surname}
-                            id={item.id}
-                            specialisation={item.specialisation}
-                            key={index}
-                        />)
-                        : isSearchValue && !addPatientOpen
-                        ? doctorsSearch.map(( item, index ) => <DoctorCard 
-                            name={item.name_and_surname}
-                            id={item.id}
-                            specialisation={item.specialisation}
-                            key={index}
-                        />)
-                        : <AddDoctor
-                            clickCancel={() => closeAddPatient()}
-                            modalOpen={item => setAddPatientOpen(item)}
-                        />
-                    }
+                            showDoctorsInfo
+                        ?   <ViewDoctor
+                                clickCancel={() => closeDoctorInfo()}
+                                doctorId={doctorsId}
+                                modalOpen={item => setDoctorsInfo(item)}
+                            />
+                        :   !addPatientOpen && !isSearchValue
+                        ?   doctors.map(( item, index ) => <DoctorCard 
+                                name={item.name_and_surname}
+                                id={item.id}
+                                specialisation={item.specialisation}
+                                key={index}
+                                doctorId={item => setDoctorsId(item)}
+                                showDoctorInfo={item => setDoctorsInfo(item)}
+                            />)
+                        :   isSearchValue && !addPatientOpen
+                        ?   doctorsSearch.map(( item, index ) => <DoctorCard 
+                                name={item.name_and_surname}
+                                id={item.id}
+                                specialisation={item.specialisation}
+                                key={index}
+                                doctorId={item => setDoctorsId(item)}
+                                showDoctorInfo={item => setDoctorsInfo(item)}
+                            />)
+                        :   <AddDoctor
+                                clickCancel={() => closeAddPatient()}
+                                modalOpen={item => setAddPatientOpen(item)}
+                            />
+                    } 
                 </div>
 
             </div>

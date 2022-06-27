@@ -6,7 +6,6 @@ import styles from './Select.module.scss';
 
 const Select = forwardRef((props, ref) => {
 
-
     const options = props.options;
     const [ defaultOption, setDefautlOption ] = useState('');
     useEffect(() => {
@@ -31,7 +30,7 @@ const Select = forwardRef((props, ref) => {
                 defaultValue={defaultOption}
                 disabled={props.disabled}
             >
-                <option key="none" value="">{defaultOption == undefined ? props.placeholderOption : defaultOption}</option>
+                <option key="none" value={defaultOption == undefined ? '' : defaultOption}>{defaultOption == undefined ? props.placeholderOption : defaultOption}</option>
                 { options }
             </select>
             <div className={ styles.container__textParagraph }>
